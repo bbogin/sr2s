@@ -1,0 +1,1162 @@
+REM  *****  BASIC  *****
+option explicit
+
+'These are the fields we want from the temp timelog(TL) & taskreport(TR) sheets and the columns we want them in
+const TL_logdate = 0
+const TL_hours = 1
+const TL_activity = 2
+const TL_activity_id = 3
+const TL_subtask = 4
+const TL_subtask_desc = 5
+const TL_task = 6
+const TL_task_desc = 7
+const TL_account = 8
+const TL_account_desc = 9
+const TL_lastname = 10
+const TL_firstname = 11
+const TL_person_id = 12
+const TL_rate = 13
+const TL_week_of = 14 'this field is internally created from the logdate
+const TL_rec_size = 14 'dim of the array containing the above fields
+dim TL_headers() 'filled below in the above order and checked against the imported csv file
+
+const TR_task = 0
+const TR_task_desc = 1
+const TR_budget = 2
+const TR_task_inactive_asof = 3
+const TR_subtask = 4
+const TR_subtask_desc = 5
+const TR_subtask_inactive_asof = 6
+const TR_charged = 7
+const TR_rec_size = 7 'dim of the array containing the above fields
+dim TR_headers() 'filled below in the above order and checked against the imported csv file
+
+'The sheets in this document:
+const timelog = 0
+const taskreport = 1
+const ProgressReport = 2
+const LaborByStaffUntotaled = 3
+const LaborByStaffTotaled = 4
+const LaborByTaskUntotaled = 5
+const LaborExpensesByTask = 6
+const InvoiceSummary = 7
+
+'The 'max' columns - used when copying and inserting dummy rows
+const max_columns = 26
+
+type Props
+    sheet As Integer
+    version As String
+	rows as integer
+	columns as integer
+	from_date as date
+	to_date as date
+end type
+dim TL_Props as Props
+dim TR_Props as Props
+
+dim newInvoice as object 'our new spreadsheet
+
+Sub Create_Invoice
+	GlobalScope.BasicLibraries.LoadLibrary("Tools")
+
+ 	TL_headers = Array("logdate","hours","activity","activity_id","subtask","subtask_desc", _
+ 					"task","task_desc","account","account_desc","lastname","firstname","person_id","rate")
+
+ 	TR_headers = Array("taskname","task_desc","budget","task_inactive_asof","subtaskname", _
+ 					"subtask_desc","subtask_inactive_asof","charged")
+
+	dim newFile as string
+	if Make_Doc() = false then
+		if not IsNull(newInvoice) then
+			newFile = newInvoice.Location
+			newInvoice.store()
+			newInvoice.close(true)
+			Kill(newFile)
+		end if
+		exit Sub
+	End if
+
+	Call Create_Progress_Report(ProgressReport)
+	Call Create_LaborByStaffUntotaled(LaborByStaffUntotaled)
+	Call Create_LaborByStaffTotaled(LaborByStaffTotaled)
+	Call Create_LaborByTaskUntotaled(LaborByTaskUntotaled)
+	Call Create_LaborExpensesByTask(LaborExpensesByTask)
+	Call Create_InvoiceSummary(InvoiceSummary)
+
+'Done: Clean up the invoice by removing the Basic code and the 'temp' sheet then save & close it:
+	dim libs as object
+	Dim PropValue(1) as new com.sun.star.beans.PropertyValue
+	PropValue(0).Name = "EventType"
+	PropValue(0).Value = "StarBasic"
+	PropValue(1).Name = "Script"
+	PropValue(1).Value = ""
+	newInvoice.Events.ReplaceByName("OnLoad", PropValue()) 'remove the event
+	newInvoice.Sheets.removeByName("timelog")
+	newInvoice.Sheets.removeByName("taskreport")
+	newInvoice.store() 'If this store not done, get a runtime error in the removeByName
+	libs = newInvoice.BasicLibraries.getByName("Standard")
+	if libs.hasByName("modApplication") then
+		libs.removeByName("modApplication")
+	end if
+	if libs.hasByName("modMain") then
+		libs.removeByName("modMain")
+	end if
+	newInvoice.store()
+	newInvoice.close(true)
+
+End Sub
+
+Sub Create_Progress_Report(SheetNdx as integer)
+	dim WorkSheet as object
+	WorkSheet = newInvoice.Sheets(SheetNdx)
+
+	dim tempSheet as object
+	dim tempIdx as integer
+	tempSheet = newInvoice.Sheets(timelog)
+	newInvoice.CurrentController.setActiveSheet(tempSheet)
+	tempIdx = 1 'start reading temp here, ie. skip headers
+	SortRange(tempSheet.getCellRangeByPosition(0,1, TL_Props.columns - 1,TL_Props.rows), _
+				Array(TL_task, TL_subtask, TL_account, TL_activity_id))
+	newInvoice.CurrentController.setActiveSheet(WorkSheet)
+
+	Dim RowIdx As Integer
+	dim Row as object
+	dim Rec(TL_rec_size)
+	dim LastRec(TL_rec_size)
+	Dim I As Integer
+
+    RowIdx = 4 'Where to start insert
+   
+	'<--report breaks: totals-->
+	Dim Hours_2 As double       'level 2
+	'<--totals
+
+	dim subtask_start_RowIdx as integer
+	dim account_start_RowIdx as integer
+
+	GoSub NextRecord
+	GoSub NextRecord 'Since tempIdx hasn't changed, we will get LastRec() = Rec()
+	'GoSub TaskHeader		'level 1
+	GoSub SubtaskHeader		'level 2
+	GoSub AccountHeader		'level 3
+	GoSub ActivityHeader	'level 4
+	Do
+
+		If LastRec(TL_task) <> Rec(TL_task) Then
+'if msgbox("Continue?",MB_YESNO) = IDNO then exit sub
+			'Do trailers:
+			'GoSub ActivityTrailer
+			GoSub AccountTrailer
+			GoSub SubtaskTrailer
+			'GoSub TaskTrailer
+			'Do headers:
+			'GoSub TaskHeader
+			GoSub SubtaskHeader
+			GoSub AccountHeader
+			GoSub ActivityHeader
+        ElseIf LastRec(TL_subtask) <> Rec(TL_subtask) Then
+			'Do trailers:
+			'GoSub ActivityTrailer
+			GoSub AccountTrailer
+			GoSub SubtaskTrailer
+			'Do headers:
+			GoSub SubtaskHeader
+			GoSub AccountHeader
+			GoSub ActivityHeader
+        ElseIf LastRec(TL_account) <> Rec(TL_account) Then
+			'Do trailers:
+			'GoSub ActivityTrailer
+			GoSub AccountTrailer
+			'Do headers:
+			GoSub AccountHeader
+			GoSub ActivityHeader
+        ElseIf LastRec(TL_activity_id) <> Rec(TL_activity_id) Then
+			'Do trailers:
+			'GoSub ActivityTrailer
+			'Do headers:
+			GoSub ActivityHeader
+        End If
+
+        Hours_2 = Hours_2 + CDbl(Rec(TL_hours))
+
+        tempIdx = tempIdx + 1
+		GoSub NextRecord
+    Loop Until tempIdx > TL_Props.rows
+	'GoSub ActivityTrailer
+    GoSub AccountTrailer
+	GoSub SubtaskTrailer
+	'GoSub TaskTrailer
+
+    'Get totals:
+    Set Row = Worksheet.Rows(RowIdx + 1)
+    Row.getCellByPosition(3,0).Formula = "=SUM(D6:D" & RowIdx - 1 & ")"
+    Row.getCellByPosition(4,0).String = "Total Hours"
+
+	Exit Sub
+
+SubTaskHeader:
+	Hours_2 = 0
+    RowIdx = RowIdx + 1
+	subtask_start_RowIdx = RowIdx
+	return
+
+SubTaskTrailer:
+	Worksheet.Rows(subtask_start_RowIdx).getCellByPosition(3,0).Value = Hours_2
+	Hours_2 = 0
+	Worksheet.Rows(subtask_start_RowIdx).getCellByPosition(0,0).String = LastRec(TL_task)
+	Worksheet.Rows(subtask_start_RowIdx).getCellByPosition(1,0).String = LastRec(TL_subtask)
+	return
+
+AccountHeader:
+	account_start_RowIdx = RowIdx
+	return
+
+AccountTrailer:
+	Worksheet.Rows(account_start_RowIdx).getCellByPosition(2,0).String = LastRec(TL_account)
+	return
+
+ActivityHeader:
+    Set Row = Worksheet.Rows(RowIdx)
+    RowIdx = RowIdx + 1
+	Row.getCellByPosition(4,0).String = Rec(TL_activity)
+	return
+
+NextRecord:
+	for I = 0 to TL_Props.columns - 1
+		LastRec(I) = Rec(I)
+		Rec(I) = tempSheet.getCellByPosition(I,tempIdx).String
+	next
+	Return
+
+End Sub 'Create_Progress_Report
+
+Sub Create_LaborByStaffUntotaled(SheetNdx as integer)
+	Call Create_LaborByStaffTotaled(SheetNdx)
+End Sub 'Create_LaborByStaffUntotaled
+
+Sub Create_LaborByStaffTotaled(SheetNdx as integer)
+	dim WorkSheet as object
+	WorkSheet = newInvoice.Sheets(SheetNdx)
+
+	dim tempSheet as object
+	dim tempIdx as integer
+	tempSheet = newInvoice.Sheets(timelog)
+	newInvoice.CurrentController.setActiveSheet(tempSheet)
+	tempIdx = 1 'start reading temp here, ie. skip headers
+	SortRange(tempSheet.getCellRangeByPosition(0,1, TL_Props.columns - 1,TL_Props.rows), _
+				Array(TL_person_id, TL_week_of, TL_activity_id, TL_rate))
+	newInvoice.CurrentController.setActiveSheet(WorkSheet)
+
+	Dim RowIdx As Integer
+	dim Rec(TL_rec_size)
+	dim LastRec(TL_rec_size)
+	Dim I As Integer
+
+	'<--report breaks: totals-->
+	Dim Cost_4 As Currency      'level 4
+	Dim Hours_4 As Single       'level 4
+	'Dim Cost_1 As Currency      'level 1
+	'Dim Hours_1 As Single       'level 1
+	Dim RowIdx_1 As Integer     'start level 1 totaling
+	'<--totals
+
+    Dim PersonLastName As String
+    Dim PersonName As String
+    Dim Row As object
+
+	RowIdx = 5 'Where to insert
+
+	PersonLastName = ""
+	GoSub NextRecord
+	GoSub NextRecord 'Since tempIdx hasn't changed, we will get LastRec() = Rec()
+	GoSub PersonHeader
+	'GoSub WeekHeader:
+	'GoSub ActionHeader
+	GoSub RateHeader
+	Do
+
+		If LastRec(TL_person_id) <> Rec(TL_person_id) Then
+'if msgbox("Continue?",MB_YESNO) = IDNO then exit sub
+			'Do trailers:
+			GoSub RateTrailer
+			'GoSub ActionTrailer
+			'GoSub WeekTrailer
+			GoSub PersonTrailer
+            'Do headers:
+			GoSub PersonHeader
+			'GoSub WeekHeader:
+			'GoSub ActionHeader
+			GoSub RateHeader
+        ElseIf LastRec(TL_week_of) <> Rec(TL_week_of) then
+            'Do trailers:
+            GoSub RateTrailer
+            'GoSub ActionTrailer
+            'GoSub WeekTrailer
+            'Do headers:
+            'GoSub WeekHeader:
+            'GoSub ActionHeader
+            GoSub RateHeader
+        ElseIf LastRec(TL_activity_id) <> Rec(TL_activity_id) then
+            'Do trailers:
+            GoSub RateTrailer
+            'GoSub ActionTrailer
+            'Do headers:
+            'GoSub ActionHeader
+            GoSub RateHeader
+        ElseIf LastRec(TL_rate) <> Rec(TL_rate) Then
+            'Do trailers:
+            GoSub RateTrailer
+            'Do headers:
+            GoSub RateHeader
+        End If
+
+        Hours_4 = Hours_4 + CLng(Rec(TL_hours))
+        Cost_4 = Cost_4 + (CInt(Rec(TL_hours)) * Rec(TL_rate))
+
+        tempIdx = tempIdx + 1
+		GoSub NextRecord
+    Loop Until tempIdx > TL_Props.rows
+	GoSub RateTrailer
+	'GoSub ActionTrailer
+	'GoSub WeekTrailer
+	GoSub PersonTrailer
+
+	'Get totals:
+	Set Row = Worksheet.Rows(RowIdx)
+	Row.getCellByPosition(7,0).String = "Total Amount Due"
+	Row.getCellByPosition(7,0).HoriJustify = com.sun.star.table.CellHoriJustify.RIGHT
+	Row.getCellByPosition(9,0).Formula = "=SUM(J6:J" & RowIdx - 1 & ")"
+
+    Exit Sub
+
+PersonHeader:
+    'Hours_1 = 0
+    'Cost_1 = 0
+    If PersonLastName = Rec(TL_lastname) Then '2 people with the same last name
+        PersonName = PersonLastName & ", " & Rec(TL_firstname)
+    Else
+        PersonLastName = Rec(TL_lastname)
+        PersonName = PersonLastName
+    End If
+    RowIdx_1 = RowIdx
+    Return
+
+RateHeader:
+    Hours_4 = 0
+    Cost_4 = 0
+    Return
+
+RateTrailer:
+	Set Row = Worksheet.Rows(RowIdx)
+	RowIdx = RowIdx + 1
+	Row.getCellByPosition(0,0).Value = CDate(LastRec(TL_week_of))
+	Row.getCellByPosition(1,0).String = PersonName
+	Row.getCellByPosition(2,0).Value = LastRec(TL_rate)
+	Row.getCellByPosition(3,0).String = LastRec(TL_task)
+	Row.getCellByPosition(4,0).String = LastRec(TL_subtask)
+	Row.getCellByPosition(5,0).String = LastRec(TL_account)
+	Row.getCellByPosition(6,0).Value = Hours_4
+	Row.getCellByPosition(7,0).String = LastRec(TL_activity)
+	Row.getCellByPosition(8,0).Value = Cost_4
+    'Hours_1 = Hours_1 + Hours_4
+    'Cost_1 = Cost_1 + Cost_4
+    Return
+
+PersonTrailer:
+    Set Row = Worksheet.Rows(RowIdx)
+    RowIdx = RowIdx + 1
+    RowIdx = RowIdx + 1
+    Row.getCellByPosition(0,0).String = ""
+    Row.getCellByPosition(1,0).String = ""
+    Row.getCellByPosition(2,0).String = ""
+    Row.getCellByPosition(3,0).String = ""
+    Row.getCellByPosition(4,0).String = ""
+    Row.getCellByPosition(5,0).String = ""
+    Row.getCellByPosition(6,0).Formula = "=SUM(G" & RowIdx_1 & ":G" & RowIdx - 2 & ")"
+	Row.getCellByPosition(6,0).CellBackColor = RGB(0, 255, 255) 'cyan
+    Row.getCellByPosition(7,0).String = ""
+    Row.getCellByPosition(8,0).Formula = "=SUM(I" & RowIdx_1 & ":I" & RowIdx - 2 & ")"
+	Row.getCellByPosition(8,0).CellBackColor = RGB(255, 255, 0) 'yellow
+	Row.getCellByPosition(9,0).Formula = "=I" & RowIdx - 1
+    Return
+
+NextRecord:
+	for I = 0 to TL_Props.columns - 1
+		LastRec(I) = Rec(I)
+		Rec(I) = tempSheet.getCellByPosition(I,tempIdx).String
+	next
+	Return
+
+End Sub 'Create_LaborByStaffTotaled
+
+Sub Create_LaborByTaskUntotaled(SheetNdx as integer)
+	dim WorkSheet as object
+	WorkSheet = newInvoice.Sheets(SheetNdx)
+
+	dim tempSheet as object
+	dim tempIdx as integer
+	tempSheet = newInvoice.Sheets(timelog)
+	newInvoice.CurrentController.setActiveSheet(tempSheet)
+	tempIdx = 1 'start reading temp here, ie. skip headers
+	SortRange(tempSheet.getCellRangeByPosition(0,1, TL_Props.columns - 1,TL_Props.rows), _
+				Array(TL_task, TL_subtask, TL_week_of, TL_person_id, TL_activity_id))
+	newInvoice.CurrentController.setActiveSheet(WorkSheet)
+
+	Dim RowIdx As Integer
+	dim Rec(TL_rec_size)
+	dim LastRec(TL_rec_size)
+	Dim I As Integer
+
+	'<--report breaks: totals-->
+	Dim Cost_1 As Currency      'level 1
+	Dim Cost_6 As Currency      'level 6
+	Dim Hours_6 As double       'level 6
+	'Dim Cost_0 As Currency      'Grand total
+	'Dim Hours_0 As Single       'Grand total
+	'<--totals
+
+	Dim Row As object
+    RowIdx = 5 'Where to insert
+
+	GoSub NextRecord
+	GoSub NextRecord 'Since tempIdx hasn't changed, we will get LastRec() = Rec()
+	GoSub TaskHeader
+	'GoSub SubtaskHeader
+	'GoSub WeekHeader
+	'GoSub PersonHeader
+	'GoSub ActionHeader
+	GoSub RateHeader
+	Do
+
+		If LastRec(TL_task) <> Rec(TL_task) Then
+'if msgbox("Continue?",MB_YESNO) = IDNO then exit sub
+			'Do trailers:
+			GoSub RateTrailer
+			'GoSub ActionTrailer
+			'GoSub PersonTrailer
+			'GoSub WeekTrailer
+			'GoSub SubtaskTrailer
+			GoSub TaskTrailer
+			'Do headers:
+			GoSub TaskHeader
+			'GoSub SubtaskHeader
+			'GoSub WeekHeader
+			'GoSub PersonHeader
+			'GoSub ActionHeader
+			GoSub RateHeader
+		ElseIf LastRec(TL_subtask) <> Rec(TL_subtask) Then
+			'Do trailers:
+			GoSub RateTrailer
+			'GoSub ActionTrailer
+			'GoSub PersonTrailer
+			'GoSub WeekTrailer
+			'GoSub SubtaskTrailer
+			'Do headers:
+			'GoSub SubtaskHeader
+			'GoSub WeekHeader
+			'GoSub PersonHeader
+			'GoSub ActionHeader
+			GoSub RateHeader
+		ElseIf LastRec(TL_week_of) <> Rec(TL_week_of) Then
+			'Do trailers:
+			GoSub RateTrailer
+			'GoSub ActionTrailer
+			'GoSub PersonTrailer
+			'GoSub WeekTrailer
+			'Do headers:
+			'GoSub WeekHeader
+			'GoSub PersonHeader
+			'GoSub ActionHeader
+			GoSub RateHeader
+		ElseIf LastRec(TL_person_id) <> Rec(TL_person_id) Then
+			'Do trailers:
+			GoSub RateTrailer
+			'GoSub ActionTrailer
+			'GoSub PersonTrailer
+			'Do headers:
+			'GoSub PersonHeader
+			'GoSub ActionHeader
+			GoSub RateHeader
+		ElseIf LastRec(TL_activity_id) <> Rec(TL_activity_id) Then
+			'Do trailers:
+			GoSub RateTrailer
+			'GoSub ActionTrailer
+			'Do headers:
+			'GoSub ActionHeader
+			GoSub RateHeader
+		ElseIf LastRec(TL_rate) <> Rec(TL_rate) Then
+			'Do trailers:
+			GoSub RateTrailer
+			'Do headers:
+			GoSub RateHeader
+		End If
+		Hours_6 = Hours_6 + CDbl(Rec(TL_hours))
+		Cost_6 = Cost_6 + (CDbl(Rec(TL_hours)) * CDbl(Rec(TL_rate)))
+		Cost_1 = Cost_1 + (CDbl(Rec(TL_hours)) * CDbl(Rec(TL_rate)))
+ 
+		tempIdx = tempIdx + 1
+		GoSub NextRecord
+	Loop Until tempIdx > TL_Props.rows
+	GoSub RateTrailer
+	'GoSub ActionTrailer
+	'GoSub PersonTrailer
+	'GoSub WeekTrailer
+	'GoSub SubtaskTrailer
+	GoSub TaskTrailer
+
+    'Get totals:
+	RowIdx = RowIdx + 1
+    Set Row = Worksheet.Rows(RowIdx)
+    Row.getCellByPosition(6,0).Formula = "=SUM(G6:G" & RowIdx - 1 & ")"
+    Row.getCellByPosition(9,0).Formula = "=SUM(I6:I" & RowIdx - 1 & ")"
+
+    Exit Sub
+
+TaskHeader:
+	Cost_1 = 0
+	Return
+
+RateHeader:
+	Cost_6 = 0
+	Hours_6 = 0
+	Return
+
+RateTrailer:
+	Set Row = Worksheet.Rows(RowIdx)
+	RowIdx = RowIdx + 1
+
+	Row.getCellByPosition(0,0).Value = CDate(LastRec(TL_week_of))
+	Row.getCellByPosition(1,0).String = LastRec(TL_lastname)
+	Row.getCellByPosition(2,0).Value = LastRec(TL_rate)
+	Row.getCellByPosition(3,0).String = LastRec(TL_task)
+	Row.getCellByPosition(4,0).String = LastRec(TL_subtask)
+	Row.getCellByPosition(5,0).String = LastRec(TL_account)
+	Row.getCellByPosition(6,0).Value = Hours_6
+	Row.getCellByPosition(7,0).String = LastRec(TL_activity)
+	Row.getCellByPosition(8,0).Value = Cost_6
+	Return
+
+TaskTrailer:
+	Row.getCellByPosition(9,0).Value = Cost_1
+    Return
+
+NextRecord:
+	for I = 0 to TL_Props.columns - 1
+		LastRec(I) = Rec(I)
+		Rec(I) = tempSheet.getCellByPosition(I,tempIdx).String
+	next
+	Return
+
+End Sub 'Create_LaborByTaskUntotaled
+
+Sub Create_LaborExpensesByTask(SheetNdx as integer)
+	dim WorkSheet as object
+	WorkSheet = newInvoice.Sheets(SheetNdx)
+
+	dim tempSheet as object
+	dim tempIdx as integer
+	tempSheet = newInvoice.Sheets(timelog)
+	newInvoice.CurrentController.setActiveSheet(tempSheet)
+	tempIdx = 1 'start reading temp here, ie. skip headers
+	SortRange(tempSheet.getCellRangeByPosition(0,1, TL_Props.columns - 1,TL_Props.rows), _
+				Array(TL_task, TL_subtask, TL_week_of, TL_person_id, TL_activity_id))
+	newInvoice.CurrentController.setActiveSheet(WorkSheet)
+
+	dim DividerRow as integer
+	DividerRow = 5 'save this row to be copied when needed
+
+	Dim RowIdx As Integer
+	dim Rec(TL_rec_size)
+	dim LastRec(TL_rec_size)
+	Dim I As Integer
+	Dim L as long
+
+    '<--report breaks: totals-->
+    Dim Cost_6 As Currency      'level 6
+    Dim Hours_6 As Single       'level 6
+    Dim LaborSubTotalIdx As integer 'start level 1 totaling
+    Dim LaborTotal as string
+    Dim ExpenseTotal as string
+    'Dim Cost_0 As Currency      'Grand total
+    'Dim Hours_0 As Single       'Grand total
+    '<--totals
+   
+	Dim Row As object
+    RowIdx = 6 'Where to insert
+
+	GoSub NextRecord
+	GoSub NextRecord 'Since tempIdx hasn't changed, we will get LastRec() = Rec()
+	GoSub TaskHeader
+	'GoSub SubtaskHeader
+	'GoSub WeekHeader
+	'GoSub PersonHeader
+	'GoSub ActionHeader
+	GoSub RateHeader
+    LaborTotal = ""		'Lists and sums each subtotal cell
+    ExpenseTotal = ""
+	Do
+
+		If LastRec(TL_task) <> Rec(TL_task) Then
+'if msgbox("Continue?",MB_YESNO) = IDNO then exit sub
+			'Do trailers:
+			GoSub RateTrailer
+			'GoSub ActionTrailer
+			'GoSub PersonTrailer
+			'GoSub WeekTrailer
+			'GoSub SubtaskTrailer
+			GoSub TaskTrailer
+			'Do headers:
+			GoSub TaskHeader
+			'GoSub SubtaskHeader
+			'GoSub WeekHeader
+			'GoSub PersonHeader
+			'GoSub ActionHeader
+			GoSub RateHeader
+		ElseIf LastRec(TL_subtask) <> Rec(TL_subtask) Then
+			'Do trailers:
+			GoSub RateTrailer
+			'GoSub ActionTrailer
+			'GoSub PersonTrailer
+			'GoSub WeekTrailer
+			'GoSub SubtaskTrailer
+			'Do headers:
+			'GoSub SubtaskHeader
+			'GoSub WeekHeader
+			'GoSub PersonHeader
+			'GoSub ActionHeader
+			GoSub RateHeader
+		ElseIf LastRec(TL_week_of) <> Rec(TL_week_of) Then
+			'Do trailers:
+			GoSub RateTrailer
+			'GoSub ActionTrailer
+			'GoSub PersonTrailer
+			'GoSub WeekTrailer
+			'Do headers:
+			'GoSub WeekHeader
+			'GoSub PersonHeader
+			'GoSub ActionHeader
+			GoSub RateHeader
+		ElseIf LastRec(TL_person_id) <> Rec(TL_person_id) Then
+			'Do trailers:
+			GoSub RateTrailer
+			'GoSub ActionTrailer
+			'GoSub PersonTrailer
+			'Do headers:
+			'GoSub PersonHeader
+			'GoSub ActionHeader
+			GoSub RateHeader
+		ElseIf LastRec(TL_activity_id) <> Rec(TL_activity_id) Then
+			'Do trailers:
+			GoSub RateTrailer
+			'GoSub ActionTrailer
+			'Do headers:
+			'GoSub ActionHeader
+			GoSub RateHeader
+		ElseIf LastRec(TL_rate) <> Rec(TL_rate) Then
+			'Do trailers:
+			GoSub RateTrailer
+			'Do headers:
+			GoSub RateHeader
+			'Reset break values:
+			Rate = recRate
+		End If
+
+		Hours_6 = Hours_6 + CDbl(Rec(TL_hours))
+		Cost_6 = Cost_6 + (CDbl(Rec(TL_hours)) * CDbl(Rec(TL_rate)))
+
+		tempIdx = tempIdx + 1
+		GoSub NextRecord
+	Loop Until tempIdx > TL_Props.rows
+	GoSub RateTrailer
+	'GoSub ActionTrailer
+	'GoSub PersonTrailer
+	'GoSub WeekTrailer
+	'GoSub SubtaskTrailer
+	GoSub TaskTrailer
+
+	'Get totals:
+	Set Row = Worksheet.Rows(RowIdx)
+    Row.getCellByPosition(7,0).String = "Total Labor"
+	Row.getCellByPosition(7,0).HoriJustify = com.sun.star.table.CellHoriJustify.RIGHT
+    Row.getCellByPosition(7,0).CharWeight = com.sun.star.awt.FontWeight.BOLD
+	Row.getCellByPosition(8,0).Formula = "=SUM(" & Mid(LaborTotal, 2) & ")"
+	Set Row = Worksheet.Rows(RowIdx + 1)
+    Row.getCellByPosition(7,0).String = "Total Expenses"
+	Row.getCellByPosition(7,0).HoriJustify = com.sun.star.table.CellHoriJustify.RIGHT
+    Row.getCellByPosition(7,0).CharWeight = com.sun.star.awt.FontWeight.BOLD
+	Row.getCellByPosition(8,0).Formula = "=SUM(" & Mid(ExpenseTotal, 2) & ")"
+	Set Row = Worksheet.Rows(RowIdx + 2)
+	Row.getCellByPosition(6,0).formula = "=SUM(G6:G" & RowIdx - 2 & ")"         'total hours
+	Set Row = Worksheet.Rows(RowIdx + 3)
+    Row.getCellByPosition(7,0).String = "Total Invoice"
+	Row.getCellByPosition(7,0).HoriJustify = com.sun.star.table.CellHoriJustify.RIGHT
+    Row.getCellByPosition(7,0).CharWeight = com.sun.star.awt.FontWeight.BOLD
+	Row.getCellByPosition(8,0).Formula = "=SUM(I" & RowIdx + 1 & ":I" & RowIdx + 2 & ")" 'invoice total
+
+	WorkSheet.Rows.removeByIndex(DividerRow, 1)   'Delete the templating row
+ 
+	Exit Sub
+
+TaskHeader:
+	Set Row = Worksheet.Rows(RowIdx)
+	RowIdx = RowIdx + 1
+	Row.getCellRangeByPosition(0,0, 1,0).merge(true)
+	Row.getCellByPosition(0,0).HoriJustify = com.sun.star.table.CellHoriJustify.LEFT
+	Row.getCellByPosition(0,0).String = "Task " & Rec(TL_task) & ": Labor"
+	LaborSubTotalIdx = RowIdx + 1
+	Return
+
+RateHeader:
+    Hours_6 = 0
+    Cost_6 = 0
+    Return
+
+RateTrailer:
+    Set Row = Worksheet.Rows(RowIdx)
+    RowIdx = RowIdx + 1
+
+	Row.getCellByPosition(0,0).Value = CDate(LastRec(TL_week_of))
+	Row.getCellByPosition(1,0).String = LastRec(TL_lastname)
+	Row.getCellByPosition(2,0).Value = LastRec(TL_rate)
+	Row.getCellByPosition(3,0).String = LastRec(TL_task)
+	Row.getCellByPosition(4,0).String = LastRec(TL_subtask)
+	Row.getCellByPosition(5,0).String = LastRec(TL_account)
+	Row.getCellByPosition(6,0).Value = Hours_6
+	Row.getCellByPosition(7,0).String = LastRec(TL_activity)
+	Row.getCellByPosition(8,0).Value = Cost_6
+    Return
+
+TaskTrailer:
+	'   Labor:
+    Set Row = Worksheet.Rows(RowIdx)
+    RowIdx = RowIdx + 1
+    Row.getCellByPosition(8,0).Formula = "=SUM(I" & LaborSubTotalIdx & ":I" & RowIdx - 1 & ")"
+    LaborTotal = LaborTotal & "+I" & RowIdx
+    LaborSubTotalIdx = RowIdx     'For task Total sum below
+    '   Expenses
+    Set Row = Worksheet.Rows(RowIdx)
+    RowIdx = RowIdx + 1
+	Row.getCellRangeByPosition(0,0, 1,0).merge(true)
+	Row.getCellByPosition(0,0).HoriJustify = com.sun.star.table.CellHoriJustify.LEFT
+    Row.getCellByPosition(0,0).String = "Task " & LastRec(TL_task) & ": Expenses"
+    Set Row = Worksheet.Rows(RowIdx)
+    RowIdx = RowIdx + 1
+    Row.getCellByPosition(7,0).String = "N/A"
+    Row.getCellByPosition(8,0).Value = 0
+    Set Row = Worksheet.Rows(RowIdx)
+    RowIdx = RowIdx + 1
+    Row.getCellByPosition(8,0).Formula = "=SUM(I" & RowIdx - 1 & ":I" & RowIdx - 1 & ")"
+    ExpenseTotal = ExpenseTotal & "+I" & RowIdx
+    '   Total:
+    Set Row = Worksheet.Rows(RowIdx)
+    RowIdx = RowIdx + 1
+	Row.getCellRangeByPosition(0,0, 1,0).merge(true)
+	Row.getCellByPosition(0,0).HoriJustify = com.sun.star.table.CellHoriJustify.LEFT
+    Row.getCellByPosition(0,0).String = "Task " & LastRec(TL_task) & ": Total"
+    Set Row = Worksheet.Rows(RowIdx)
+    RowIdx = RowIdx + 1
+    Row.getCellByPosition(8,0).Formula = "=SUM(I" & LaborSubTotalIdx & "+I" & RowIdx - 2 & ")"
+	InsertRow(SheetNdx, DividerRow, RowIdx)
+    RowIdx = RowIdx + 1
+    RowIdx = RowIdx + 1
+    Return
+
+NextRecord:
+	for I = 0 to TL_Props.columns - 1
+		LastRec(I) = Rec(I)
+		Rec(I) = tempSheet.getCellByPosition(I,tempIdx).String
+	next
+	Return
+
+End Sub 'Create_LaborExpensesByTask
+
+Sub Create_InvoiceSummary(SheetNdx as integer)
+	dim WorkSheet as object
+	WorkSheet = newInvoice.Sheets(SheetNdx)
+	newInvoice.CurrentController.setActiveSheet(WorkSheet)
+
+	dim TL_Sheet as object
+	dim TL_Idx as integer
+	TL_Sheet = newInvoice.Sheets(timelog)
+	newInvoice.CurrentController.setActiveSheet(TL_Sheet)
+	TL_Idx = 1 'start reading temp here, ie. skip headers
+	SortRange(TL_Sheet.getCellRangeByPosition(0,1, TL_Props.columns - 1,TL_Props.rows), Array(TL_task))
+	dim TR_Sheet as object
+	dim TR_Idx as integer
+	TR_Sheet = newInvoice.Sheets(taskreport)
+	newInvoice.CurrentController.setActiveSheet(TR_Sheet)
+	TR_Idx = 1 'start reading temp here, ie. skip headers
+	SortRange(TR_Sheet.getCellRangeByPosition(0,1, TR_Props.columns - 1,TR_Props.rows), Array(TR_task))
+	newInvoice.CurrentController.setActiveSheet(WorkSheet)
+
+	Dim DataRow As integer
+	Dim EmptyRow As integer
+	'The template saves an empty row and a row formatted for data so we can copy them when needed:
+	DataRow = 15
+	EmptyRow = 16
+
+	Dim RowIdx As Integer
+	dim TL_Rec(TL_rec_size)
+	dim LastTL_Rec(TL_rec_size)
+	dim TR_Rec(TR_rec_size)
+	dim LastTR_Rec(TR_rec_size)
+	Dim I As Integer
+	Dim L as long
+	Dim S as string
+
+	'<--report breaks: totals-->
+'	Dim Cost_1 As double      'level 1
+    '<--totals
+   
+	Dim Row As object
+    RowIdx = 17 'Where to insert
+
+	dim Months()
+	Months = Array("","January","February","March","April","May","June","July","August","September", _
+				"October","November","December")
+	S = "Period: " & Months(Month(TL_Props.from_date)) & " " & Day(TL_Props.from_date)
+	if Month(TL_Props.from_date) <> Month(TL_Props.to_date) then
+		if Year(TL_Props.from_date) <> Year(TL_Props_to_date) then
+			S = S & ", " & Year(TL_Props.from_date)
+		end if
+		S = S & "-" & Months(Month(TL_Props.to_date))
+	else
+		S = S & "-"
+	end if
+	S = S & " " & Day(TL_Props.to_date) & ", " & Year(TL_Props.to_date)
+    Worksheet.getCellByPosition(0,3).String = S
+    Worksheet.getCellByPosition(0,4).String = "Date: " & Months(Month(Now())) & " " & DAY(Now()) & _
+    										", " & Year(Now())
+
+	GoSub Next_TL
+	GoSub Next_TL 'Since tempIdx hasn't changed, we will get LastRec() = Rec()
+	GoSub Next_TR
+	GoSub Next_TR 'Since tempIdx hasn't changed, we will get LastRec() = Rec()
+	GoSub TaskGroupHeader	'A Task Group is defined by the first character of the task name
+	'GoSub TaskHeader
+	Do
+
+		If Left(LastTR_Rec(TR_task),1) <> Left(TR_Rec(TR_task),1) Then
+'if msgbox("Continue?",MB_YESNO) = IDNO then exit sub
+			'Do trailers:
+			GoSub TaskTrailer
+			'GoSub TaskGroupTrailer
+			'Do headers:
+			GoSub TaskGroupHeader
+			'GoSub TaskHeader
+		ElseIf LastTR_Rec(TR_task) <> TR_Rec(TR_task) Then
+			'Do trailers:
+			GoSub TaskTrailer
+			'Do headers:
+			'GoSub TaskHeader
+		End if
+
+		TR_Idx = TR_Idx + 1
+		GoSub Next_TR
+	Loop Until TR_Idx > TR_Props.rows
+	GoSub TaskTrailer
+	'GoSub TaskGroupTrailer
+
+    'Get totals:
+    Set Row = Worksheet.Rows(RowIdx + 2)
+    Row.getCellByPosition(2,0).Formula = "=SUM(C16:C" & RowIdx - 1 & ")"
+    Row.getCellByPosition(3,0).Formula = "=SUM(D16:D" & RowIdx - 1 & ")"
+    Row.getCellByPosition(4,0).Formula = "=SUM(E16:E" & RowIdx - 1 & ")"
+
+	WorkSheet.Rows.removeByIndex(EmptyRow,1)   'Delete these templating rows - highest first
+	WorkSheet.Rows.removeByIndex(EmptyRow,1)   'this empty row was inserted by the first call to TaskGroupHeader
+	WorkSheet.Rows.removeByIndex(DataRow,1)
+
+	exit Sub
+
+TaskGroupHeader:
+	InsertRow(SheetNdx, EmptyRow, RowIdx)
+    RowIdx = RowIdx + 1
+	return
+
+TaskTrailer:
+	dim Spent as double
+	Spent = 0
+	do while (LastTR_Rec(TR_task) = TL_Rec(TL_task)) and (TL_Idx < TL_Props.rows)
+		Spent = Spent + (CDbl(TL_Rec(TL_hours)) * CDbl(TL_Rec(TL_rate)))
+		TL_Idx = TL_Idx + 1
+		GoSub Next_TL
+	loop
+
+	InsertRow(SheetNdx, DataRow, RowIdx)
+    Set Row = Worksheet.Rows(RowIdx)
+    Row.getCellByPosition(0,0).String = LastTR_Rec(TR_task)
+	Row.getCellByPosition(1,0).String =  LastTR_Rec(TR_task_desc)
+	Row.getCellByPosition(2,0).Value = LastTR_Rec(TR_budget)
+	Row.getCellByPosition(3,0).Value = Spent
+	Row.getCellByPosition(4,0).Value = CDbl(LastTR_Rec(TR_charged)) - Spent
+    RowIdx = RowIdx + 1
+	return
+
+Next_TL:
+	for I = 0 to TL_Props.columns - 1
+		LastTL_Rec(I) = TL_Rec(I)
+		TL_Rec(I) = TL_Sheet.getCellByPosition(I,TL_Idx).String
+	next
+	Return
+
+Next_TR:
+	for I = 0 to TR_Props.columns - 1
+		LastTR_Rec(I) = TR_Rec(I)
+		TR_Rec(I) = TR_Sheet.getCellByPosition(I,TR_Idx).String
+	next
+	Return
+
+End Sub 'Create_InvoiceSummary
+
+Sub SortRange(theRange as object, inFields())
+    Dim Fields() As Integer     'contains column offsets of sort fields
+	Dim ndx as integer
+
+'with theRange.RangeAddress
+'if msgbox("theRange={(" & .StartColumn & "," & .StartRow & "),(" & .EndColumn & "," & .EndRow & ")}", MB_YESNO) = IDNO then exit sub
+'end with
+    ReDim Fields(0) 'it will contain the positive integers (fields not yet sorted) from inFields
+    For ndx = 0 To UBound(inFields)
+        If inFields(ndx) >= 0 Then
+            Fields(UBound(Fields)) = inFields(ndx)
+            ReDim Preserve Fields(UBound(Fields) + 1)
+        End If
+    Next
+    ReDim Preserve Fields(UBound(Fields) - 1) 'those redim's got us one ahead, go back...
+
+	dim SortFields(UBound(Fields)) as new com.sun.star.table.TableSortField
+	dim SortDesc(2) as new com.sun.star.beans.PropertyValue
+	for ndx = 0 to UBound(Fields)
+		SortFields(ndx).Field = Fields(ndx)
+		SortFields(ndx).IsAscending = true
+		if ndx = 2 then exit for 'sort will do only 3 fields at a go
+	next
+	SortDesc(0).Name = "SortFields"
+	SortDesc(0).Value = SortFields
+	SortDesc(1).Name = "ContainsHeader"
+	SortDesc(1).Value = false
+	theRange.sort(SortDesc)
+	if UBound(Fields) < 3 then exit sub
+
+    'Now, we have to sort each 'group' with the remaining sort fields;
+    'A 'group' is defined as having the same values in all the previous sort fields
+    Dim preFields() As Integer  'prior sorted (negative numbers in inFields) + 3 just sorted
+    ReDim preFields(0)
+    For ndx = 0 To UBound(inFields)
+        If inFields(ndx) > 0 Then
+            inFields(ndx) = -inFields(ndx)  'these fields join the ranks of already sorted
+            inFields(ndx + 1) = -inFields(ndx + 1)
+            inFields(ndx + 2) = -inFields(ndx + 2)
+            Exit For
+        Else
+            preFields(UBound(preFields)) = inFields(ndx)
+            ReDim Preserve preFields(UBound(preFields) + 1)
+        End If
+    Next
+    ReDim Preserve preFields(UBound(preFields) + 2)
+    preFields(UBound(preFields) - 2) = Fields(0)
+    preFields(UBound(preFields) - 1) = Fields(1)
+    preFields(UBound(preFields)) = Fields(2)
+
+    Dim startRow As Integer
+    Dim tempNdx As Integer
+    Dim newRange As object
+    startRow = 0
+    With theRange
+    '  we start at startRow + 1 because starting at startRow would have one meaningless loop:
+    For tempNdx = startRow + 1 To .rows.Count - 1
+        For ndx = 0 To UBound(preFields)
+            If .getCellByPosition(preFields(ndx), startRow).String <> .getCellByPosition(preFields(ndx), tempNdx).String Then
+            	set newRange = .getCellRangeByPosition(0,startRow, .columns.Count - 1,tempNdx - 1)
+                Call SortRange(newRange, inFields)
+                startRow = tempNdx
+            End If
+        Next
+    Next
+   	set newRange = .getCellRangeByPosition(0,startRow, .columns.Count - 1,.rows.Count - 1)
+    Call SortRange(newRange, inFields)
+    End With
+
+End Sub ' SortRange
+
+Sub InsertRow (SheetNdx as integer, RowToInsert as integer, Where as integer)
+	Dim CellRangeAddress As New com.sun.star.table.CellRangeAddress
+	Dim CellAddress As New com.sun.star.table.CellAddress
+
+	CellRangeAddress.Sheet = SheetNdx
+	CellRangeAddress.StartColumn = 0
+	CellRangeAddress.StartRow = Where
+	CellRangeAddress.EndColumn = max_columns
+	CellRangeAddress.EndRow = Where
+	CellAddress.Sheet = SheetNdx
+	CellAddress.Column = 0
+	CellAddress.Row = Where
+
+	newInvoice.Sheets(SheetNdx).insertCells(CellRangeAddress, com.sun.star.sheet.CellInsertMode.ROWS)
+	CellRangeAddress.StartRow = RowToInsert
+	CellRangeAddress.EndRow = RowToInsert
+	newInvoice.Sheets(SheetNdx).copyRange(CellAddress, CellRangeAddress)
+End Sub 'InsertRow
+
+Function Make_Doc() as boolean
+	dim csvIn as string
+	dim newFile as string
+	dim TL_Sheet as object
+	dim TR_Sheet as object
+
+	Make_Doc = false
+
+'Find the timelog CSV file:
+	dim FilePicker as object
+	dim list(1) as string
+	dim picked as boolean
+	list(0) = "*.csv"
+	list(1) = "*.*"
+	FilePicker = CreateUnoService("com.sun.star.ui.dialogs.FilePicker")
+	AddFiltersToDialog(list(), FilePicker)
+	FilePicker.setTitle("Select your downloaded TIMELOGS..")
+	FilePicker.SetDisplayDirectory(DirectoryNameoutofPath(ThisComponent.Location, "/")
+	picked = FilePicker.execute()
+	csvIn = FilePicker.Files(0)
+	FilePicker.Dispose()
+	if not picked then
+		msgbox "Goodbye!"
+		exit Function
+	end if
+
+'Copy us to a 'twin' of the CSV file (the new invoice):
+	newFile = DirectoryNameoutofPath(csvIn, "/") & "/" & GetFileNameWithoutExtension(csvIn,"/") & ".ods"
+	FileCopy(ThisComponent.Location, newFile)
+
+'Open the new invoice file for editting:
+	dim args(2) as New com.sun.star.beans.PropertyValue
+	args(0).Name = "ReadOnly"
+	args(0).Value = false
+	args(1).Name = "MacroExecutionMode"
+	args(1).Value = 0 'NEVER_EXECUTE
+	args(2).Name = "AsTemplate"
+	args(2).Value = FALSE
+	newInvoice = OpenDocument(newFile, args())
+	TL_Sheet = newInvoice.Sheets(timelog)
+    TL_Props.sheet = timelog
+	TL_Props.version = TL_Sheet.getCellByPosition(0,0).String
+	TR_Sheet = newInvoice.Sheets(taskreport)
+    TR_Props.sheet = taskreport
+	TR_Props.version = TR_Sheet.getCellByPosition(0,0).String
+
+'Import (link, actually) the CSV file into the 'temp' sheet:
+	dim FilterName as string
+	dim FilterOption as string
+	FilterName = "Text - txt - csv (StarCalc)"
+	FilterOption = "44,34,76,1," 'comma, double quotes, Unicode (UTF-8), start line 1, (no field formats)
+	TL_Sheet.link(csvIn, "", FilterName, FilterOption, com.sun.star.sheet.SheetLinkMode.NORMAL)
+
+'Verify the timelog file:
+	if TL_Sheet.getCellByPosition(0,0).String <> "timelog" then
+		msgbox "Unrecognized timelog - says '" & TL_Sheet.Rows(0).getCellByPosition(0,0).String & "'"
+		exit function
+	end if
+	if not (IsDate(TL_Sheet.getCellByPosition(3,0).String) and IsDate(TL_Sheet.getCellByPosition(4,0).String))  then
+		msgbox "Invalid timelog dates: '" & TL_Sheet.getCellByPosition(3,0).String & "'/'" & _
+			TL_Sheet.getCellByPosition(4,0).String & "'"
+		exit function
+	end if
+	TL_Props.from_date = CDate(TL_Sheet.getCellByPosition(3,0).String)
+	TL_Props.to_date = CDate(TL_Sheet.getCellByPosition(4,0).String)
+	if TL_Sheet.getCellByPosition(5,0).String <> TL_Props.version then
+		msgbox "Your version (" & TL_Props.version & ") does not match the timelog download (" & _
+			TL_Sheet.getCellByPosition(5,0).String & ").  Ask the system admin for an upgrade."
+		exit function
+	end if
+	TL_Sheet.Rows.removeByIndex(0, 1) 'get rid of the ID row
+
+	If not Find_Size(TL_Props, TL_headers) then
+		exit function
+	end if
+
+'Add the week_of field to each row of timelog:
+	dim ndx as integer
+	dim newDate as date
+	For ndx = 1 to TL_Props.rows 'skip headers
+		newDate = CDate(TL_Sheet.getCellByPosition(TL_Logdate, ndx).String)
+		newDate = newDate - WeekDay(newDate) + 1
+		TL_Sheet.getCellByPosition(TL_week_of, ndx).String = newDate
+	Next
+	TL_Props.columns = TL_Props.columns + 1 'add the new week_of column
+
+'Find the taskreport CSV file:
+	FilePicker.setTitle("Select your downloaded TASKREPORT..")
+	picked = FilePicker.execute()
+	csvIn = FilePicker.Files(0)
+	FilePicker.Dispose()
+	if not picked then
+		msgbox "Goodbye!"
+		exit Function
+	end if
+
+'Import (link, actually) the CSV file into the 'temp' sheet:
+	TR_Sheet.link(csvIn, "", FilterName, FilterOption, com.sun.star.sheet.SheetLinkMode.NORMAL)
+
+'Verify the taskreport file:
+	if TR_Sheet.getCellByPosition(0,0).String <> "taskreport" then
+		msgbox "Unrecognized taskreport - says '" & TR_Sheet.Rows(0).getCellByPosition(0,0).String & "'"
+		exit function
+	end if
+	if not IsDate(TR_Sheet.getCellByPosition(3,0).String) then
+		msgbox "Invalid taskreport date: '" & TR_Sheet.getCellByPosition(3,0).String & "'"
+		exit function
+	end if
+	TR_Props.to_date = CDate(TR_Sheet.getCellByPosition(3,0).String)
+	if TR_Sheet.getCellByPosition(4,0).String <> TR_Props.version then
+		msgbox "Your version (" & TR_Props.version & ") does not match the taskreport download (" & _
+			TR_Sheet.getCellByPosition(5,0).String & ").  Ask the system admin for an upgrade."
+		exit function
+	end if
+	if TL_Props.to_date <> TR_Props.to_date then
+		msgbox "Timelog to date (" & TL_Props.to_date & ") does not match taskreport date (" & TR_Props.to_date & _
+			")"
+		exit function
+	end if
+	TR_Sheet.Rows.removeByIndex(0, 1) 'get rid of the ID row
+
+	If not Find_Size(TR_Props, TR_headers) then
+		exit function
+	end if
+
+	Make_Doc = true
+
+End Function 'Make_Doc
+
+Function Find_Size(inProps as Props, Headers())
+	'Find the size of the imported stuff & check headers:
+	dim tempSheet as object
+	dim Cell as object
+
+	Find_Size = false
+
+    Set tempSheet = newInvoice.Sheets(inProps.sheet)
+with inProps
+	.rows = 1 'skip the header row
+	do until tempSheet.getCellByPosition(0, .rows).Type = com.sun.star.table.CellContentType.EMPTY
+		.rows = .rows + 1
+	loop
+	.rows = .rows - 1
+	.columns = 0 'start with the first column
+	Cell = tempSheet.getCellByPosition(.columns, 0)
+	do until Cell.Type = com.sun.star.table.CellContentType.EMPTY
+		if Cell.String <> Headers(.columns) then
+			msgbox "Header " & .columns & " is " & Cell.String & " but should be " & Headers(.columns) & _
+					"; aborting"
+			exit function
+		end if
+		.columns = .columns + 1
+		Cell = tempSheet.getCellByPosition(.columns, 0)
+	loop
+end with
+
+	Find_Size = true
+
+End Function 'Find_Size
+

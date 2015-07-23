@@ -1,0 +1,25 @@
+There already exists a beginning framework for a web based administration system for the SR2S applications.  But it occurred to me that we should take a bit more formalized approach to its development rather than the off-the-cuff stuff I have been doing.  Therefore, I present to you this statement/list of objectives.  Please alter or edit as you see fit until we come to consensus.
+
+BTW, the term 'program' refers to the totality of the SR2S applications while 'system' refers to the computer code and the mechanisms for its implementation.  Thus, we are creating a system to administer the program and, when finished creating, we will have the ongoing task of administering the system which administers the program, see?
+
+And, as promised, the objectives:
+
+1. Use a web based approach to administering the data that comprise the SR2S program applications.  Right now, we have the timesheets, the infrastructure safety isses, and the mode surveys.
+
+2. Secure this data using user logins and industry best practices.
+
+3. Control user permissions on what any one user can see and what they can do.
+
+4. Create mechanisms to download selected data in useable formats, eg. comma delimited files for loading to a spreadsheet.
+
+5. Make the system easily cloneable into other instances for use by other SR2S organizations across the country (and the world? language issues...).
+
+6. Allow for extending the system, ie. adding other applications.
+
+7. Allow an instance of the system to be shareable by distinct agencies.
+
+8. Create printer friendly versions of displayed data.
+
+9. Development to be done in a collaborative manner using open source tools.
+
+Dwayne Price 2007-05-23

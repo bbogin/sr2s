@@ -1,0 +1,75 @@
+body, html {
+	margin: 0px;
+	padding: 0px;
+	color: black;
+	background-color: white;
+	text-align: center;
+}
+
+body, input, textarea, select, option, button {
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-size: 80%;
+}
+
+table {
+	border-collapse: collapse;
+	table-layout: fixed;
+	font-size: 80%;
+}
+
+th {
+	text-align: center;
+}
+
+td.group {
+	color: red;
+}
+
+.pagehead {
+	font-size: 16pt;
+	color: red;
+	font-weight: bold;
+}
+
+.greet {
+	font-size: 12pt;
+	font-weight: bold;
+	color: #A8D418;
+}
+
+.status {
+	font-size: 12pt;
+	font-weight: bold;
+	color: #A8D418;
+}
+
+.number {
+	text-align: right;
+}
+
+.date {
+	text-align: center;
+}
+
+.required {
+	color: red;
+	text-align: right;
+}
+
+.label {
+	text-align: right;
+}
+
+button, select, .seq {
+	font-weight: bold;
+	font-size: 10pt;
+	background-color:#A8D418;
+	border:1px solid;
+	border-color: #793 #360 #360 #793;
+}
+
+.list {
+	background-color: #A8D418;
+	text-align: left;
+}
+

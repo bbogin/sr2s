@@ -1,0 +1,1631 @@
+'----------------
+' APP_Application
+'----------------
+
+'Change log:
+' 2005-11-30 CDP Created.
+'-------------------------------------------------------
+
+Option Compare Database     'Use database order for string comparisons
+Option Explicit             'Force explicit variable declaration
+Option Base 0               'Default lower bound for arrays is 0 (not 1)
+
+Private Enum Modes
+    Verify = 0
+    Load = 1
+End Enum
+Private Mode As Modes
+
+Private ProgressForm As String
+Private ProgressControl As String
+
+Const End_Comments = 0
+
+Public Function APP_Load_Excel_Timesheet( _
+    FileName As String _
+    ) As Boolean
+    Dim Spreadsheet As New Excel.Application
+    Dim Timesheet As Excel.Workbook
+    Dim I As Integer
+
+    ProgressForm = "TimesheetLoad"
+    ProgressControl = "lstProgress"
+    SetProgress ("")
+    SetProgress ("Begin loading " & FileName)
+
+    Set Timesheet = Spreadsheet.Workbooks.Open(FileName)
+
+    Mode = Verify
+    For I = 1 To Timesheet.Sheets.Count
+        If Left(Timesheet.Sheets.Item(I).Name, 4) = "week" Then
+            APP_Load_Excel_Timesheet = Load_Timesheet(Timesheet.Sheets.Item(I))
+            If Not APP_Load_Excel_Timesheet Then GoTo Error:
+        End If
+    Next
+
+    Mode = Load
+    'UTL_Connection.BeginTrans
+    For I = 1 To Timesheet.Sheets.Count
+        If Left(Timesheet.Sheets.Item(I).Name, 4) = "week" Then
+            APP_Load_Excel_Timesheet = Load_Timesheet(Timesheet.Sheets.Item(I))
+            If Not APP_Load_Excel_Timesheet Then
+                'UTL_Connection.RollbackTrans
+                GoTo Error:
+            End If
+        End If
+    Next
+    'UTL_Connection.CommitTrans
+
+    SetProgress ("File loading complete")
+    APP_Load_Excel_Timesheet = True
+    Timesheet.Close (False)
+    Spreadsheet.Quit
+    Exit Function
+
+Error:
+    SetProgress ("File was not loaded because of errors")
+    APP_Load_Excel_Timesheet = False
+    Timesheet.Close (False)
+    Spreadsheet.Quit
+
+End Function ' APP_Load_Excel_Timesheet
+
+Public Function APP_Create_Excel_Invoice( _
+    FileName As String, _
+    Starting As Date, _
+    Ending As Date _
+    ) As Boolean
+    Dim PersonIDs() As Long
+    Dim Rates As Collection
+    Dim Recs As New ADODB.Recordset
+    Dim Spreadsheet As Excel.Application
+    Dim Invoice As Excel.Workbook
+    Dim S As String
+    Dim I As Integer
+
+    ProgressForm = "TAM_Invoice"
+    ProgressControl = "lstProgress"
+    SetProgress ("")
+    SetProgress ("Begin Invoice " & FileName)
+
+    If IsNull(UTL_RunTimeParms.Value("Invoice_Template")) Then
+        S = CurrentProject.Path & "\Invoice_Template.xls"
+    Else
+        S = UTL_RunTimeParms.Replace_Variables(UTL_RunTimeParms.Value("Invoice_Template"))
+    End If
+    If Dir(S) = "" Then
+        SetProgress ("Unable to find the invoice template '" & S & "'")
+        APP_Create_Excel_Invoice = False
+        Exit Function
+    End If
+    FileCopy S, FileName
+
+    Recs.ActiveConnection = UTL_Connection
+    Set Spreadsheet = New Excel.Application
+    
+    'Get the hourly rates for each person in the project:
+    S = "SELECT Person_ID FROM v20_TAM_Invoice" & _
+        " GROUP BY Person_ID"
+    Recs.Open S, , adOpenStatic
+    ReDim PersonIDs(Recs.RecordCount)
+    I = 1
+    Do While Not Recs.EOF
+        PersonIDs(I) = Recs!Person_ID
+        I = I + 1
+        Recs.MoveNext
+    Loop
+    Recs.Close
+    Set Rates = Find_Rates(PersonIDs)
+
+    Set Invoice = Spreadsheet.Workbooks.Open(FileName)
+    SetProgress "Create Progress Report"
+    Call Create_Invoice_Progress(Invoice.Sheets(1), Starting, Ending)
+    SetProgress "Create Labor by Staff - Untotaled"
+    Call Create_Invoice_LaborByStaff(Invoice.Sheets(2), Rates, Starting, Ending)
+    SetProgress "Create Labor by Staff - Totaled"
+    Call Create_Invoice_LaborByStaff(Invoice.Sheets(3), Rates, Starting, Ending)
+    SetProgress "Create Labor by Task - Untotaled"
+    Call Create_Invoice_LaborByTask(Invoice.Sheets(4), Rates, Starting, Ending)
+    SetProgress "Create Labor & Expenses by Task"
+    Call Create_Invoice_LaborExpByTask(Invoice.Sheets(5), Rates, Starting, Ending)
+    SetProgress "Create Invoice Summary"
+    Call Create_Invoice_Summary(Invoice.Sheets(6), Rates, Starting, Ending)
+    Spreadsheet.DisplayAlerts = False
+    Spreadsheet.ActiveWorkbook.Save
+    Spreadsheet.DisplayAlerts = True
+
+    SetProgress "Finished Invoice"
+    Spreadsheet.Quit
+
+End Function ' APP_Create_Excel_Invoice
+
+Public Function APP_Create_Excel_Timesheet( _
+    FileName As String, _
+    PersonID As Long, _
+    PersonName As String, _
+    Starting As Date, _
+    Ending As Date _
+    ) As Boolean
+    Dim Spreadsheet As New Excel.Application
+    Dim Timesheet As Excel.Workbook
+    Dim Worksheet As Excel.Worksheet
+    Dim SheetIdx As Integer
+    Dim WeekStarting As Date
+    Dim WeekEnding As Date
+    Dim TotalRow() As Integer   'save for the summary
+    Dim Columns()
+    Dim I As Integer
+    Dim S As String
+    Dim Row As Excel.Range
+
+    ProgressForm = "TAM_Timesheet"
+    ProgressControl = "lstProgress"
+    SetProgress ("")
+    SetProgress ("Begin Timesheet " & FileName)
+
+
+    If IsNull(UTL_RunTimeParms.Value("Timesheet_Template")) Then
+        S = CurrentProject.Path & "\Timesheet_Template.xls"
+    Else
+        S = UTL_RunTimeParms.Replace_Variables(UTL_RunTimeParms.Value("Timesheet_Template"))
+    End If
+    If Dir(S) = "" Then
+        SetProgress ("Unable to find the timesheet template '" & S & "'")
+        APP_Create_Excel_Timesheet = False
+        Exit Function
+    End If
+    FileCopy S, FileName
+    FileCopy CurrentProject.Path & "\Timesheet_Template.xls", FileName
+
+    Set Timesheet = Spreadsheet.Workbooks.Open(FileName)
+
+    SheetIdx = 1
+    WeekStarting = Starting
+    Do While WeekStarting < Ending
+        SetProgress "Create Week " & SheetIdx
+        Timesheet.Sheets(1).Copy , Timesheet.Sheets(SheetIdx)
+        Set Worksheet = Timesheet.Sheets(SheetIdx + 1)
+        Worksheet.Name = "Week " & SheetIdx
+        WeekEnding = UTL_Week_LastDay(WeekStarting, vbMonday)
+        If WeekEnding > Ending Then WeekEnding = Ending
+        Call Create_Timesheet_Week(Worksheet, PersonID, PersonName, WeekStarting, WeekEnding, I)
+        ReDim Preserve TotalRow(SheetIdx)
+        TotalRow(SheetIdx) = I
+        WeekStarting = DateAdd("d", 1, WeekEnding)
+        SheetIdx = SheetIdx + 1
+    Loop
+    'Summary:
+    Set Worksheet = Timesheet.Sheets(SheetIdx + 1)
+    Worksheet.Cells(2, 3).Value = PersonName
+    Worksheet.Cells(2, 9).Value = Format(UTL_Week_FirstDay(Starting, vbMonday), "m/d/yyyy")
+    Worksheet.Cells(3, 9).Value = Format(UTL_Week_LastDay(Ending, vbMonday), "m/d/yyyy")
+    Set Row = Worksheet.Rows(7)
+    Columns = Array("E", "F", "G", "H", "I", "J", "K")
+    For I = 0 To UBound(Columns)
+        S = ""
+        For SheetIdx = 1 To UBound(TotalRow)
+            S = S & "+'Week " & SheetIdx & "'!" & Columns(I) & TotalRow(SheetIdx)
+        Next
+        Row.Cells(1, I + 5).Value = "=SUM(" & Mid(S, 2) & ")"
+    Next
+
+    Spreadsheet.DisplayAlerts = False
+    Timesheet.Sheets(1).Delete  'delete the template sheet
+    Spreadsheet.ActiveWorkbook.Save
+    Spreadsheet.DisplayAlerts = True
+
+    SetProgress "Finished Timesheet"
+    Spreadsheet.Quit
+
+End Function ' APP_Create_Excel_Timesheet
+
+Private Function Create_Timesheet_Week( _
+    ByRef Worksheet As Excel.Worksheet, _
+    PersonID As Long, _
+    PersonName As String, _
+    Starting As Date, _
+    Ending As Date, _
+    ByRef TotalRow As Integer _
+    ) As Boolean
+    Dim S As String
+    Dim Recs As New ADODB.Recordset
+    Dim RowIdx As Integer
+    Dim DataRow As Excel.Range
+    Dim Row As Excel.Range
+    Dim I As Integer
+    Dim Columns()
+
+    Create_Timesheet_Week = True    'assume OK
+
+    Worksheet.Cells(2, 3).Value = PersonName
+    Worksheet.Cells(2, 9).Value = Format(UTL_Week_FirstDay(Starting, vbMonday), "m/d/yyyy")
+    Worksheet.Cells(3, 9).Value = Format(UTL_Week_LastDay(Ending, vbMonday), "m/d/yyyy")
+
+    'The template saves a row formatted for data so we can copy it when needed:
+    Set DataRow = Worksheet.Rows(7)
+    RowIdx = 8 'Where to insert
+
+    'Set the parms for the v24_TAM_Timesheet crosstab query:
+    UTL_QueryParm_Set "starting", Format(Starting, "mm/dd/yyyy")
+    UTL_QueryParm_Set "ending", Format(Ending, "mm/dd/yyyy")
+    Set Recs.ActiveConnection = UTL_Connection
+    S = "SELECT * FROM v24_TAM_Timesheet WHERE Person_ID=" & PersonID
+    Recs.Open S, , adOpenStatic
+
+    If Recs.EOF Then Exit Function  'Leave timesheet as just the template
+
+    Do While Not Recs.EOF
+        DataRow.Copy
+        Worksheet.Rows(RowIdx).Insert
+        Set Row = Worksheet.Rows(RowIdx)
+        RowIdx = RowIdx + 1
+
+        Row.Cells(1, 2) = Recs!TaskName
+        Row.Cells(1, 3) = Recs!SubtaskName
+        Row.Cells(1, 4) = Left(Recs!SchoolName, 2)
+        Row.Cells(1, 5) = Recs!MON
+        Row.Cells(1, 6) = Recs!TUE
+        Row.Cells(1, 7) = Recs!WED
+        Row.Cells(1, 8) = Recs!THU
+        Row.Cells(1, 9) = Recs!FRI
+        Row.Cells(1, 10) = Recs!SAT
+        Row.Cells(1, 11) = Recs!SUN
+        Row.Cells(1, 12) = Recs!WeekHours
+        Row.Cells(1, 13) = Recs!ActionDesc
+
+        Recs.MoveNext
+    Loop
+    Recs.Close
+
+    Worksheet.Rows(7).Delete   'Delete this templating row
+    RowIdx = RowIdx - 1
+
+    'Get totals:
+    Set Row = Worksheet.Rows(RowIdx)
+    Columns = Array("E", "F", "G", "H", "I", "J", "K", "L")
+    For I = 0 To UBound(Columns)
+        Row.Cells(1, I + 5).Value = "=SUM(" & Columns(I) & "7:" & Columns(I) & RowIdx - 1 & ")"
+    Next
+
+    TotalRow = RowIdx
+
+End Function ' Create_Timesheet_Week
+
+Private Function Create_Invoice_Progress( _
+    ByRef Worksheet As Excel.Worksheet, _
+    Starting As Date, _
+    Ending As Date _
+    ) As Boolean
+    Dim Recs As New ADODB.Recordset
+    Dim S As String
+    Dim SubtaskID As Long
+    Dim ActionID As Long
+    Dim Hours As Currency
+    Dim RowIdx As Integer
+    Dim TaskRowIdx As Integer
+    Dim DataRow As Excel.Range
+    Dim EmptyRow As Excel.Range
+    Dim Row As Excel.Range
+
+    Set Recs.ActiveConnection = UTL_Connection
+
+    'The template saves an empty row and a row formatted for data so we can copy them when needed:
+    Set DataRow = Worksheet.Rows(6)
+    Set EmptyRow = Worksheet.Rows(5)
+    RowIdx = 7 'Where to insert
+
+    S = "SELECT * FROM v20_TAM_Invoice" & _
+        " WHERE LogDate BETWEEN #" & Starting & "# AND #" & Ending & "#" & _
+        " ORDER BY TaskName,SubtaskName,Action_ID"
+    Recs.Open S, , adOpenStatic
+    SubtaskID = 0      'Force Subtask break
+    TaskRowIdx = 0
+    Do While Not Recs.EOF
+        DoEvents
+
+        If SubtaskID <> Recs!Subtask_ID Then   'Subtask break
+            SubtaskID = Recs!Subtask_ID
+            ActionID = Recs!Action_ID
+            If TaskRowIdx > 0 Then
+                Set Row = Worksheet.Rows(TaskRowIdx)    'Totaled task hours
+                Row.Cells(1, 4).Value = Hours
+            End If
+            EmptyRow.Copy
+            Worksheet.Rows(RowIdx).Insert
+            RowIdx = RowIdx + 1
+            DataRow.Copy
+            Worksheet.Rows(RowIdx).Insert
+            TaskRowIdx = RowIdx
+            Hours = Recs!Hours
+            Set Row = Worksheet.Rows(RowIdx)
+            Row.Cells(1, 1) = Recs!TaskName
+            Row.Cells(1, 2) = Recs!SubtaskName
+            Row.Cells(1, 5) = Recs!ActionDesc
+            RowIdx = RowIdx + 1
+        Else
+            Hours = Hours + Recs!Hours
+        End If
+
+        If ActionID <> Recs!Action_ID Then
+            ActionID = Recs!Action_ID
+            EmptyRow.Copy
+            Worksheet.Rows(RowIdx).Insert
+            Set Row = Worksheet.Rows(RowIdx)
+            Row.Cells(1, 5) = Recs!ActionDesc
+            RowIdx = RowIdx + 1
+        End If
+
+        Recs.MoveNext
+    Loop
+
+    Worksheet.Rows(6).Delete   'Delete these templating rows
+    Worksheet.Rows(5).Delete
+    RowIdx = RowIdx - 2
+
+    'Get totals:
+    Set Row = Worksheet.Rows(RowIdx + 1)
+    Row.Cells(1, 4).Value = "=SUM(D6:D" & RowIdx - 1 & ")"
+
+End Function ' Create_Invoice_Progress
+
+Private Function Create_Invoice_LaborByStaff( _
+    ByRef Worksheet As Excel.Worksheet, _
+    ByRef Rates As Collection, _
+    Starting As Date, _
+    Ending As Date _
+    ) As Boolean
+    Dim Recs As New ADODB.Recordset
+    Dim S As String
+    Dim L As Long
+    Dim I As Integer
+    Dim PersonLastName As String
+    Dim PersonName As String
+    Dim PersonRates()
+    Dim recWeekStart As Date
+    Dim recRate As Currency
+    Dim RptState As Integer '-1=first time,1=lasttime
+    'report breaks-->
+    Dim PersonID As Long        'level 1 (top)
+    Dim WeekStart As Date       'level 2
+    Dim ActionID As Long        'level 3
+    Dim Rate As Currency        'level 4
+    '<--report breaks: totals-->
+    Dim Cost_4 As Currency      'level 4
+    Dim Hours_4 As Single       'level 4
+    'Dim Cost_1 As Currency      'level 1
+    'Dim Hours_1 As Single       'level 1
+    Dim RowIdx_1 As Integer     'start level 1 totaling
+    '<--totals
+    Dim RowIdx As Integer
+    Dim DataRow As Excel.Range
+    Dim EmptyRow As Excel.Range
+    Dim Row As Excel.Range
+
+    Set Recs.ActiveConnection = UTL_Connection
+
+    'The template saves an empty row and a row formatted for data so we can copy them when needed:
+    Set DataRow = Worksheet.Rows(6)
+    Set EmptyRow = Worksheet.Rows(7)
+    RowIdx = 8 'Where to insert
+
+    S = "SELECT * FROM v23_TAM_Invoice" & _
+        " WHERE LogDate BETWEEN #" & Starting & "# AND #" & Ending & "#" & _
+        " ORDER BY LastName,FirstName,WeekStart,Action_ID"
+    Recs.Open S, , adOpenStatic
+    RptState = -1   'First time thru
+    PersonID = 0        'Force the initial break
+    PersonLastName = ""
+    PersonRates = Rates(CStr(Recs!Person_ID)) 'need this first time thru
+    Do
+        DoEvents
+
+        If Recs.EOF Then
+            L = PersonID + 1 'force a break for trailers
+            RptState = 1    'last time thru
+        Else
+            L = Recs!Person_ID
+            For I = 1 To UBound(PersonRates)
+                If Recs!LogDate >= PersonRates(I, 1) Then
+                    recRate = PersonRates(I, 2)
+                    Exit For
+                End If
+            Next
+        End If
+
+        If PersonID <> L Then   'can't use Recs!Person_ID because not available at EOF
+            'Do trailers:
+            If RptState = -1 Then   'don't do trailers first time thru
+                RptState = 0
+            Else
+                GoSub RateTrailer
+                'GoSub ActionTrailer
+                'GoSub WeekTrailer
+                GoSub PersonTrailer
+            End If
+            'Do headers:
+            If RptState = 1 Then    'don't do headers last time thru
+                Exit Do             'we're done
+            Else
+                GoSub PersonHeader
+                'GoSub WeekHeader:
+                'GoSub ActionHeader
+                GoSub RateHeader
+            End If
+            'Reset break values:
+            PersonID = Recs!Person_ID
+            WeekStart = Recs!WeekStart
+            ActionID = Recs!Action_ID
+            Rate = recRate
+        ElseIf WeekStart <> Recs!WeekStart Then
+            'Do trailers:
+            GoSub RateTrailer
+            'GoSub ActionTrailer
+            'GoSub WeekTrailer
+            'Do headers:
+            'GoSub WeekHeader:
+            'GoSub ActionHeader
+            GoSub RateHeader
+            'Reset break values:
+            WeekStart = Recs!WeekStart
+            ActionID = Recs!Action_ID
+            Rate = recRate
+        ElseIf ActionID <> Recs!Action_ID Then
+            'Do trailers:
+            GoSub RateTrailer
+            'GoSub ActionTrailer
+            'Do headers:
+            'GoSub ActionHeader
+            GoSub RateHeader
+            'Reset break values:
+            ActionID = Recs!Action_ID   'reset break value
+            Rate = recRate
+        ElseIf Rate <> recRate Then
+            'Do trailers:
+            GoSub RateTrailer
+            'Do headers:
+            GoSub RateHeader
+            'Reset break values:
+            Rate = recRate
+        End If
+
+        Hours_4 = Hours_4 + Recs!Hours
+        Cost_4 = Cost_4 + (Recs!Hours * recRate)
+
+        Recs.MoveNext
+    Loop
+
+    'Get totals:
+    Row.Cells(1, 10).Value = "=SUM(I6:I" & RowIdx - 1 & ")/2"
+
+    Worksheet.Rows(7).Delete   'Delete these templating rows
+    Worksheet.Rows(6).Delete
+    RowIdx = RowIdx - 2
+
+    Exit Function
+
+PersonHeader:
+    'Hours_1 = 0
+    'Cost_1 = 0
+    PersonRates = Rates(CStr(Recs!Person_ID))
+    For I = 1 To UBound(PersonRates)    'Have to recalc the rate
+        If Recs!LogDate >= PersonRates(I, 1) Then
+            recRate = PersonRates(I, 2)
+            Exit For
+        End If
+    Next
+    If PersonLastName = Recs!LastName Then
+        PersonName = PersonLastName & ", " & Recs!FirstName
+    Else
+        PersonLastName = Recs!LastName
+        PersonName = PersonLastName
+    End If
+    RowIdx_1 = RowIdx
+    Return
+
+RateHeader:
+    Hours_4 = 0
+    Cost_4 = 0
+    Return
+
+RateTrailer:
+    DataRow.Copy
+    Worksheet.Rows(RowIdx).Insert
+    Set Row = Worksheet.Rows(RowIdx)
+    RowIdx = RowIdx + 1
+    Recs.MovePrevious
+    Row.Cells(1, 1).Value = Format(WeekStart, "m/d/yy")
+    Row.Cells(1, 2).Value = PersonName
+    Row.Cells(1, 3).Value = Rate
+    Row.Cells(1, 4).Value = Recs!TaskName
+    Row.Cells(1, 5).Value = Recs!SubtaskName
+    Row.Cells(1, 6).Value = Recs!SchoolName
+    Row.Cells(1, 7).Value = Format(Hours_4, "0.00")
+    Row.Cells(1, 8).Value = Recs!ActionDesc
+    Row.Cells(1, 9).Value = Cost_4
+    Recs.MoveNext
+    'Hours_1 = Hours_1 + Hours_4
+    'Cost_1 = Cost_1 + Cost_4
+    Return
+
+PersonTrailer:
+    DataRow.Copy
+    Worksheet.Rows(RowIdx).Insert
+    Set Row = Worksheet.Rows(RowIdx)
+    RowIdx = RowIdx + 1
+    Row.Cells(1, 1).Value = ""
+    Row.Cells(1, 2).Value = ""
+    Row.Cells(1, 3).Value = ""
+    Row.Cells(1, 4).Value = ""
+    Row.Cells(1, 5).Value = ""
+    Row.Cells(1, 6).Value = ""
+    'Row.Cells(1, 7).Value = Format(Hours_1, "0.00")
+    Row.Cells(1, 7).Value = "=SUM(G" & RowIdx_1 & ":G" & RowIdx - 2 & ")"
+    Row.Cells(1, 7).Interior.Color = RGB(255, 255, 0) 'yellow
+    Row.Cells(1, 8).Value = ""
+    'Row.Cells(1, 9).Value = Cost_1
+    Row.Cells(1, 9).Value = "=SUM(I" & RowIdx_1 & ":I" & RowIdx - 2 & ")"
+    Row.Cells(1, 9).Interior.Color = RGB(255, 255, 0) 'yellow
+    EmptyRow.Copy
+    Worksheet.Rows(RowIdx).Insert
+    RowIdx = RowIdx + 1
+    Return
+
+End Function ' Create_Invoice_LaborByStaff
+
+Private Function Create_Invoice_LaborByTask( _
+    ByRef Worksheet As Excel.Worksheet, _
+    ByRef Rates As Collection, _
+    Starting As Date, _
+    Ending As Date _
+    ) As Boolean
+    Dim Recs As New ADODB.Recordset
+    Dim S As String
+    Dim L As Long
+    Dim I As Integer
+    Dim PersonRates()
+    Dim recWeekStart As Date
+    Dim recRate As Currency
+    Dim RptState As Integer '-1=first time,1=lasttime
+    'report breaks-->
+    Dim TaskID As Long          'level 1 (top)
+    Dim SubtaskID               'level 2
+    Dim WeekStart As Date       'level 3
+    Dim PersonID As Long        'level 4 (top)
+    Dim ActionID As Long        'level 5
+    Dim Rate As Currency        'level 6
+    '<--report breaks: totals-->
+    Dim Cost_6 As Currency      'level 6
+    Dim Hours_6 As Single       'level 6
+    'Dim Cost_0 As Currency      'Grand total
+    'Dim Hours_0 As Single       'Grand total
+    '<--totals
+    Dim TaskStartRow As Integer
+    Dim SubtaskStartRow As Integer
+    Dim RowIdx As Integer
+    Dim DataRow As Excel.Range
+    Dim EmptyRow As Excel.Range
+    Dim Row As Excel.Range
+
+    Set Recs.ActiveConnection = UTL_Connection
+
+    'The template saves an empty row and a row formatted for data so we can copy them when needed:
+    Set DataRow = Worksheet.Rows(6)
+    Set EmptyRow = Worksheet.Rows(7)
+    RowIdx = 8 'Where to insert
+
+    S = "SELECT * FROM v23_TAM_Invoice" & _
+        " WHERE LogDate BETWEEN #" & Starting & "# AND #" & Ending & "#" & _
+        " ORDER BY TaskName,SubtaskName,WeekStart,Person_ID,Action_ID"
+    Recs.Open S, , adOpenStatic
+    RptState = -1   'First time thru
+    WeekStart = DateSerial(2005, 1, 1)  'Force the initial break
+    PersonRates = Rates(CStr(Recs!Person_ID))   'need this first time thru
+    TaskStartRow = RowIdx - 1
+    SubtaskStartRow = TaskStartRow
+    Do
+        DoEvents
+
+        If Recs.EOF Then
+            L = TaskID + 1  'force a break for trailers
+            RptState = 1    'last time thru
+        Else
+            L = Recs!Task_ID
+            For I = 1 To UBound(PersonRates)
+                If Recs!LogDate >= PersonRates(I, 1) Then
+                    recRate = PersonRates(I, 2)
+                    Exit For
+                End If
+            Next
+        End If
+
+        If TaskID <> L Then   'can't use Recs!Task_ID because not available at EOF
+            'Do trailers:
+            If RptState = -1 Then   'don't do trailers first time thru
+                RptState = 0
+            Else
+                GoSub RateTrailer
+                'GoSub ActionTrailer
+                'GoSub PersonTrailer
+                'GoSub WeekTrailer
+                GoSub SubtaskTrailer
+                GoSub TaskTrailer
+            End If
+            'Do headers:
+            If RptState = 1 Then    'don't do headers last time thru
+                Exit Do             'we're done
+            Else
+                'GoSub TaskHeader
+                'GoSub SubtaskHeader
+                'GoSub WeekHeader
+                GoSub PersonHeader
+                'GoSub ActionHeader
+                GoSub RateHeader
+            End If
+            'Reset break values:
+            TaskID = Recs!Task_ID
+            SubtaskID = Recs!Subtask_ID
+            WeekStart = Recs!WeekStart
+            PersonID = Recs!Person_ID
+            ActionID = Recs!Action_ID
+            Rate = recRate
+        ElseIf SubtaskID <> Recs!Subtask_ID Then
+            'Do trailers:
+            GoSub RateTrailer
+            'GoSub ActionTrailer
+            'GoSub PersonTrailer
+            'GoSub WeekTrailer
+            GoSub SubtaskTrailer
+            'Do headers:
+            'GoSub SubtaskHeader
+            'GoSub WeekHeader
+            GoSub PersonHeader
+            'GoSub ActionHeader
+            GoSub RateHeader
+            'Reset break values:
+            SubtaskID = Recs!Subtask_ID
+            WeekStart = Recs!WeekStart
+            PersonID = Recs!Person_ID
+            ActionID = Recs!Action_ID
+            Rate = recRate
+        ElseIf WeekStart <> Recs!WeekStart Then
+            'Do trailers:
+            GoSub RateTrailer
+            'GoSub ActionTrailer
+            'GoSub PersonTrailer
+            'GoSub WeekTrailer
+            'Do headers:
+            'GoSub WeekHeader
+            GoSub PersonHeader
+            'GoSub ActionHeader
+            GoSub RateHeader
+            'Reset break values:
+            WeekStart = Recs!WeekStart
+            PersonID = Recs!Person_ID
+            ActionID = Recs!Action_ID
+            Rate = recRate
+        ElseIf PersonID <> Recs!Person_ID Then
+            'Do trailers:
+            GoSub RateTrailer
+            'GoSub ActionTrailer
+            'GoSub PersonTrailer
+            'Do headers:
+            GoSub PersonHeader
+            'GoSub ActionHeader
+            GoSub RateHeader
+            'Reset break values:
+            PersonID = Recs!Person_ID
+            ActionID = Recs!Action_ID
+            Rate = recRate
+        ElseIf ActionID <> Recs!Action_ID Then
+            'Do trailers:
+            GoSub RateTrailer
+            'GoSub ActionTrailer
+            'Do headers:
+            'GoSub ActionHeader
+            GoSub RateHeader
+            'Reset break values:
+            ActionID = Recs!Action_ID   'reset break value
+            Rate = recRate
+        ElseIf Rate <> recRate Then
+            'Do trailers:
+            GoSub RateTrailer
+            'Do headers:
+            GoSub RateHeader
+            'Reset break values:
+            Rate = recRate
+        End If
+
+        Hours_6 = Hours_6 + Recs!Hours
+        Cost_6 = Cost_6 + (Recs!Hours * recRate)
+
+        Recs.MoveNext
+    Loop
+
+    'Get totals:
+    Set Row = Worksheet.Rows(RowIdx)
+    Row.Cells(1, 7).Value = "=SUM(G6:G" & RowIdx - 1 & ")"
+    Row.Cells(1, 9).Value = "=SUM(I6:I" & RowIdx - 1 & ")"
+
+    Worksheet.Rows(7).Delete   'Delete these templating rows
+    Worksheet.Rows(6).Delete
+    RowIdx = RowIdx - 2
+
+    Exit Function
+
+PersonHeader:
+    PersonRates = Rates(CStr(Recs!Person_ID))
+    For I = 1 To UBound(PersonRates)    'Have to recalc the rate
+        If Recs!LogDate >= PersonRates(I, 1) Then
+            recRate = PersonRates(I, 2)
+            Exit For
+        End If
+    Next
+    Return
+
+RateHeader:
+    Hours_6 = 0
+    Cost_6 = 0
+    Return
+
+RateTrailer:
+    DataRow.Copy
+    Worksheet.Rows(RowIdx).Insert
+    Set Row = Worksheet.Rows(RowIdx)
+    RowIdx = RowIdx + 1
+    Recs.MovePrevious
+    Row.Cells(1, 1).Value = Format(WeekStart, "m/d/yy")
+    Row.Cells(1, 2).Value = Recs!LastName
+    Row.Cells(1, 3).Value = Rate
+    Row.Cells(1, 4).Value = Recs!TaskName
+    Row.Cells(1, 5).Value = Recs!SubtaskName
+    Row.Cells(1, 6).Value = Recs!SchoolName
+    Row.Cells(1, 7).Value = Format(Hours_6, "0.00")
+    Row.Cells(1, 8).Value = Recs!ActionDesc
+    Row.Cells(1, 9).Value = Cost_6
+    Recs.MoveNext
+    'Hours_0 = Hours_0 + Hours_6
+    'Cost_0 = Cost_0 + Cost_6
+    Return
+
+SubtaskTrailer:
+    Row.Cells(1, 10).Value = "=SUM(I" & SubtaskStartRow & ":I" & RowIdx - 1 & ")"
+    SubtaskStartRow = RowIdx
+    Return
+
+TaskTrailer:
+    Row.Cells(1, 11).Value = "=SUM(I" & TaskStartRow & ":I" & RowIdx - 1 & ")"
+    TaskStartRow = RowIdx
+    Return
+
+End Function ' Create_Invoice_LaborByTask
+
+Private Function Create_Invoice_LaborExpByTask( _
+    ByRef Worksheet As Excel.Worksheet, _
+    ByRef Rates As Collection, _
+    Starting As Date, _
+    Ending As Date _
+    ) As Boolean
+    Dim Recs As New ADODB.Recordset
+    Dim S As String
+    Dim L As Long
+    Dim I As Integer
+    Dim PersonRates()
+    Dim recWeekStart As Date
+    Dim recRate As Currency
+    Dim RptState As Integer '-1=first time,1=lasttime
+    'report breaks-->
+    Dim TaskID As Long          'level 1 (top)
+    Dim SubtaskID               'level 2
+    Dim WeekStart As Date       'level 3
+    Dim PersonID As Long        'level 4 (top)
+    Dim ActionID As Long        'level 5
+    Dim Rate As Currency        'level 6
+    '<--report breaks: totals-->
+    Dim Cost_6 As Currency      'level 6
+    Dim Hours_6 As Single       'level 6
+    Dim RowIdx_1 As Long        'start level 1 totaling
+    Dim LaborTotal As String
+    Dim ExpenseTotal As String
+    'Dim Cost_0 As Currency      'Grand total
+    'Dim Hours_0 As Single       'Grand total
+    '<--totals
+    Dim RowIdx As Integer
+    Dim DataRow As Excel.Range
+    Dim EmptyRow As Excel.Range
+    Dim DividerRow As Excel.Range
+    Dim Row As Excel.Range
+
+    Set Recs.ActiveConnection = UTL_Connection
+
+    'The template saves an empty row and a row formatted for data so we can copy them when needed:
+    Set DataRow = Worksheet.Rows(8)
+    Set EmptyRow = Worksheet.Rows(7)
+    Set DividerRow = Worksheet.Rows(9)
+    RowIdx = 10 'Where to insert
+
+    S = "SELECT * FROM v23_TAM_Invoice" & _
+        " WHERE LogDate BETWEEN #" & Starting & "# AND #" & Ending & "#" & _
+        " ORDER BY TaskName,SubtaskName,WeekStart,Person_ID,Action_ID"
+    Recs.Open S, , adOpenStatic
+    RptState = -1   'First time thru
+    WeekStart = DateSerial(2005, 1, 1)  'Force the initial break
+    PersonRates = Rates(CStr(Recs!Person_ID)) 'need this first time thru
+    LaborTotal = ""
+    ExpenseTotal = ""
+    Do
+        DoEvents
+
+        If Recs.EOF Then
+            L = TaskID + 1  'force a break for trailers
+            RptState = 1    'last time thru
+        Else
+            L = Recs!Task_ID
+            For I = 1 To UBound(PersonRates)
+                If Recs!LogDate >= PersonRates(I, 1) Then
+                    recRate = PersonRates(I, 2)
+                    Exit For
+                End If
+            Next
+        End If
+
+        If TaskID <> L Then   'can't use Recs!Task_ID because not available at EOF
+            'Do trailers:
+            If RptState = -1 Then   'don't do trailers first time thru
+                RptState = 0
+            Else
+                GoSub RateTrailer
+                'GoSub ActionTrailer
+                'GoSub PersonTrailer
+                'GoSub WeekTrailer
+                'GoSub SubtaskTrailer
+                GoSub TaskTrailer
+            End If
+            'Do headers:
+            If RptState = 1 Then    'don't do headers last time thru
+                Exit Do             'we're done
+            Else
+                GoSub TaskHeader
+                'GoSub SubtaskHeader
+                'GoSub WeekHeader
+                GoSub PersonHeader
+                'GoSub ActionHeader
+                GoSub RateHeader
+            End If
+            'Reset break values:
+            TaskID = Recs!Task_ID
+            SubtaskID = Recs!Subtask_ID
+            WeekStart = Recs!WeekStart
+            PersonID = Recs!Person_ID
+            ActionID = Recs!Action_ID
+            Rate = recRate
+        ElseIf SubtaskID <> Recs!Subtask_ID Then
+            'Do trailers:
+            GoSub RateTrailer
+            'GoSub ActionTrailer
+            'GoSub PersonTrailer
+            'GoSub WeekTrailer
+            'GoSub SubtaskTrailer
+            'Do headers:
+            'GoSub SubtaskHeader
+            'GoSub WeekHeader
+            GoSub PersonHeader
+            'GoSub ActionHeader
+            GoSub RateHeader
+            'Reset break values:
+            SubtaskID = Recs!Subtask_ID
+            WeekStart = Recs!WeekStart
+            PersonID = Recs!Person_ID
+            ActionID = Recs!Action_ID
+            Rate = recRate
+        ElseIf WeekStart <> Recs!WeekStart Then
+            'Do trailers:
+            GoSub RateTrailer
+            'GoSub ActionTrailer
+            'GoSub PersonTrailer
+            'GoSub WeekTrailer
+            'Do headers:
+            'GoSub WeekHeader
+            GoSub PersonHeader
+            'GoSub ActionHeader
+            GoSub RateHeader
+            'Reset break values:
+            WeekStart = Recs!WeekStart
+            PersonID = Recs!Person_ID
+            ActionID = Recs!Action_ID
+            Rate = recRate
+        ElseIf PersonID <> Recs!Person_ID Then
+            'Do trailers:
+            GoSub RateTrailer
+            'GoSub ActionTrailer
+            'GoSub PersonTrailer
+            'Do headers:
+            GoSub PersonHeader
+            'GoSub ActionHeader
+            GoSub RateHeader
+            'Reset break values:
+            PersonID = Recs!Person_ID
+            ActionID = Recs!Action_ID
+            Rate = recRate
+        ElseIf ActionID <> Recs!Action_ID Then
+            'Do trailers:
+            GoSub RateTrailer
+            'GoSub ActionTrailer
+            'Do headers:
+            'GoSub ActionHeader
+            GoSub RateHeader
+            'Reset break values:
+            ActionID = Recs!Action_ID   'reset break value
+            Rate = recRate
+        ElseIf Rate <> recRate Then
+            'Do trailers:
+            GoSub RateTrailer
+            'Do headers:
+            GoSub RateHeader
+            'Reset break values:
+            Rate = recRate
+        End If
+
+        Hours_6 = Hours_6 + Recs!Hours
+        Cost_6 = Cost_6 + (Recs!Hours * recRate)
+
+        Recs.MoveNext
+    Loop
+
+    'Get totals:
+    Set Row = Worksheet.Rows(RowIdx)
+    Row.Cells(1, 9).Value = "=SUM(" & Mid(LaborTotal, 2) & ")"
+    Set Row = Worksheet.Rows(RowIdx + 1)
+    Row.Cells(1, 9).Value = "=SUM(" & Mid(ExpenseTotal, 2) & ")"
+    Set Row = Worksheet.Rows(RowIdx + 2)
+    Row.Cells(1, 7).Value = "=SUM(G6:G" & RowIdx - 2 & ")"         'total hours
+    Set Row = Worksheet.Rows(RowIdx + 3)
+    Row.Cells(1, 9).Value = "=SUM(I" & RowIdx & ":I" & RowIdx + 1 & ")" 'invoice total
+
+    Worksheet.Rows(9).Delete   'Delete these templating rows
+    Worksheet.Rows(8).Delete
+    Worksheet.Rows(7).Delete
+    RowIdx = RowIdx - 2
+
+    Exit Function
+
+TaskHeader:
+    EmptyRow.Copy
+    Worksheet.Rows(RowIdx).Insert
+    Set Row = Worksheet.Rows(RowIdx)
+    RowIdx = RowIdx + 1
+    Row.Cells(1, 1).Value = "Task " & Recs!TaskName & ": Labor"
+    RowIdx_1 = RowIdx
+    Return
+
+PersonHeader:
+    PersonRates = Rates(CStr(Recs!Person_ID))
+    For I = 1 To UBound(PersonRates)    'Have to recalc the rate
+        If Recs!LogDate >= PersonRates(I, 1) Then
+            recRate = PersonRates(I, 2)
+            Exit For
+        End If
+    Next
+    Return
+
+RateHeader:
+    Hours_6 = 0
+    Cost_6 = 0
+    Return
+
+RateTrailer:
+    DataRow.Copy
+    Worksheet.Rows(RowIdx).Insert
+    Set Row = Worksheet.Rows(RowIdx)
+    RowIdx = RowIdx + 1
+    Recs.MovePrevious
+    Row.Cells(1, 1).Value = Format(WeekStart, "m/d/yy")
+    Row.Cells(1, 2).Value = Recs!LastName
+    Row.Cells(1, 3).Value = Rate
+    Row.Cells(1, 4).Value = Recs!TaskName
+    Row.Cells(1, 5).Value = Recs!SubtaskName
+    Row.Cells(1, 6).Value = Recs!SchoolName
+    Row.Cells(1, 7).Value = Format(Hours_6, "0.00")
+    Row.Cells(1, 8).Value = Recs!ActionDesc
+    Row.Cells(1, 9).Value = Cost_6
+    Recs.MoveNext
+    'Hours_0 = Hours_0 + Hours_6
+    'Cost_0 = Cost_0 + Cost_6
+    Return
+
+TaskTrailer:
+    EmptyRow.Copy
+    Worksheet.Rows(RowIdx).Insert
+    Set Row = Worksheet.Rows(RowIdx)
+    RowIdx = RowIdx + 1
+    Row.Cells(1, 9).Value = "=SUM(I" & RowIdx_1 & ":I" & RowIdx - 2 & ")"
+    LaborTotal = LaborTotal & "+I" & RowIdx - 1
+    L = RowIdx - 1      'For task total sum below
+    EmptyRow.Copy
+    Worksheet.Rows(RowIdx).Insert
+    Set Row = Worksheet.Rows(RowIdx)
+    RowIdx = RowIdx + 1
+    Recs.MovePrevious
+    Row.Cells(1, 1).Value = "Task " & Recs!TaskName & ": Expenses"
+    DataRow.Copy
+    Worksheet.Rows(RowIdx).Insert
+    Set Row = Worksheet.Rows(RowIdx)
+    RowIdx = RowIdx + 1
+    Row.Cells(1, 1).Value = ""
+    Row.Cells(1, 2).Value = ""
+    Row.Cells(1, 3).Value = ""
+    Row.Cells(1, 4).Value = ""
+    Row.Cells(1, 5).Value = ""
+    Row.Cells(1, 6).Value = ""
+    Row.Cells(1, 7).Value = ""
+    Row.Cells(1, 8).Value = "N/A"
+    Row.Cells(1, 9).Value = 0
+    EmptyRow.Copy
+    Worksheet.Rows(RowIdx).Insert
+    Set Row = Worksheet.Rows(RowIdx)
+    RowIdx = RowIdx + 1
+    Row.Cells(1, 9).Value = "=SUM(I" & RowIdx - 2 & ":I" & RowIdx - 2 & ")"
+    ExpenseTotal = ExpenseTotal & "+I" & RowIdx - 1
+    EmptyRow.Copy
+    Worksheet.Rows(RowIdx).Insert
+    Set Row = Worksheet.Rows(RowIdx)
+    RowIdx = RowIdx + 1
+    Row.Cells(1, 1).Value = "Task " & Recs!TaskName & ": Total"
+    Recs.MoveNext
+    EmptyRow.Copy
+    Worksheet.Rows(RowIdx).Insert
+    Set Row = Worksheet.Rows(RowIdx)
+    RowIdx = RowIdx + 1
+    Row.Cells(1, 9).Value = "=SUM(I" & L & "+I" & RowIdx - 3 & ")"
+    DividerRow.Copy
+    Worksheet.Rows(RowIdx).Insert
+    RowIdx = RowIdx + 1
+    EmptyRow.Copy
+    Worksheet.Rows(RowIdx).Insert
+    RowIdx = RowIdx + 1
+    Return
+
+End Function ' Create_Invoice_LaborExpByTask
+
+Private Function Create_Invoice_Summary( _
+    ByRef Worksheet As Excel.Worksheet, _
+    ByRef Rates As Collection, _
+    Starting As Date, _
+    Ending As Date _
+    ) As Boolean
+    Dim Recs As New ADODB.Recordset
+    Dim TaskSearch As New Collection   'For reverse search: key=Task name, item=offset into data arrays
+    Dim TaskName() As String
+    Dim TaskDesc() As String
+    Dim TaskBudget() As Currency
+    Dim TaskSpentNow() As Currency
+    Dim TaskSpentBefore() As Currency
+    Dim S As String
+    Dim I As Integer
+    Dim PersonRates()
+    Dim Rate As Currency
+    Dim RowIdx As Integer
+    Dim DataRow As Excel.Range
+    Dim EmptyRow As Excel.Range
+    Dim Row As Excel.Range
+    Dim TaskGroup As String 'First char of task name - put an empty row between groups
+
+    Set Recs.ActiveConnection = UTL_Connection
+
+    'Get basic task info for all tasks:
+    S = "SELECT * FROM v21_TAM_Invoice"
+    Recs.Open S, , adOpenStatic
+    ReDim TaskName(Recs.RecordCount)
+    ReDim TaskDesc(Recs.RecordCount)
+    ReDim TaskBudget(Recs.RecordCount)
+    ReDim TaskSpentNow(Recs.RecordCount)
+    ReDim TaskSpentBefore(Recs.RecordCount)
+    I = 1
+    Do While Not Recs.EOF
+        TaskSearch.Add I, Recs!TaskName
+        TaskName(I) = Recs!TaskName
+        TaskDesc(I) = Recs!TaskDesc
+        TaskBudget(I) = Recs!Budget
+        TaskSpentNow(I) = 0
+        TaskSpentBefore(I) = 0
+        I = I + 1
+        Recs.MoveNext
+    Loop
+    Recs.Close
+
+    'Get this period info ordered by TaskName,Person_ID,LogDate:
+    S = "SELECT * FROM v20_TAM_Invoice" & _
+        " WHERE LogDate BETWEEN #" & Starting & "# AND #" & Ending & "#"
+    Recs.Open S, , adOpenStatic
+    Do While Not Recs.EOF
+        PersonRates = Rates(CStr(Recs!Person_ID))
+        For I = 1 To UBound(PersonRates)
+            If Recs!LogDate >= PersonRates(I, 1) Then
+                Rate = PersonRates(I, 2)
+                Exit For
+            End If
+        Next
+        I = TaskSearch.Item(Recs!TaskName)   'offset into data arrays
+        TaskSpentNow(I) = TaskSpentNow(I) + (Rate * Recs!Hours)
+        Recs.MoveNext
+    Loop
+    Recs.Close
+
+    'Get previously spent info ordered by TaskName,Person_ID,LogDate:
+    S = "SELECT * FROM v20_TAM_Invoice" & _
+        " WHERE LogDate < #" & Starting & "#"
+    Recs.Open S, , adOpenStatic
+    Do While Not Recs.EOF
+        PersonRates = Rates(CStr(Recs!Person_ID))
+        For I = 1 To UBound(PersonRates)
+            If Recs!LogDate >= PersonRates(I, 1) Then
+                Rate = PersonRates(I, 2)
+                Exit For
+            End If
+        Next
+        I = TaskSearch.Item(Recs!TaskName)   'offset into data arrays
+        TaskSpentBefore(I) = TaskSpentBefore(I) + (Rate * Recs!Hours)
+        Recs.MoveNext
+    Loop
+    Recs.Close
+
+    'Now, use the above data to create the Invoice Summary worksheet:
+    'Set header stuff:
+    Worksheet.Cells(4, 1).Value = "Period: " & Format(Starting, "mmmm") & " 1-" & _
+                                Format(UTL_Month_LastDay(Starting), "d") & ", " & Format(Starting, "yyyy")
+    Worksheet.Cells(5, 1).Value = "Date: " & Format(Now(), "mmmm d, yyyy")
+
+    'The template saves an empty row and a row formatted for data so we can copy them when needed:
+    Set DataRow = Worksheet.Rows(16)
+    Set EmptyRow = Worksheet.Rows(17)
+    RowIdx = 18 'Where to insert
+
+    'Create the task data rows:
+    TaskGroup = Left(TaskName(1), 1) 'When TaskGroup changes, put in an empty row
+    For I = 1 To UBound(TaskName)
+        If Left(TaskName(I), 1) <> TaskGroup Then
+            EmptyRow.Copy
+            Worksheet.Rows(RowIdx).Insert
+            TaskGroup = Left(TaskName(I), 1)
+            RowIdx = RowIdx + 1
+        End If
+        DataRow.Copy
+        Worksheet.Rows(RowIdx).Insert
+        Set Row = Worksheet.Rows(RowIdx)
+        RowIdx = RowIdx + 1
+        Row.Cells(1, 1).Value = TaskName(I)         'Task name
+        Row.Cells(1, 2).Value = TaskDesc(I)         'Task description
+        Row.Cells(1, 3).Value = TaskBudget(I)       'Budgeted
+        Row.Cells(1, 4).Value = TaskSpentNow(I)     'Spent this Period
+        Row.Cells(1, 5).Value = TaskSpentBefore(I)  'Previously spent
+    Next
+
+    'Get totals:
+    Set Row = Worksheet.Rows(RowIdx + 2)
+    Row.Cells(1, 3).Value = "=SUM(C16:C" & RowIdx - 1 & ")"
+    Row.Cells(1, 4).Value = "=SUM(D16:D" & RowIdx - 1 & ")"
+    Row.Cells(1, 5).Value = "=SUM(E16:E" & RowIdx - 1 & ")"
+
+    Worksheet.Rows(17).Delete   'Delete these templating rows
+    Worksheet.Rows(16).Delete
+    RowIdx = RowIdx - 2
+
+End Function ' Create_Invoice_Summary
+
+Private Function Load_Timesheet( _
+    ByRef Worksheet As Excel.Worksheet _
+    ) As Boolean
+    Dim ErrMsg As New Collection
+    Dim I As Integer
+    Dim Starting As Date
+    Dim Ending As Date
+    Dim S As String
+    Dim Recs As New ADODB.Recordset
+    Dim Person_ID As Long
+    Dim Row As Excel.Range
+    Dim EmpName As String
+
+    Load_Timesheet = False    'assume bad
+
+    If Mode = Verify Then
+        SetProgress "Verifying sheet " & Worksheet.Name
+    Else
+        SetProgress "Loading sheet " & Worksheet.Name
+    End If
+
+    If InStr(Worksheet.Cells(1, 1).Value, "timesheet") = 0 Then
+        ErrMsg.Add ("...No 'Timesheet' header exists")
+    End If
+    If Trim(Worksheet.Cells(2, 1).Value) <> "employee:" Then
+        ErrMsg.Add "...No 'Employee' header exists"
+    End If
+    If (Left(Worksheet.Cells(2, 7).Value, 4) <> "week") Or (Left(Worksheet.Cells(3, 7).Value, 4) <> "week") Then
+        ErrMsg.Add "...No 'Week Starting/Ending' header exists"
+    End If
+    If ErrMsg.Count > 0 Then
+        SetProgress ("This file does not appear to be a valid timesheet because")
+        For I = 1 To ErrMsg.Count
+            SetProgress (ErrMsg.Item(I))
+        Next
+        Exit Function
+    End If
+
+    S = IIf(Worksheet.Cells(2, 9).Value = "", Worksheet.Cells(2, 10).Value, Worksheet.Cells(2, 9).Value)
+    If S = "" Then  'blank dates are considered to be unused worksheets
+        Load_Timesheet = True
+        Exit Function
+    End If
+    I = InStr(S, ".")
+    Do While I > 0
+        S = Left(S, I - 1) & "/" & Mid(S, I + 1)
+        I = InStr(S, ".")
+    Loop
+    If IsDate(S) Then
+        Starting = S
+    Else
+        SetProgress (S & " is an invalid starting date")
+        Exit Function
+    End If
+    S = IIf(Worksheet.Cells(3, 9).Value = "", Worksheet.Cells(3, 10).Value, Worksheet.Cells(3, 9).Value)
+    I = InStr(S, ".")
+    Do While I > 0
+        S = Left(S, I - 1) & "/" & Mid(S, I + 1)
+        I = InStr(S, ".")
+    Loop
+    If IsDate(S) Then
+        Ending = S
+    Else
+        SetProgress (S & " is an invalid ending date")
+        Exit Function
+    End If
+    SetProgress "For time interval " & Format(Starting, "General Date") & " to " & Format(Ending, "General Date")
+    If Starting > Ending Then
+        SetProgress "Starting date is after ending date"
+        Exit Function
+    End If
+
+    S = "SELECT P.Person_ID, P.FirstName, P.LastName, A.FirstName AS AliasFirst, A.LastName AS AliasLast" & _
+        " FROM t10_Person AS P LEFT JOIN t12_PersonAlias AS A" & _
+        " ON P.Person_ID=A.Person_IDRef"
+    Set Recs.ActiveConnection = UTL_Connection
+    Recs.Open S, , adOpenStatic
+    EmpName = Trim(Worksheet.Cells(2, 3).Value)
+    If EmpName = "" Then EmpName = Trim(Worksheet.Cells(2, 4).Value)
+    Do While Not Recs.EOF
+        If (Recs!FirstName & " " & Recs!LastName) = EmpName Then
+            Exit Do
+        End If
+        If (Recs!AliasFirst & " " & Recs!AliasLast) = EmpName Then
+            EmpName = Recs!FirstName & " " & Recs!LastName
+            Exit Do
+        End If
+        Recs.MoveNext
+    Loop
+    If Recs.EOF Then
+        SetProgress ("Employee " & EmpName & " is not in our data base")
+        Exit Function
+    Else
+        Person_ID = Recs!Person_ID
+    End If
+    Recs.Close
+    Set Recs = Nothing
+    SetProgress "For employee " & EmpName
+
+    If Trim(Worksheet.Cells(5, 1).Value) <> "work cat" Then
+        SetProgress "Can't find beginning of time log (Work Cat heading)"
+        Exit Function
+    End If
+
+    I = 7   'actual time-log rows begin here
+    Do
+        Set Row = Worksheet.Rows(I)
+        S = Trim(Row.Cells(1).Value)
+        If (S = "totals") Or (S = "mcbc") Then Exit Do
+        If (S = "TAM") And (Trim(Row.Cells(2).Value) <> "") Then
+            If Not Load_Row(Row, Starting, Ending, Person_ID) Then
+                SetProgress "Row " & I & " not verified"
+                Exit Function
+            End If
+        End If
+        I = I + 1
+        If I > 200 Then
+            SetProgress "Processed 200 rows!  Assumed in a loop."
+            Exit Function
+        End If
+    Loop
+
+    If Mode = Verify Then
+        SetProgress "Sheet " & Worksheet.Name & " verified OK"
+    Else
+        SetProgress "Sheet " & Worksheet.Name & " loaded OK"
+    End If
+
+    Load_Timesheet = True
+
+End Function ' Load_Timesheet
+
+Private Function Load_Row( _
+    ByRef Row As Excel.Range, _
+    Starting As Date, _
+    Ending As Date, _
+    Person_ID As Long _
+    ) As Boolean
+    Dim ProjectName As String
+    Dim Project_ID As Long
+    Dim ProjectEnd As Variant
+    Dim TaskName As String
+    Dim Task_ID As Long
+    Dim TaskEnd As Variant
+    Dim SubtaskName As String
+    Dim Subtask_ID As Long
+    Dim SubtaskEnd As Variant
+    Dim S As String
+    Dim Recs As New ADODB.Recordset
+    Dim ProjPropName_ID_School As Long
+    Dim SchoolName As String
+    Dim ProjPropEnum_ID_School As Long
+    Dim TimeLog_ID As Long
+    Dim ActionDesc As String
+    Dim Action_ID As Long
+    Dim ActionEnd As Variant
+    Dim LogDate As Date
+    Dim I As Integer
+    Dim Hours As Single
+
+    Load_Row = False  'assume bad
+
+    Set Recs.ActiveConnection = UTL_Connection
+
+    ProjectName = Trim(Row.Cells(1).Value)
+    S = "SELECT Project_ID, Inactive_AsOf FROM t02_Project WHERE Name = '" & ProjectName & "'"
+    Recs.Open S, , adOpenStatic
+    If Recs.EOF Then
+        SetProgress "Unable to find project '" & ProjectName & "'"
+        Exit Function
+    End If
+    Project_ID = Recs!Project_ID
+    ProjectEnd = Recs!Inactive_AsOf
+    Recs.Close
+
+    'Property definition record for the project's 'School' property:
+    ProjPropName_ID_School = 0
+    S = "SELECT ProjPropName_ID FROM t91_ProjPropName WHERE Name = 'School' AND Project_IDRef = " & Project_ID
+    Recs.Open S, , adOpenStatic
+    If Not Recs.EOF Then
+        ProjPropName_ID_School = Recs!ProjPropName_ID
+    End If
+    Recs.Close
+
+    TaskName = Trim(Row.Cells(2).Value)
+    S = "SELECT Task_ID, Inactive_AsOf FROM t03_Task WHERE Project_IDRef=" & Project_ID & " AND Name = '" & TaskName & "'"
+    Recs.Open S, , adOpenStatic
+    If Recs.EOF Then
+        SetProgress "Unable to find task '" & TaskName & "' of project '" & ProjectName & "'"
+        Exit Function
+    End If
+    Task_ID = Recs!Task_ID
+    TaskEnd = Recs!Inactive_AsOf
+    Recs.Close
+
+    SubtaskName = Trim(Row.Cells(3).Value)
+    If SubtaskName = "" Then SubtaskName = "*"    'the dummy subtask
+    S = "SELECT Subtask_ID, Inactive_AsOf FROM t04_Subtask WHERE Task_IDRef=" & Task_ID & " AND Name = '" & SubtaskName & "'"
+    Recs.Open S, , adOpenStatic
+    If Recs.EOF Then
+        SetProgress "Unable to find subtask '" & SubtaskName & "' of task '" & TaskName & "' of project '" & ProjectName & "'"
+        Exit Function
+    End If
+    Subtask_ID = Recs!Subtask_ID
+    SubtaskEnd = Recs!Inactive_AsOf
+    Recs.Close
+
+    'Check that this school is in the list of schools available to the project's 'School' property:
+    ProjPropEnum_ID_School = 0
+    SchoolName = Trim(Row.Cells(4).Value)
+    If SchoolName = "0" Then SchoolName = ""
+    If Len(SchoolName) = 1 Then SchoolName = "0" & SchoolName
+    If SchoolName <> "" Then
+        S = "SELECT ProjPropEnum_ID FROM t92_ProjPropEnum" & _
+            " WHERE ProjPropName_IDRef=" & ProjPropName_ID_School & " AND Name = '" & SchoolName & "'"
+        Recs.Open S, , adOpenStatic
+        If Recs.EOF Then
+            SetProgress "Unable to find school '" & SchoolName & "' of project '" & ProjectName & "'"
+            Exit Function
+        End If
+        ProjPropEnum_ID_School = Recs!ProjPropEnum_ID
+        Recs.Close
+    End If
+
+    Hours = 0
+    For I = 5 To 11 'weekday cells for entering time
+        If Trim(Row.Cells(I).Value) <> "" Then
+            LogDate = DateAdd("d", I - 5, Starting)
+            If Not IsNumeric(Row.Cells(I).Value) Then
+                SetProgress "Invalid hours for " & Format(LogDate, "ddd", vbMonday)
+                Exit Function
+            End If
+            If Not IsNull(SubtaskEnd) Then
+                If SubtaskEnd <= LogDate Then
+                    SetProgress "Subtask '" & SubtaskName & "' has expired as of " & Format(SubtaskEnd, "General Date")
+                    Exit Function
+                End If
+            End If
+            If Not IsNull(TaskEnd) Then
+                If TaskEnd <= LogDate Then
+                    SetProgress "Task '" & TaskName & "' has expired as of " & Format(TaskEnd, "General Date")
+                    Exit Function
+                End If
+            End If
+            If Not IsNull(ProjectEnd) Then
+                If ProjectEnd <= LogDate Then
+                    SetProgress "Project '" & ProjectName & "' has expired as of " & Format(ProjectEnd, "General Date")
+                    Exit Function
+                End If
+            End If
+            Hours = Hours + Row.Cells(I).Value
+        End If
+    Next
+    If Hours = 0 Then   'no hours entered so ignore the row
+        Load_Row = True
+        Exit Function
+    End If
+
+    Action_ID = 0
+    ActionEnd = Null
+    ActionDesc = Trim(Row.Cells(13).Value)
+    If ActionDesc = "" Then
+        SetProgress "Activity description cannot be blank"
+        Exit Function
+    End If
+    S = "SELECT Action_ID, Inactive_AsOf FROM t05_Action" & _
+        " WHERE Subtask_IDRef=" & Subtask_ID & _
+        " AND Description = '" & UTL_Escape_Char(ActionDesc, "'") & "'"
+    Recs.Open S, , adOpenStatic
+    If Not Recs.EOF Then
+        Action_ID = Recs!Action_ID
+        ActionEnd = Recs!Inactive_AsOf
+    End If
+    Recs.Close
+    If Action_ID = 0 Then
+        If Mode = Load Then
+            'Create the new action record (adding hours is done later) but only if there are hours:
+            For I = 5 To 11
+                If Trim(Row.Cells(I).Value) <> "" Then
+                    S = "INSERT INTO t05_Action" & _
+                        " (Subtask_IDRef, Name, Description)" & _
+                        " VALUES (" & Subtask_ID & ",'*','" & UTL_Escape_Char(ActionDesc, "'") & "')"
+                    UTL_Connection.Execute (S)
+                    S = "SELECT Action_ID FROM t05_Action" & _
+                        " WHERE Subtask_IDRef=" & Subtask_ID & _
+                        " AND Description = '" & UTL_Escape_Char(ActionDesc, "'") & "'"
+                    Recs.Open S, , adOpenStatic
+                    Action_ID = Recs!Action_ID
+                    Recs.Close
+                    Exit For
+                End If
+            Next
+        End If
+    End If
+    If Action_ID > 0 Then
+        For I = 5 To 11
+            If Trim(Row.Cells(I).Value) <> "" Then
+                LogDate = DateAdd("d", I - 5, Starting)
+                If Not IsNull(ActionEnd) Then
+                    If ActionEnd <= LogDate Then
+                        SetProgress "Action '" & ActionDesc & "' has expired as of " & Format(ActionEnd, "General Date")
+                        Exit Function
+                    End If
+                End If
+                If Mode = Verify Then
+                    S = "SELECT tl.Hours" & _
+                        " FROM t06_TimeLog AS tl LEFT JOIN t07_TimelogProperty AS tlp" & _
+                        " ON tl.TimeLog_ID = tlp.TimeLog_IDRef" & _
+                        " WHERE tl.Action_IDRef = " & Action_ID & _
+                        " AND tl.LogDate = #" & LogDate & "#" & _
+                        " AND tl.Person_IDRef = " & Person_ID & _
+                        " AND tlp.ProjPropEnum_IDRef"
+                    If ProjPropEnum_ID_School = 0 Then
+                        S = S & " IS NULL"
+                    Else
+                        S = S & "=" & ProjPropEnum_ID_School
+                    End If
+                    Recs.Open S, , adOpenStatic
+                    If Not Recs.EOF Then
+                        SetProgress "Time has already been entered for " & Format(LogDate, "ddd", vbMonday)
+                        Exit Function
+                    End If
+                    Recs.Close
+                Else
+                    TimeLog_ID = 0
+                    S = "INSERT INTO t06_TimeLog" & _
+                        " (Action_IDRef, Person_IDRef, LogDate, Hours)" & _
+                        " VALUES (" & Action_ID & "," & Person_ID & ",#" & Format(LogDate, "General Date") & "#," & Row.Cells(I).Value & ")"
+                    UTL_Connection.Execute (S)
+                    If ProjPropEnum_ID_School > 0 Then
+                        S = "SELECT TimeLog_ID FROM t06_TimeLog" & _
+                            " WHERE Action_IDRef=" & Action_ID & _
+                            " AND Person_IDRef=" & Person_ID & _
+                            " AND LogDate=#" & Format(LogDate, "General Date") & "#" & _
+                            " AND Hours=" & Row.Cells(I).Value
+                        Recs.Open S, , adOpenStatic
+                        TimeLog_ID = Recs!TimeLog_ID
+                        Recs.Close
+                        S = "INSERT INTO t07_TimeLogProperty" & _
+                            " (TimeLog_IDRef, ProjPropEnum_IDRef)" & _
+                            " VALUES (" & TimeLog_ID & "," & ProjPropEnum_ID_School & ")"
+                        UTL_Connection.Execute (S)
+                    End If
+                End If
+            End If
+        Next
+    End If
+
+    Load_Row = True
+
+End Function ' Load_Row
+
+Private Sub SetProgress( _
+    Text As String _
+    )
+    Dim hasFocus As String
+    Dim Progress As ListBox
+
+    DoCmd.OpenForm (ProgressForm)
+    'hasFocus = Forms!Load.ActiveControl.Name
+    DoCmd.GoToControl (ProgressControl)
+    Set Progress = Forms(ProgressForm).Controls(ProgressControl)
+    If Text = "" Then
+        'Forms!Invoice.lstProgress.RowSource = Text
+        Progress.RowSource = Text
+    Else
+        Progress.RowSource = Progress.RowSource & Text & ";"
+        'Forms!Invoice.lstProgress.RowSource = Forms!Invoice.Controls!lstProgress.RowSource & Text & ";"
+    End If
+    Progress.Selected(Progress.ListCount - 1) = True
+    'Forms!Invoice.lstProgress.Selected(Forms!Invoice.lstProgress.ListCount - 1) = True
+    SendKeys "^{DOWN}", True
+    'DoCmd.GoToControl (hasFocus)
+
+End Sub ' SetProgress
+
+Private Function Find_Rates( _
+    PersonIDs() As Long _
+    ) As Collection
+'Returns a collection: key=Person_ID; item=2 dim array of all eff dates (descending) and rates for the person
+    Dim Rates As New Collection
+    Dim I As Integer
+
+    For I = 1 To UBound(PersonIDs)
+        Rates.Add Find_PersonRates(PersonIDs(I)), CStr(PersonIDs(I))
+    Next
+
+    Set Find_Rates = Rates
+
+End Function ' Find_Rates
+
+Private Function Find_PersonRates( _
+    Person_ID As Long _
+    ) As Variant
+'Returns a 2 dim array of all eff dates (descending) and rates for the person
+    Dim Recs As New ADODB.Recordset
+    Dim byPerson()
+    Dim S As String
+    Dim I As Integer
+
+    Recs.ActiveConnection = UTL_Connection
+    S = "SELECT * FROM t11_Rate WHERE Person_IDRef=" & Person_ID & " ORDER BY Effective_AsOf DESC"
+    Recs.Open S, , adOpenStatic
+    ReDim byPerson(Recs.RecordCount, 2)
+    I = 1
+    Do While Not Recs.EOF
+        byPerson(I, 1) = Recs!Effective_AsOf
+        byPerson(I, 2) = Recs!Rate
+        I = I + 1
+        Recs.MoveNext
+    Loop
+    Recs.Close
+
+    Find_PersonRates = byPerson
+
+End Function ' Find_PersonRates
+
+

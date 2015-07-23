@@ -1,0 +1,1170 @@
+Rem  *****  BASIC  *****
+Option Explicit
+Option Base 0   'Default lower bound for arrays
+'These are the fields we want from the temp timelog(TL) & taskreport(TR) sheets and the columns we want them in
+Const TL_logdate = 0
+Const TL_hours = 1
+Const TL_activity = 2
+Const TL_activity_id = 3
+Const TL_subtask = 4
+Const TL_subtask_desc = 5
+Const TL_task = 6
+Const TL_task_desc = 7
+Const TL_account = 8
+Const TL_account_desc = 9
+Const TL_lastname = 10
+Const TL_firstname = 11
+Const TL_person_id = 12
+Const TL_rate = 13
+Const TL_week_of = 14 'this field is internally created from the logdate
+Const TL_rec_size = 14 'dim of the array containing the above fields
+Dim TL_headers() 'filled below in the above order and checked against the imported csv file
+
+Const TR_task = 0
+Const TR_task_desc = 1
+Const TR_budget = 2
+Const TR_task_inactive_asof = 3
+Const TR_subtask = 4
+Const TR_subtask_desc = 5
+Const TR_subtask_inactive_asof = 6
+Const TR_charged = 7
+Const TR_rec_size = 7 'dim of the array containing the above fields
+Dim TR_headers() 'filled below in the above order and checked against the imported csv file
+
+'The sheets in this document: (for excel, they're 1 relative regardless of the Option Base setting)
+Const timelog = 1
+Const taskreport = 2
+Const ProgressReport = 3
+Const LaborByStaffUntotaled = 4
+Const LaborByStaffTotaled = 5
+Const LaborByTaskUntotaled = 6
+Const LaborExpensesByTask = 7
+Const InvoiceSummary = 8
+
+'The 'max' columns - used when copying and inserting dummy rows
+Const max_columns = 26
+
+Type Props
+    sheet As Integer
+    version As String
+    rows As Integer
+    columns As Integer
+    from_date As Date
+    to_date As Date
+End Type
+Dim TL_Props As Props
+Dim TR_Props As Props
+
+Dim newInvoice As Workbook 'our new spreadsheet
+
+Sub Create_Invoice()
+
+    TL_headers = Array("logdate", "hours", "activity", "activity_id", "subtask", "subtask_desc", _
+                    "task", "task_desc", "account", "account_desc", "lastname", "firstname", "person_id", "rate")
+
+    TR_headers = Array("taskname", "task_desc", "budget", "task_inactive_asof", "subtaskname", _
+                    "subtask_desc", "subtask_inactive_asof", "charged")
+
+    Dim newFile As String
+    If Make_Doc() = False Then
+        If Not IsObject(newInvoice) Then
+            newFile = newInvoice.FullName
+            newInvoice.Save
+            newInvoice.Close (True)
+            Kill (newFile)
+        End If
+        Exit Sub
+    End If
+
+'    Call Create_Progress_Report(ProgressReport)
+'    Call Create_LaborByStaffUntotaled(LaborByStaffUntotaled)
+'    Call Create_LaborByStaffTotaled(LaborByStaffTotaled)
+'    Call Create_LaborByTaskUntotaled(LaborByTaskUntotaled)
+'    Call Create_LaborExpensesByTask(LaborExpensesByTask)
+    Call Create_InvoiceSummary(InvoiceSummary)
+Exit Sub
+
+'Done: Clean up the invoice by removing the Basic code and the 'temp' sheet then save & close it:
+    newFile = newInvoice.FullName
+    Application.DisplayAlerts = False
+    Call newInvoice.Sheets(taskreport).Delete   'MUST be in this order!
+    'Call newInvoice.Sheets(timelog).Delete
+    Application.DisplayAlerts = True
+    Dim codemod As Object
+    Set codemod = newInvoice.VBProject.VBComponents("ThisWorkbook").Codemodule
+    Call codemod.deletelines(1, codemod.CountOfLines)
+    Set codemod = newInvoice.VBProject.VBComponents("modApplication")
+    Call newInvoice.VBProject.VBComponents.Remove(codemod)
+    newInvoice.Save
+    newInvoice.Close (True)
+    'Note: deleting both sheets in the same session corrupts the file so that re-opening will
+    'bring down Excel
+    Set newInvoice = Application.Workbooks.Open(newFile)
+    Application.DisplayAlerts = False
+    'Call newInvoice.Sheets(taskreport).Delete   'MUST be in this order!
+    Call newInvoice.Sheets(timelog).Delete
+    Application.DisplayAlerts = True
+    newInvoice.Save
+    newInvoice.Close (True)
+
+End Sub
+
+Sub Create_Progress_Report(SheetNdx As Integer)
+    Dim Worksheet As Worksheet
+    Set Worksheet = newInvoice.Sheets(SheetNdx)
+
+    Dim tempSheet As Worksheet
+    Dim tempIdx As Integer
+    Set tempSheet = newInvoice.Sheets(timelog)
+    tempIdx = 2 'start reading temp here, ie. skip headers
+
+    Dim sortFields()
+    tempSheet.Activate
+    sortFields = Array(TL_task, TL_subtask, TL_account, TL_activity_id)
+    With tempSheet
+    Call SortRange(.Range(.Cells(2, 1), .Cells(TL_Props.rows + 1, TL_Props.columns)), sortFields)
+    End With
+    Worksheet.Activate
+
+    Dim RowIdx As Integer
+    Dim row As Range
+    Dim Rec(TL_rec_size)
+    Dim LastRec(TL_rec_size)
+    Dim I As Integer
+
+    RowIdx = 4 'Where to start
+   
+    '<--report breaks: totals-->
+    Dim Hours_2 As Double       'level 2
+    '<--totals
+
+    Dim subtask_start_RowIdx As Integer
+    Dim account_start_RowIdx As Integer
+
+    GoSub NextRecord
+    GoSub NextRecord 'Since tempIdx hasn't changed, we will get LastRec() = Rec()
+    'GoSub TaskHeader       'level 1
+    GoSub SubTaskHeader     'level 2
+    GoSub AccountHeader     'level 3
+    GoSub ActivityHeader    'level 4
+    Do
+
+        If LastRec(TL_task) <> Rec(TL_task) Then
+'If MsgBox("Continue?", vbYesNo) = vbNo Then Exit Sub
+            'Do trailers:
+            'GoSub ActivityTrailer
+            GoSub AccountTrailer
+            GoSub SubTaskTrailer
+            'GoSub TaskTrailer
+            'Do headers:
+            'GoSub TaskHeader
+            GoSub SubTaskHeader
+            GoSub AccountHeader
+            GoSub ActivityHeader
+        ElseIf LastRec(TL_subtask) <> Rec(TL_subtask) Then
+            'Do trailers:
+            'GoSub ActivityTrailer
+            GoSub AccountTrailer
+            GoSub SubTaskTrailer
+            'Do headers:
+            GoSub SubTaskHeader
+            GoSub AccountHeader
+            GoSub ActivityHeader
+        ElseIf LastRec(TL_account) <> Rec(TL_account) Then
+            'Do trailers:
+            'GoSub ActivityTrailer
+            GoSub AccountTrailer
+            'Do headers:
+            GoSub AccountHeader
+            GoSub ActivityHeader
+        ElseIf LastRec(TL_activity_id) <> Rec(TL_activity_id) Then
+            'Do trailers:
+            'GoSub ActivityTrailer
+            'Do headers:
+            GoSub ActivityHeader
+        End If
+
+        Hours_2 = Hours_2 + CDbl(Rec(TL_hours))
+
+        tempIdx = tempIdx + 1
+        GoSub NextRecord
+    Loop Until tempIdx > TL_Props.rows + 1 'tempIdx is 1 rel and and starts at 2
+    'GoSub ActivityTrailer
+    GoSub AccountTrailer
+    GoSub SubTaskTrailer
+    'GoSub TaskTrailer
+
+    'Get totals:
+    Set row = Worksheet.rows(RowIdx + 2)
+    row.Cells(1, 4).Formula = "=SUM(D6:D" & RowIdx - 1 & ")"
+    row.Cells(1, 5).Value = "Total Hours"
+    row.Cells(1, 5).Font.Bold = True
+
+    Exit Sub
+
+SubTaskHeader:
+    Hours_2 = 0
+    RowIdx = RowIdx + 1
+    subtask_start_RowIdx = RowIdx
+    Return
+
+SubTaskTrailer:
+    Worksheet.Cells(subtask_start_RowIdx + 1, 4).Value = Hours_2
+    Hours_2 = 0
+    Worksheet.Cells(subtask_start_RowIdx + 1, 1).Value = LastRec(TL_task)
+    Worksheet.Cells(subtask_start_RowIdx + 1, 2).Value = LastRec(TL_subtask)
+    Return
+
+AccountHeader:
+    account_start_RowIdx = RowIdx
+    Return
+
+AccountTrailer:
+    Worksheet.Cells(account_start_RowIdx + 1, 3).Value = LastRec(TL_account)
+    Return
+
+ActivityHeader:
+    Set row = Worksheet.rows(RowIdx + 1)
+    RowIdx = RowIdx + 1
+    row.Cells(1, 5).Value = Rec(TL_activity)
+    Return
+
+NextRecord:
+    For I = 0 To TL_Props.columns - 1
+        LastRec(I) = Rec(I)
+        Rec(I) = tempSheet.Cells(tempIdx, I + 1).Value
+    Next
+    Return
+
+End Sub 'Create_Progress_Report
+
+Sub Create_LaborByStaffUntotaled(SheetNdx As Integer)
+    Call Create_LaborByStaffTotaled(SheetNdx)
+End Sub 'Create_LaborByStaffUntotaled
+
+Sub Create_LaborByStaffTotaled(SheetNdx As Integer)
+    Dim Worksheet As Worksheet
+    Set Worksheet = newInvoice.Sheets(SheetNdx)
+
+    Dim tempSheet As Worksheet
+    Dim tempIdx As Integer
+    Set tempSheet = newInvoice.Sheets(timelog)
+    tempIdx = 2 'start reading temp here, ie. skip headers
+
+    Dim sortFields()
+    tempSheet.Activate
+    sortFields = Array(TL_person_id, TL_week_of, TL_activity_id, TL_rate)
+    With tempSheet
+    Call SortRange(.Range(.Cells(2, 1), .Cells(TL_Props.rows + 1, TL_Props.columns)), sortFields)
+    End With
+    Worksheet.Activate
+
+    Dim RowIdx As Integer
+    Dim row As Range
+    Dim Rec(TL_rec_size)
+    Dim LastRec(TL_rec_size)
+    Dim I As Integer
+
+    RowIdx = 5 'Where to insert
+
+    '<--report breaks: totals-->
+    Dim Cost_4 As Double      'level 4
+    Dim Hours_4 As Single       'level 4
+    'Dim Cost_1 As double      'level 1
+    'Dim Hours_1 As Single       'level 1
+    Dim RowIdx_1 As Integer     'start level 1 totaling
+    '<--totals
+
+    Dim PersonLastName As String
+    Dim PersonName As String
+
+    PersonLastName = ""
+    GoSub NextRecord
+    GoSub NextRecord 'Since tempIdx hasn't changed, we will get LastRec() = Rec()
+    GoSub PersonHeader
+    'GoSub WeekHeader:
+    'GoSub ActionHeader
+    GoSub RateHeader
+    Do
+
+        If LastRec(TL_person_id) <> Rec(TL_person_id) Then
+'If MsgBox("Continue?", vbYesNo) = vbNo Then Exit Sub
+            'Do trailers:
+            GoSub RateTrailer
+            'GoSub ActionTrailer
+            'GoSub WeekTrailer
+            GoSub PersonTrailer
+            'Do headers:
+            GoSub PersonHeader
+            'GoSub WeekHeader:
+            'GoSub ActionHeader
+            GoSub RateHeader
+        ElseIf LastRec(TL_week_of) <> Rec(TL_week_of) Then
+            'Do trailers:
+            GoSub RateTrailer
+            'GoSub ActionTrailer
+            'GoSub WeekTrailer
+            'Do headers:
+            'GoSub WeekHeader:
+            'GoSub ActionHeader
+            GoSub RateHeader
+        ElseIf LastRec(TL_activity_id) <> Rec(TL_activity_id) Then
+            'Do trailers:
+            GoSub RateTrailer
+            'GoSub ActionTrailer
+            'Do headers:
+            'GoSub ActionHeader
+            GoSub RateHeader
+        ElseIf LastRec(TL_rate) <> Rec(TL_rate) Then
+            'Do trailers:
+            GoSub RateTrailer
+            'Do headers:
+            GoSub RateHeader
+        End If
+
+        Hours_4 = Hours_4 + CSng(Rec(TL_hours))
+        Cost_4 = Cost_4 + (CDbl(Rec(TL_hours)) * CDbl(Rec(TL_rate)))
+
+        tempIdx = tempIdx + 1
+        GoSub NextRecord
+    Loop Until tempIdx > TL_Props.rows + 1 'tempIdx is 1 rel and starts at 2
+    GoSub RateTrailer
+    'GoSub ActionTrailer
+    'GoSub WeekTrailer
+    GoSub PersonTrailer
+
+    'Get totals:
+    Set row = Worksheet.rows(RowIdx + 1)
+    row.Cells(1, 8).Value = "Total Amount Due"
+    row.Cells(1, 8).HorizontalAlignment = xlRight
+    row.Cells(1, 10).Formula = "=SUM(J6:J" & RowIdx - 1 & ")"
+
+    Exit Sub
+
+PersonHeader:
+    'Hours_1 = 0
+    'Cost_1 = 0
+    If PersonLastName = Rec(TL_lastname) Then '2 people with the same last name
+        PersonName = PersonLastName & ", " & Rec(TL_firstname)
+    Else
+        PersonLastName = Rec(TL_lastname)
+        PersonName = PersonLastName
+    End If
+    RowIdx_1 = RowIdx
+    Return
+
+RateHeader:
+    Hours_4 = 0
+    Cost_4 = 0
+    Return
+
+RateTrailer:
+    Set row = Worksheet.rows(RowIdx + 1)
+    RowIdx = RowIdx + 1
+    row.Cells(1, 1).Value = CDate(LastRec(TL_week_of))
+    row.Cells(1, 2).Value = PersonName
+    row.Cells(1, 3).Value = LastRec(TL_rate)
+    row.Cells(1, 4).Value = LastRec(TL_task)
+    row.Cells(1, 5).Value = LastRec(TL_subtask)
+    row.Cells(1, 6).Value = LastRec(TL_account)
+    row.Cells(1, 7).Value = Hours_4
+    row.Cells(1, 8).Value = LastRec(TL_activity)
+    row.Cells(1, 9).Value = Cost_4
+    'Hours_1 = Hours_1 + Hours_4
+    'Cost_1 = Cost_1 + Cost_4
+    Return
+
+PersonTrailer:
+    Set row = Worksheet.rows(RowIdx + 1)
+    RowIdx = RowIdx + 1
+    RowIdx = RowIdx + 1
+    row.Cells(1, 1).Value = ""
+    row.Cells(1, 2).Value = ""
+    row.Cells(1, 3).Value = ""
+    row.Cells(1, 4).Value = ""
+    row.Cells(1, 5).Value = ""
+    row.Cells(1, 6).Value = ""
+    row.Cells(1, 7).Formula = "=SUM(G" & RowIdx_1 & ":G" & RowIdx - 2 & ")"
+    row.Cells(1, 7).Interior.Color = RGB(0, 255, 255) 'cyan
+    row.Cells(1, 8).Value = ""
+    row.Cells(1, 9).Formula = "=SUM(I" & RowIdx_1 & ":I" & RowIdx - 2 & ")"
+    row.Cells(1, 9).Interior.Color = RGB(255, 255, 0) 'yellow
+    row.Cells(1, 10).Formula = "=I" & RowIdx - 1
+    Return
+
+NextRecord:
+    For I = 0 To TL_Props.columns - 1
+        LastRec(I) = Rec(I)
+        Rec(I) = tempSheet.Cells(tempIdx, I + 1).Value
+    Next
+    Return
+
+End Sub 'Create_LaborByStaffTotaled
+
+Sub Create_LaborByTaskUntotaled(SheetNdx As Integer)
+    Dim Worksheet As Worksheet
+    Set Worksheet = newInvoice.Sheets(SheetNdx)
+
+    Dim tempSheet As Worksheet
+    Dim tempIdx As Integer
+    Set tempSheet = newInvoice.Sheets(timelog)
+    tempIdx = 2 'start reading temp here, ie. skip headers
+
+    Dim sortFields()
+    tempSheet.Activate
+    sortFields = Array(TL_task, TL_subtask, TL_week_of, TL_person_id, TL_activity_id)
+    With tempSheet
+    Call SortRange(.Range(.Cells(2, 1), .Cells(TL_Props.rows + 1, TL_Props.columns)), sortFields)
+    End With
+    Worksheet.Activate
+
+    Dim RowIdx As Integer
+    Dim row As Range
+    Dim Rec(TL_rec_size)
+    Dim LastRec(TL_rec_size)
+    Dim I As Integer
+
+    RowIdx = 6 'Where to start
+
+    '<--report breaks: totals-->
+    Dim Cost_1 As Double      'level 1
+    Dim Cost_6 As Double      'level 6
+    Dim Hours_6 As Double       'level 6
+    'Dim Cost_0 As Currency      'Grand total
+    'Dim Hours_0 As Single       'Grand total
+    '<--totals
+
+    GoSub NextRecord
+    GoSub NextRecord 'Since tempIdx hasn't changed, we will get LastRec() = Rec()
+    GoSub TaskHeader
+    'GoSub SubtaskHeader
+    'GoSub WeekHeader
+    'GoSub PersonHeader
+    'GoSub ActionHeader
+    GoSub RateHeader
+    Do
+
+        If LastRec(TL_task) <> Rec(TL_task) Then
+'If MsgBox("Continue?", vbYesNo) = vbNo Then Exit Sub
+            'Do trailers:
+            GoSub RateTrailer
+            'GoSub ActionTrailer
+            'GoSub PersonTrailer
+            'GoSub WeekTrailer
+            'GoSub SubtaskTrailer
+            GoSub TaskTrailer
+            'Do headers:
+            GoSub TaskHeader
+            'GoSub SubtaskHeader
+            'GoSub WeekHeader
+            'GoSub PersonHeader
+            'GoSub ActionHeader
+            GoSub RateHeader
+        ElseIf LastRec(TL_subtask) <> Rec(TL_subtask) Then
+            'Do trailers:
+            GoSub RateTrailer
+            'GoSub ActionTrailer
+            'GoSub PersonTrailer
+            'GoSub WeekTrailer
+            'GoSub SubtaskTrailer
+            'Do headers:
+            'GoSub SubtaskHeader
+            'GoSub WeekHeader
+            'GoSub PersonHeader
+            'GoSub ActionHeader
+            GoSub RateHeader
+        ElseIf LastRec(TL_week_of) <> Rec(TL_week_of) Then
+            'Do trailers:
+            GoSub RateTrailer
+            'GoSub ActionTrailer
+            'GoSub PersonTrailer
+            'GoSub WeekTrailer
+            'Do headers:
+            'GoSub WeekHeader
+            'GoSub PersonHeader
+            'GoSub ActionHeader
+            GoSub RateHeader
+        ElseIf LastRec(TL_person_id) <> Rec(TL_person_id) Then
+            'Do trailers:
+            GoSub RateTrailer
+            'GoSub ActionTrailer
+            'GoSub PersonTrailer
+            'Do headers:
+            'GoSub PersonHeader
+            'GoSub ActionHeader
+            GoSub RateHeader
+        ElseIf LastRec(TL_activity_id) <> Rec(TL_activity_id) Then
+            'Do trailers:
+            GoSub RateTrailer
+            'GoSub ActionTrailer
+            'Do headers:
+            'GoSub ActionHeader
+            GoSub RateHeader
+        ElseIf LastRec(TL_rate) <> Rec(TL_rate) Then
+            'Do trailers:
+            GoSub RateTrailer
+            'Do headers:
+            GoSub RateHeader
+        End If
+        Hours_6 = Hours_6 + CDbl(Rec(TL_hours))
+        Cost_6 = Cost_6 + (CDbl(Rec(TL_hours)) * CDbl(Rec(TL_rate)))
+        Cost_1 = Cost_1 + (CDbl(Rec(TL_hours)) * CDbl(Rec(TL_rate)))
+ 
+        tempIdx = tempIdx + 1
+        GoSub NextRecord
+    Loop Until tempIdx > TL_Props.rows + 1 'tempIdx is 1 rel and starts at 2
+    GoSub RateTrailer
+    'GoSub ActionTrailer
+    'GoSub PersonTrailer
+    'GoSub WeekTrailer
+    'GoSub SubtaskTrailer
+    GoSub TaskTrailer
+
+    'Get totals:
+    RowIdx = RowIdx + 1
+    Set row = Worksheet.rows(RowIdx)
+    row.Cells(1, 7).Formula = "=SUM(G6:G" & RowIdx - 1 & ")"
+    row.Cells(1, 10).Formula = "=SUM(I6:I" & RowIdx - 1 & ")"
+
+    Exit Sub
+
+TaskHeader:
+    Cost_1 = 0
+    Return
+
+RateHeader:
+    Cost_6 = 0
+    Hours_6 = 0
+    Return
+
+RateTrailer:
+    Set row = Worksheet.rows(RowIdx)
+    RowIdx = RowIdx + 1
+
+    row.Cells(1, 1).Value = CDate(LastRec(TL_week_of))
+    row.Cells(1, 2).Value = LastRec(TL_lastname)
+    row.Cells(1, 3).Value = LastRec(TL_rate)
+    row.Cells(1, 4).Value = LastRec(TL_task)
+    row.Cells(1, 5).Value = LastRec(TL_subtask)
+    row.Cells(1, 6).Value = LastRec(TL_account)
+    row.Cells(1, 7).Value = Hours_6
+    row.Cells(1, 8).Value = LastRec(TL_activity)
+    row.Cells(1, 9).Value = Cost_6
+    Return
+
+TaskTrailer:
+    row.Cells(1, 10).Value = Cost_1
+    Return
+
+NextRecord:
+    For I = 0 To TL_Props.columns - 1
+        LastRec(I) = Rec(I)
+        Rec(I) = tempSheet.Cells(tempIdx, I + 1).Value
+    Next
+    Return
+
+End Sub 'Create_LaborByTaskUntotaled
+
+Sub Create_LaborExpensesByTask(SheetNdx As Integer)
+    Dim Worksheet As Worksheet
+    Set Worksheet = newInvoice.Sheets(SheetNdx)
+
+    Dim tempSheet As Worksheet
+    Dim tempIdx As Integer
+    Set tempSheet = newInvoice.Sheets(timelog)
+    tempIdx = 2 'start reading temp here, ie. skip headers
+
+    Dim sortFields()
+    tempSheet.Activate
+    sortFields = Array(TL_task, TL_subtask, TL_week_of, TL_person_id, TL_activity_id)
+    With tempSheet
+    Call SortRange(.Range(.Cells(2, 1), .Cells(TL_Props.rows + 1, TL_Props.columns)), sortFields)
+    End With
+    Worksheet.Activate
+
+    Dim RowIdx As Integer
+    Dim row As Range
+    Dim Rec(TL_rec_size)
+    Dim LastRec(TL_rec_size)
+    Dim I As Integer
+
+    RowIdx = 7 'Where to start
+
+    Dim DividerRow As Integer
+    DividerRow = 6
+
+    '<--report breaks: totals-->
+    Dim Cost_6 As Currency      'level 6
+    Dim Hours_6 As Single       'level 6
+    Dim LaborSubTotalIdx As Integer 'start level 1 totaling
+    Dim LaborTotal As String
+    Dim ExpenseTotal As String
+    'Dim Cost_0 As Currency      'Grand total
+    'Dim Hours_0 As Single       'Grand total
+    '<--totals
+
+    GoSub NextRecord
+    GoSub NextRecord 'Since tempIdx hasn't changed, we will get LastRec() = Rec()
+    GoSub TaskHeader
+    'GoSub SubtaskHeader
+    'GoSub WeekHeader
+    'GoSub PersonHeader
+    'GoSub ActionHeader
+    GoSub RateHeader
+    LaborTotal = ""     'Lists and sums each subtotal cell
+    ExpenseTotal = ""
+    Do
+
+        If LastRec(TL_task) <> Rec(TL_task) Then
+'If MsgBox("Continue?", vbYesNo) = vbNo Then Exit Sub
+            'Do trailers:
+            GoSub RateTrailer
+            'GoSub ActionTrailer
+            'GoSub PersonTrailer
+            'GoSub WeekTrailer
+            'GoSub SubtaskTrailer
+            GoSub TaskTrailer
+            'Do headers:
+            GoSub TaskHeader
+            'GoSub SubtaskHeader
+            'GoSub WeekHeader
+            'GoSub PersonHeader
+            'GoSub ActionHeader
+            GoSub RateHeader
+        ElseIf LastRec(TL_subtask) <> Rec(TL_subtask) Then
+            'Do trailers:
+            GoSub RateTrailer
+            'GoSub ActionTrailer
+            'GoSub PersonTrailer
+            'GoSub WeekTrailer
+            'GoSub SubtaskTrailer
+            'Do headers:
+            'GoSub SubtaskHeader
+            'GoSub WeekHeader
+            'GoSub PersonHeader
+            'GoSub ActionHeader
+            GoSub RateHeader
+        ElseIf LastRec(TL_week_of) <> Rec(TL_week_of) Then
+            'Do trailers:
+            GoSub RateTrailer
+            'GoSub ActionTrailer
+            'GoSub PersonTrailer
+            'GoSub WeekTrailer
+            'Do headers:
+            'GoSub WeekHeader
+            'GoSub PersonHeader
+            'GoSub ActionHeader
+            GoSub RateHeader
+        ElseIf LastRec(TL_person_id) <> Rec(TL_person_id) Then
+            'Do trailers:
+            GoSub RateTrailer
+            'GoSub ActionTrailer
+            'GoSub PersonTrailer
+            'Do headers:
+            'GoSub PersonHeader
+            'GoSub ActionHeader
+            GoSub RateHeader
+        ElseIf LastRec(TL_activity_id) <> Rec(TL_activity_id) Then
+            'Do trailers:
+            GoSub RateTrailer
+            'GoSub ActionTrailer
+            'Do headers:
+            'GoSub ActionHeader
+            GoSub RateHeader
+        ElseIf LastRec(TL_rate) <> Rec(TL_rate) Then
+            'Do trailers:
+            GoSub RateTrailer
+            'Do headers:
+            GoSub RateHeader
+         End If
+
+        Hours_6 = Hours_6 + CDbl(Rec(TL_hours))
+        Cost_6 = Cost_6 + (CDbl(Rec(TL_hours)) * CDbl(Rec(TL_rate)))
+
+        tempIdx = tempIdx + 1
+        GoSub NextRecord
+    Loop Until tempIdx > TL_Props.rows + 1 'tempIdx is 1 rel and starts at 2
+    GoSub RateTrailer
+    'GoSub ActionTrailer
+    'GoSub PersonTrailer
+    'GoSub WeekTrailer
+    'GoSub SubtaskTrailer
+    GoSub TaskTrailer
+
+    'Get totals:
+    Set row = Worksheet.rows(RowIdx + 1)
+    row.Cells(1, 8).Value = "Total Labor"
+    row.Cells(1, 8).HorizontalAlignment = xlRight
+    row.Cells(1, 8).Font.Bold = True
+    row.Cells(1, 9).Formula = "=SUM(" & Mid(LaborTotal, 2) & ")"
+    Set row = Worksheet.rows(RowIdx + 2)
+    row.Cells(1, 8).Value = "Total Expenses"
+    row.Cells(1, 8).HorizontalAlignment = xlRight
+    row.Cells(1, 8).Font.Bold = True
+    row.Cells(1, 9).Formula = "=SUM(" & Mid(ExpenseTotal, 2) & ")"
+    Set row = Worksheet.rows(RowIdx + 3)
+    row.Cells(1, 7).Formula = "=SUM(G6:G" & RowIdx - 2 & ")"       'total hours
+    Set row = Worksheet.rows(RowIdx + 4)
+    row.Cells(1, 8).Value = "Total Invoice"
+    row.Cells(1, 8).HorizontalAlignment = xlRight
+    row.Cells(1, 8).Font.Bold = True
+    row.Cells(1, 9).Formula = "=SUM(I" & RowIdx + 1 & ":I" & RowIdx + 2 & ")" 'invoice total
+ 
+    Worksheet.rows(DividerRow).Delete
+ 
+    Exit Sub
+
+TaskHeader:
+    Set row = Worksheet.rows(RowIdx + 1)
+    RowIdx = RowIdx + 1
+    row.Cells(1, 1).Value = "Task " & Rec(TL_task) & ": Labor"
+    LaborSubTotalIdx = RowIdx + 1
+    Return
+
+RateHeader:
+    Hours_6 = 0
+    Cost_6 = 0
+    Return
+
+RateTrailer:
+    Set row = Worksheet.rows(RowIdx + 1)
+    RowIdx = RowIdx + 1
+
+    row.Cells(1, 1).Value = CDate(LastRec(TL_week_of))
+    row.Cells(1, 2).Value = LastRec(TL_lastname)
+    row.Cells(1, 3).Value = LastRec(TL_rate)
+    row.Cells(1, 4).Value = LastRec(TL_task)
+    row.Cells(1, 5).Value = LastRec(TL_subtask)
+    row.Cells(1, 6).Value = LastRec(TL_account)
+    row.Cells(1, 7).Value = Hours_6
+    row.Cells(1, 8).Value = LastRec(TL_activity)
+    row.Cells(1, 9).Value = Cost_6
+    Return
+
+TaskTrailer:
+    '   Labor:
+    Set row = Worksheet.rows(RowIdx + 1)
+    RowIdx = RowIdx + 1
+    row.Cells(1, 9).Formula = "=SUM(I" & LaborSubTotalIdx & ":I" & RowIdx - 1 & ")"
+    LaborTotal = LaborTotal & "+I" & RowIdx
+    LaborSubTotalIdx = RowIdx     'For task Total sum below
+    '   Expenses
+    Set row = Worksheet.rows(RowIdx + 1)
+    RowIdx = RowIdx + 1
+    row.Cells(1, 1).Value = "Task " & LastRec(TL_task) & ": Expenses"
+    Set row = Worksheet.rows(RowIdx + 1)
+    RowIdx = RowIdx + 1
+    row.Cells(1, 8).Value = "N/A"
+    row.Cells(1, 9).Value = 0
+    Set row = Worksheet.rows(RowIdx + 1)
+    RowIdx = RowIdx + 1
+    row.Cells(1, 9).Formula = "=SUM(I" & RowIdx - 1 & ":I" & RowIdx - 1 & ")"
+    ExpenseTotal = ExpenseTotal & "+I" & RowIdx
+    '   Total:
+    Set row = Worksheet.rows(RowIdx + 1)
+    RowIdx = RowIdx + 1
+    row.Cells(1, 1).Value = "Task " & LastRec(TL_task) & ": Total"
+    Set row = Worksheet.rows(RowIdx + 1)
+    RowIdx = RowIdx + 1
+    row.Cells(1, 9).Formula = "=SUM(I" & LaborSubTotalIdx & "+I" & RowIdx - 2 & ")"
+    Call InsertRow(SheetNdx, DividerRow, RowIdx + 1)
+    RowIdx = RowIdx + 2
+    Return
+
+NextRecord:
+    For I = 0 To TL_Props.columns - 1
+        LastRec(I) = Rec(I)
+        Rec(I) = tempSheet.Cells(tempIdx, I + 1).Value
+    Next
+    Return
+
+End Sub 'Create_LaborExpensesByTask
+
+Sub Create_InvoiceSummary(SheetNdx As Integer)
+    Dim Worksheet As Worksheet
+    Set Worksheet = newInvoice.Sheets(SheetNdx)
+
+    Dim sortFields()
+    Dim TL_Sheet As Object
+    Dim TL_Idx As Integer
+    Set TL_Sheet = newInvoice.Sheets(timelog)
+    TL_Sheet.Activate
+    TL_Idx = 2 'start reading temp here, ie. skip headers
+    sortFields = Array(TL_task)
+    With TL_Sheet
+    Call SortRange(.Range(.Cells(2, 1), .Cells(TL_Props.rows + 1, TL_Props.columns)), sortFields)
+    End With
+
+    Dim TR_Sheet As Object
+    Dim TR_Idx As Integer
+    Set TR_Sheet = newInvoice.Sheets(taskreport)
+    TR_Sheet.Activate
+    TR_Idx = 2 'start reading temp here, ie. skip headers
+    sortFields = Array(TR_task)
+    With TR_Sheet
+    Call SortRange(.Range(.Cells(2, 1), .Cells(TR_Props.rows + 1, TR_Props.columns)), sortFields)
+    End With
+
+    Worksheet.Activate
+
+    Dim DataRow As Integer
+    Dim EmptyRow As Integer
+    'The template saves a row formatted for data and an empty one to be copied when needed:
+    DataRow = 16
+    EmptyRow = 17
+
+    Dim RowIdx As Integer
+    Dim TL_Rec(TL_rec_size)
+    Dim LastTL_Rec(TL_rec_size)
+    Dim TR_Rec(TR_rec_size)
+    Dim LastTR_Rec(TR_rec_size)
+    Dim I As Integer
+    Dim L As Long
+    Dim s As String
+
+    '<--report breaks: totals-->
+'   Dim Cost_1 As double      'level 1
+    '<--totals
+
+    Dim row As Object
+    RowIdx = 18 'Where to insert
+
+    Dim Months()
+    Months = Array("", "January", "February", "March", "April", "May", "June", "July", "August", "September", _
+                "October", "November", "December")
+    s = "Period: " & Months(Month(TL_Props.from_date)) & " " & Day(TL_Props.from_date)
+    If Month(TL_Props.from_date) <> Month(TL_Props.to_date) Then
+        If Year(TL_Props.from_date) <> Year(TL_Props.to_date) Then
+            s = s & ", " & Year(TL_Props.from_date)
+        End If
+        s = s & "-" & Months(Month(TL_Props.to_date))
+    Else
+        s = s & "-"
+    End If
+    s = s & " " & Day(TL_Props.to_date) & ", " & Year(TL_Props.to_date)
+    Worksheet.Cells(4, 1).Value = s
+    Worksheet.Cells(5, 1).Value = "Date: " & Months(Month(Now())) & " " & Day(Now()) & _
+                                            ", " & Year(Now())
+
+    GoSub Next_TL
+    GoSub Next_TL 'Since tempIdx hasn't changed, we will get LastRec() = Rec()
+    GoSub Next_TR
+    GoSub Next_TR 'Since tempIdx hasn't changed, we will get LastRec() = Rec()
+    GoSub TaskGroupHeader   'A Task Group is defined by the first character of the task name
+    'GoSub TaskHeader
+    Do
+
+        If Left(LastTR_Rec(TR_task), 1) <> Left(TR_Rec(TR_task), 1) Then
+'If MsgBox("Continue?", vbYesNo) = vbNo Then Exit Sub
+            'Do trailers:
+            GoSub TaskTrailer
+            'GoSub TaskGroupTrailer
+            'Do headers:
+            GoSub TaskGroupHeader
+            'GoSub TaskHeader
+        ElseIf LastTR_Rec(TR_task) <> TR_Rec(TR_task) Then
+            'Do trailers:
+            GoSub TaskTrailer
+            'Do headers:
+            'GoSub TaskHeader
+        End If
+
+        TR_Idx = TR_Idx + 1
+        GoSub Next_TR
+    Loop Until TR_Idx > TR_Props.rows + 1 'TR_Idx is 1 rel and starts at 2
+    GoSub TaskTrailer
+    'GoSub TaskGroupTrailer
+
+    'Get totals:
+    Set row = Worksheet.rows(RowIdx + 2)
+    row.Cells(1, 3).Formula = "=SUM(C16:C" & RowIdx - 1 & ")"
+    row.Cells(1, 4).Formula = "=SUM(D16:D" & RowIdx - 1 & ")"
+    row.Cells(1, 5).Formula = "=SUM(E16:E" & RowIdx - 1 & ")"
+
+    Worksheet.rows(EmptyRow).Delete 'delete the templating rows (in reverse order)
+    Worksheet.rows(DataRow).Delete
+
+    Exit Sub
+
+TaskGroupHeader:
+    Call InsertRow(SheetNdx, EmptyRow, RowIdx)
+    RowIdx = RowIdx + 1
+    Return
+
+TaskTrailer:
+    Dim Spent As Double
+    Spent = 0
+    Do While (LastTR_Rec(TR_task) = TL_Rec(TL_task)) And (TL_Idx < TL_Props.rows)
+        Spent = Spent + (CDbl(TL_Rec(TL_hours)) * CDbl(TL_Rec(TL_rate)))
+        TL_Idx = TL_Idx + 1
+        GoSub Next_TL
+    Loop
+
+    Call InsertRow(SheetNdx, DataRow, RowIdx)
+    Set row = Worksheet.rows(RowIdx)
+    row.Cells(1, 1).Value = LastTR_Rec(TR_task)
+    row.Cells(1, 2).Value = LastTR_Rec(TR_task_desc)
+    row.Cells(1, 3).Value = LastTR_Rec(TR_budget)
+    row.Cells(1, 4).Value = Spent
+    row.Cells(1, 5).Value = CDbl(LastTR_Rec(TR_charged)) - Spent
+    RowIdx = RowIdx + 1
+    Return
+
+Next_TL:
+    For I = 0 To TL_Props.columns - 1
+        LastTL_Rec(I) = TL_Rec(I)
+        TL_Rec(I) = TL_Sheet.Cells(TL_Idx + 1, I + 1).Value
+    Next
+    Return
+
+Next_TR:
+    For I = 0 To TR_Props.columns - 1
+        LastTR_Rec(I) = TR_Rec(I)
+        TR_Rec(I) = TR_Sheet.Cells(TR_Idx + 1, I + 1).Value
+    Next
+    Return
+
+End Sub 'Create_InvoiceSummary
+
+Sub SortRange(theRange As Range, inFields())
+    Dim Fields() As Integer     'contains column offsets of sort fields
+    Dim ndx As Integer
+    Dim tempSheet As Object
+
+    ReDim Fields(0) 'it will contain the positive integers (fields not yet sorted) from inFields
+    For ndx = 0 To UBound(inFields)
+        If inFields(ndx) >= 0 Then
+            Fields(UBound(Fields)) = inFields(ndx)
+            ReDim Preserve Fields(UBound(Fields) + 1)
+        End If
+    Next
+    ReDim Preserve Fields(UBound(Fields) - 1) 'those redim's got us one ahead, go back...
+
+    With theRange
+    If UBound(Fields) = 0 Then
+        .Sort _
+        Key1:=.columns(Fields(0) + 1), Order1:=xlAscending, _
+        Header:=xlNo, OrderCustom:=1, MatchCase:=False, Orientation:=xlSortColumns
+        Exit Sub
+    ElseIf UBound(Fields) = 1 Then
+        .Sort _
+        Key1:=.columns(Fields(0) + 1), Order1:=xlAscending, _
+        Key2:=.columns(Fields(1) + 1), Order2:=xlAscending, _
+        Header:=xlNo, OrderCustom:=1, MatchCase:=False, Orientation:=xlSortColumns
+        Exit Sub
+    End If
+    .Sort _
+    Key1:=.columns(Fields(0) + 1), Order1:=xlAscending, _
+    Key2:=.columns(Fields(1) + 1), Order2:=xlAscending, _
+    Key3:=.columns(Fields(2) + 1), Order3:=xlAscending, _
+    Header:=xlNo, OrderCustom:=1, MatchCase:=False, Orientation:=xlSortColumns
+    End With
+    If UBound(Fields) = 2 Then Exit Sub
+
+    'Now, we have to sort each 'group' with the remaining sort fields;
+    'A 'group' is defined as having the same values in all the previous sort fields
+    Dim preFields() As Integer  'prior sorted (negative numbers in inFields) + 3 just sorted
+    ReDim preFields(0)
+    For ndx = 0 To UBound(inFields)
+        If inFields(ndx) > 0 Then
+            inFields(ndx) = -inFields(ndx)  'these fields join the ranks of already sorted
+            inFields(ndx + 1) = -inFields(ndx + 1)
+            inFields(ndx + 2) = -inFields(ndx + 2)
+            Exit For
+        Else
+            preFields(UBound(preFields)) = inFields(ndx)
+            ReDim Preserve preFields(UBound(preFields) + 1)
+        End If
+    Next
+    ReDim Preserve preFields(UBound(preFields) + 2)
+    preFields(UBound(preFields) - 2) = Fields(0)
+    preFields(UBound(preFields) - 1) = Fields(1)
+    preFields(UBound(preFields)) = Fields(2)
+
+    Dim startRow As Integer
+    Dim tempNdx As Integer
+    Dim newRange As Range
+    '  we start at startRow + 1 because starting at startRow would have one meaningless loop
+    '  we end at .rows.Count+1 (off the end of the range) so we won't omit sorting the last group
+    startRow = 1
+    With theRange
+    For tempNdx = startRow + 1 To .rows.Count + 1
+        For ndx = 0 To UBound(preFields)
+            If .Cells(startRow, preFields(ndx) + 1) <> .Cells(tempNdx, preFields(ndx) + 1) Then
+               'Call SortTemp(SheetNdx, startRow - 1, tempNdx - 2, columns, inFields)
+                'Call SortRange(.Range(.Cells(startRow, 1), .Cells(tempNdx - 1, .columns.Count)), inFields)
+                'There appears to be a bug: to create the new range correctly we have to back up on row
+                Set newRange = .Range(.Cells(startRow - 1, 1), .Cells(tempNdx - 2, .columns.Count))
+                Call SortRange(newRange, inFields)
+                startRow = tempNdx
+            End If
+        Next
+    Next
+    End With
+
+End Sub 'SortRange
+
+Sub InsertRow(SheetNdx As Integer, RowToInsert As Integer, Where As Integer)
+
+    newInvoice.Sheets(SheetNdx).rows(RowToInsert).Copy
+    newInvoice.Sheets(SheetNdx).rows(Where).Insert
+    
+End Sub 'InsertRow
+
+Function Make_Doc() As Boolean
+    Dim csvIn As String
+    Dim newFile As String
+    Dim TL_Sheet As Object
+    Dim TR_Sheet As Object
+
+    Make_Doc = False
+
+'Find the timelog CSV file:
+    Dim Filter
+    Dim Caption
+    ChDir (Application.ThisWorkbook.Path)
+    Filter = "CSV files (*.csv),*.csv,All files (*.*),*.*"
+    Caption = "Select your downloaded TIMELOGS.."
+    csvIn = Application.GetOpenFilename(Filter, 1, Caption)
+    If csvIn = "False" Then
+        MsgBox "Goodbye!"
+        Exit Function
+    End If
+
+'Copy us to a 'twin' of the CSV file (the new invoice):
+    newFile = Left(csvIn, InStrRev(csvIn, ".")) & "xls"
+    On Error Resume Next
+    Application.Workbooks(Mid(newFile, InStrRev(newFile, "\") + 1)).Close SaveChanges:=False
+    On Error GoTo 0
+    Application.ThisWorkbook.SaveCopyAs (newFile)
+
+'Open the new invoice file for editting:
+    Application.EnableEvents = False    'turn off the startup macro
+    Set newInvoice = Application.Workbooks.Open(newFile)
+    Application.EnableEvents = True
+    Set TL_Sheet = newInvoice.Sheets(timelog)
+    TL_Props.sheet = timelog
+    TL_Props.version = TL_Sheet.Cells(1, 1).Value
+    Set TR_Sheet = newInvoice.Sheets(taskreport)
+    TR_Props.sheet = taskreport
+    TR_Props.version = TR_Sheet.Cells(1, 1).Value
+
+'Import the CSV file into the 'temp' sheet:
+    With TL_Sheet.QueryTables.Add(Connection:="TEXT;" & csvIn, Destination:=TL_Sheet.Range("A1"))
+        .Name = "timelog"
+        .RowNumbers = False
+        .TextFilePlatform = xlWindows
+        .TextFileParseType = xlDelimited
+        .TextFileTextQualifier = xlTextQualifierDoubleQuote
+        .TextFileCommaDelimiter = True
+        .Refresh
+    End With
+
+'Verify the timelog file:
+    If TL_Sheet.Cells(1, 1).Value <> "timelog" Then
+        MsgBox "Unrecognized timelog - says '" & TL_Sheet.Cells(1, 1).Value & "'"
+        Exit Function
+    End If
+    If Not (IsDate(TL_Sheet.Cells(1, 4).Value) And IsDate(TL_Sheet.Cells(1, 5).Value)) Then
+        MsgBox "Invalid timelog dates: '" & TL_Sheet.Cells(1, 4).Value & "'/'" & _
+            TL_Sheet.Cells(1, 5).Value & "'"
+        Exit Function
+    End If
+    TL_Props.from_date = CDate(TL_Sheet.Cells(1, 4).Value)
+    TL_Props.to_date = CDate(TL_Sheet.Cells(1, 5).Value)
+    If TL_Sheet.Cells(1, 6).Value <> TL_Props.version Then
+        MsgBox "Your version (" & TL_Props.version & ") does not match the timelog download (" & _
+            TL_Sheet.Cells(1, 6).Value & ").  Ask the system admin for an upgrade."
+        Exit Function
+    End If
+    TL_Sheet.rows(1).Delete  'get rid of the ID row
+
+    If Not Find_Size(TL_Props, TL_headers) Then
+        Exit Function
+    End If
+
+'Add the week_of field to each row of timelog:
+    Dim ndx As Integer
+    Dim newDate As Date
+    For ndx = 2 To TL_Props.rows + 1 'skip headers
+        newDate = CDate(TL_Sheet.Cells(ndx, TL_logdate + 1).Text)
+        newDate = newDate - Weekday(newDate) + 1
+        TL_Sheet.Cells(ndx, TL_week_of + 1).Value = newDate
+    Next
+    TL_Props.columns = TL_Props.columns + 1 'add the new week_of column
+
+'Find the taskreport CSV file:
+    Caption = "Select your downloaded TASKREPORT.."
+    csvIn = Application.GetOpenFilename(Filter, 1, Caption)
+    If csvIn = "False" Then
+        MsgBox "Goodbye!"
+        Exit Function
+    End If
+
+'Import (link, actually) the CSV file into the 'temp' sheet:
+    With TR_Sheet.QueryTables.Add(Connection:="TEXT;" & csvIn, Destination:=TR_Sheet.Range("A1"))
+        .Name = "taskreport"
+        .RowNumbers = False
+        .TextFilePlatform = xlWindows
+        .TextFileParseType = xlDelimited
+        .TextFileTextQualifier = xlTextQualifierDoubleQuote
+        .TextFileCommaDelimiter = True
+        .Refresh
+    End With
+
+'Verify the taskreport file:
+    If TR_Sheet.Cells(1, 1).Value <> "taskreport" Then
+        MsgBox "Unrecognized taskreport - says '" & TR_Sheet.Cells(1, 1).Value & "'"
+        Exit Function
+    End If
+    If Not IsDate(TR_Sheet.Cells(1, 4).Value) Then
+        MsgBox "Invalid taskreport date: '" & TR_Sheet.Cells(1, 4).Value & "'"
+        Exit Function
+    End If
+    TR_Props.to_date = CDate(TR_Sheet.Cells(1, 4).Value)
+    If TR_Sheet.Cells(1, 5).Value <> TR_Props.version Then
+        MsgBox "Your version (" & TR_Props.version & ") does not match the taskreport download (" & _
+            TR_Sheet.Cells(1, 5).Value & ").  Ask the system admin for an upgrade."
+        Exit Function
+    End If
+    TR_Sheet.rows(1).Delete  'get rid of the ID row
+
+    If Not Find_Size(TR_Props, TR_headers) Then
+        Exit Function
+    End If
+
+    Make_Doc = True
+
+End Function 'Make_Doc
+
+Function Find_Size(inProps As Props, Headers())
+    'Find the size of the imported stuff & check headers:
+    Dim tempSheet As Object
+    Dim Cell As Object
+
+    Find_Size = False
+
+    Set tempSheet = newInvoice.Sheets(inProps.sheet)
+With inProps
+    .rows = 1 'skip the header row
+    Do Until tempSheet.Cells(.rows + 1, 1).Text = ""
+        .rows = .rows + 1
+    Loop
+    .rows = .rows - 1
+    .columns = 0 'start with the first column
+    Set Cell = tempSheet.Cells(1, .columns + 1)
+    Do Until Cell.Text = ""
+        If Cell.Text <> Headers(.columns) Then
+            MsgBox "Header " & .columns & " is " & Cell.Text & " but should be " & Headers(.columns) & _
+                    "; aborting"
+            Exit Function
+        End If
+        .columns = .columns + 1
+        Set Cell = tempSheet.Cells(1, .columns + 1)
+    Loop
+End With
+
+    Find_Size = True
+
+End Function 'Find_Size
+

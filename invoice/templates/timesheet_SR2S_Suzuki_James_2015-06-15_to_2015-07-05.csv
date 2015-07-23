@@ -1,0 +1,21 @@
+timesheet,SR2S,"Safe Routes to School",Suzuki,James,2015-06-15,2015-07-05,v1.0
+logdate,hours,activity,activity_id,subtask,subtask_desc,task,task_desc,account,account_desc,lastname,firstname,person_id,rate
+project,TAM,"Transportation Authority of Marin contract"
+2015-06-15,6,"Davidson MS Outdoor Bike Drills for 3 classes and 105 students.",21002,MS,"Middle Schools",2C,Education,58,"Davidson MS",Suzuki,James,37,38.35
+2015-06-15,2,"Phone calls and emails with staff and others.",18595,CM,Communications,2C,Education,*,"Empty account",Suzuki,James,37,38.35
+2015-06-16,8,"Davidson MS Outdoor Bike Drills for 5 classes and 170 students.",21000,MS,"Middle Schools",2C,Education,58,"Davidson MS",Suzuki,James,37,38.35
+2015-06-17,8,"Davidson MS Outdoor Bike Drills for 3 classes and 105 students.",21002,MS,"Middle Schools",2C,Education,58,"Davidson MS",Suzuki,James,37,38.35
+2015-06-18,5,"Prepared article Baby on Board about biking with young children. Provided related video.",21003,CD,"Curriculum Development",2C,Education,*,"Empty account",Suzuki,James,37,38.35
+2015-06-19,6,"Continued preparing K-5 curriculum, specifically for St. Anselms 1-6 program early in October.  Created document outlining staff needs for Peggy and a request for info we need from their classes.  Prepared a short description of the activities for St. Anselms.  Team leader requested active activities after consulting students.",21004,CD,"Curriculum Development",2C,Education,*,"Empty account",Suzuki,James,37,38.35
+2015-06-22,6,"Mill Valley MS Drive that Bike Presentation for 7 classes and 130 students.",21005,MS,"Middle Schools",2C,Education,22,"Mill Valley MS",Suzuki,James,37,38.35
+2015-06-22,2,"Staff meeting with Wendi, Peggy, Lou, Laura, Monica, and Gwen.",21006,MT,Meetings,2C,Education,*,"Empty account",Suzuki,James,37,38.35
+2015-06-23,8,"Mill Valley MS Drive that Bike Presentation for 8 classes and 180 students.",21007,MS,"Middle Schools",2C,Education,22,"Mill Valley MS",Suzuki,James,37,38.35
+2015-06-24,8,"Mill Valley MS Drive that Bike Presentation for 2 classes and 35 students. Outdoor Bike Drills for 4 classes and 89 students.",21008,MS,"Middle Schools",2C,Education,22,"Mill Valley MS",Suzuki,James,37,38.35
+project,MCBC,"Non-TAM related SR2S project"
+2015-06-25,8,"Beach time",21013,seed,"initial seed subtask - please change",Vacation,"Vacation days",*,"Empty account",Suzuki,James,37,36
+2015-06-26,8,"Beach time",21013,seed,"initial seed subtask - please change",Vacation,"Vacation days",*,"Empty account",Suzuki,James,37,36
+2015-07-01,2,Timesheets,21014,seed,"initial seed subtask - please change",Reports,"Write reports",*,"Empty account",Suzuki,James,37,36
+2015-07-01,4,"Beach time",21013,seed,"initial seed subtask - please change",Vacation,"Vacation days",*,"Empty account",Suzuki,James,37,36
+2015-07-03,8,Fourth,21016,seed,"initial seed subtask - please change",Holiday,Holidays,*,"Empty account",Suzuki,James,37,36
+project,MTC,"Spare the Air Grants"
+project,<end>

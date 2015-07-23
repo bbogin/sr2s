@@ -1,0 +1,23 @@
+Demo:
+hashed: 2ava^^tar=>$2y$10$q9oJ7coltOjwmuGj3C54sugzzVmPDa.UGXr0WBrC2Atb8FCFJ/aJu
+soundex: DuBois=>D120
+
+INSERT INTO d_c00_person (person_id,lastname,lastsoundex,firstname,loginname,password)
+VALUES (0,'DuBois','D120','Jean','fondo','$2y$10$q9oJ7coltOjwmuGj3C54sugzzVmPDa.UGXr0WBrC2Atb8FCFJ/aJu');
+
+
+Training:
+hashed: 3ava&&tar=>$2y$10$mhCUKp7YLrvRPNYzqRpNseqpmiYF59ai6Qo8y1wiJwvc4DmvNUFcC
+soundex: Fairfax=>F612
+
+INSERT INTO t_c00_person (person_id,lastname,lastsoundex,firstname,loginname,password)
+VALUES (0,'Fairfax','F612','Pat','bottom','$2y$10$mhCUKp7YLrvRPNYzqRpNseqpmiYF59ai6Qo8y1wiJwvc4DmvNUFcC');
+
+
+Production:
+hashed: 4ava**tar^=>$2y$10$SrCeMpgeKZC4JiMAKuJileeKZzsOsy.IPY7O0AQMzZzGkeqGR5vmK
+soundex: Uhuru=>U600
+
+INSERT INTO c00_person (person_id,lastname,lastsoundex,firstname,loginname,password)
+VALUES (0,'Uhuru','U600','Micky','rootstock','$2y$10$SrCeMpgeKZC4JiMAKuJileeKZzsOsy.IPY7O0AQMzZzGkeqGR5vmK');
+

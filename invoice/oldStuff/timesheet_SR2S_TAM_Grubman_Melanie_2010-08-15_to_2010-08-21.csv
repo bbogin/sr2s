@@ -1,0 +1,20 @@
+timesheet,SR2S,TAM,Grubman,Melanie,2010-08-15,2010-08-21,v1.0
+logdate,hours,activity,activity_id,subtask,subtask_desc,task,task_desc,account,account_desc,lastname,firstname,person_id,rate
+2010-08-15,1.75,"WALK TO SCHOOL WEEK PREP",27,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-08-15,6.00,"SCHOOL/TEAM COMMUNICATIONS",26,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-08-16,5.75,"REVIEWING YEARS PROJECTS",28,PD,"Program Development",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-08-17,3.00,INVENTORY/DATABASE,29,SD,"Systems Development",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-08-17,2.50,"CURRICULUM REVIEW",30,CD,"Curriculum Development",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-08-17,2.00,INVENTORY/DATABASE,29,SD,"Systems Development",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-08-18,2.25,"NEW TEACHERS LOGISTICS",33,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-08-18,1.00,"ELEMENTARY SAFETY CLASSES",32,SC,Scheduling,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-08-18,2.50,"WALK TO SCHOOL WEEK",31,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-08-18,0.50,TIMESHEETS,35,TA,"TAM Related Admin.",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-08-18,0.50,"NEXT GENERATION/YOUTH",34,PT,"Partnership Coordination",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-08-19,1.00,DATABASE,37,SD,"Systems Development",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-08-19,1.25,"WALK TO SCHOOL DAY PREP CLASSES",36,SC,Scheduling,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-08-20,1.50,"WALK TO SCHOOL WEEK",31,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-08-20,1.00,"Create lesson plans",410,*,"empty subtask for 2E",2E,"Refine Existing Education Program and Materials",10,"Bacich ES",Grubman,Melanie,7,37.00
+2010-08-21,2.00,"WALK TO SCHOOL WEEK",31,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-08-21,2.00,"Create lesson plans",410,*,"empty subtask for 2E",2E,"Refine Existing Education Program and Materials",10,"Bacich ES",Grubman,Melanie,7,37.00
+

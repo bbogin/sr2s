@@ -1,0 +1,44 @@
+taskreport,SR2S,TAM,2014-08-25,v1.0
+taskname,task_desc,budget,task_inactive_asof,subtaskname,subtask_desc,subtask_inactive_asof,charged
+1A,"Manage and Report Program",25800,,MG,Management,,19278.35
+1A,"Manage and Report Program",25800,,GT,"Grant Preparation",,19278.35
+1A,"Manage and Report Program",25800,,SM,"Staff Management",,19278.35
+1A,"Manage and Report Program",25800,,RP,Reporting,,19278.35
+1B,"Coordinate with TAM programs",2135,,*,"empty subtask for task 1B",,2355.04
+1C,"Stakeholder Outreach",893,,*,"empty subtask for task 1C",,327.25
+1D,"Integrate Program Regionally",4638,,MTC,"Spare the Air grant",,13628.06
+1D,"Integrate Program Regionally",4638,,*,"empty subtask for task 1D",,13628.06
+1E,"Establish Sustainable Funding",0,,*,"empty subtask for task 1E",,33609.92
+1F,"Promote SR2S Program",31659,,*,"empty sutask for task 1F",,32583.87
+2A,"Facilitate District Task Forces",45202,,CM,Communications,,105011.77
+2A,"Facilitate District Task Forces",45202,,MT,Meetings,,105011.77
+2A,"Facilitate District Task Forces",45202,,WA,"Walk Audit",,105011.77
+2A,"Facilitate District Task Forces",45202,,TP,"Travel Plans",,105011.77
+2A,"Facilitate District Task Forces",45202,,CM,Communications,,105011.77
+2B,"Institutionalize the Program",1416,,*,"Institutionalize the Program",,1776
+2C,Education,226734,,CD,"Curriculum Development",,271951.22
+2C,Education,226734,,MS,"Middle Schools",,271951.22
+2C,Education,226734,,SM,"Staff Management",,271951.22
+2C,Education,226734,,EM,"Equipment Maintenance",,271951.22
+2C,Education,226734,,MT,Meetings,,271951.22
+2C,Education,226734,,SC,Scheduling,,271951.22
+2C,Education,226734,,ES,"Elementary Schools",,271951.22
+2C,Education,226734,,CM,Communications,,271951.22
+2C,Education,226734,,HS,"High Schools",,271951.22
+2D,Encouragement,121085,,PD,"Program Development",,101560.15
+2D,Encouragement,121085,,VM,"Volunteer Management",,101560.15
+2D,Encouragement,121085,,EV,"Special Events",,101560.15
+2D,Encouragement,121085,,WR,"Walk and Roll Days",,101560.15
+2D,Encouragement,121085,,CN,Contests,,101560.15
+2D,Encouragement,121085,,MT,Meetings,,101560.15
+2D,Encouragement,121085,,CM,Communications,,101560.15
+2D,Encouragement,121085,,SM,"Staff Management",,101560.15
+2E,"Organize Teen Clubs",79871,,EV,Events,,273514.33
+2E,"Organize Teen Clubs",79871,,MT,Meetings,,273514.33
+2E,"Organize Teen Clubs",79871,,PD,"Program Development",,273514.33
+2E,"Organize Teen Clubs",79871,,SM,"Staff Management",,273514.33
+2E,"Organize Teen Clubs",79871,,CN,Contests,,273514.33
+2E,"Organize Teen Clubs",79871,,CM,Communications,,273514.33
+2F,"Evaluate the Program",15126,,*,"Empty Subtask for task 2F",,88597.97
+3A,"Promote SchoolPool Marin",9222,,*,"Empty subtask for task 3",,117544.05
+"Test seed","Test seeding a subtask",0,,seed,"initial seed subtask - please change",,0

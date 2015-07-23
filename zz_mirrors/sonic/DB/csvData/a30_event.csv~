@@ -1,0 +1,17 @@
+event_id,project_idref,name,description,budget,inactive_asof,timestamp
+1,1,"SL&L","Stop Look and Listen",0,,"2014-09-01"
+2,1,"WB","Walk Around the Block",0,,"2014-09-01"
+3,1,"BS","Bike Safety",0,,"2014-09-01"
+4,1,"TS","Traffic Safety",0,,"2014-09-01"
+5,1,"Rodeo","Bicycle Rodeo",0,,"2014-09-01"
+6,1,"Bike Skills","Bike Skills",0,,"2014-09-01"
+7,1,"Bike drills","Bike drills",0,,"2014-09-01"
+8,1,"P.Art","Poster Art",0,,"2014-09-01"
+9,1,"Assembly","Assembly",0,,"2014-09-01"
+10,1,"Green","Green Classes",0,,"2014-09-01"
+11,1,"FamM","Family Biking",0,,"2014-09-01"
+12,1,"Presentations","Presentations",0,,"2014-09-01"
+13,1,"bike field trips","Bicycle field trips",0,,"2014-09-01"
+14,1,"Teen Clubs","Organize Teen Clubs",0,,"2014-09-01"
+15,1,"Inactive","Test inactive as-of date",0,"2014-08-28","2014-09-01"
+

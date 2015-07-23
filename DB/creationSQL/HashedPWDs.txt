@@ -1,0 +1,10 @@
+r00t=>$2y$10$.T6FfhoYDqVWM9h8qJetPeH5ysW5Gzv.6q/JV3Geg7XH1n.4qQR.u
+none=>$2y$10$uw/voG1UornIQ71jsWAF/egWCDePiHTt0OVccg1NQnbQ6xOJtp/hG
+
+JeanS=>$2y$10$yVGT1pDUAG100dKPIZ9hzud6PuP89ALB.XUxpp5nNAJ...
+$2y$10$6Jw2zfJmBUF8jv1C58yKL.W4DOS.5OHMKVU6MLIpoTo
+
+
+INSERT INTO c00_person (person_id,lastname,lastsoundex,firstname,loginname,password)
+VALUES (0,'Boss','','the','root','$2y$10$.T6FfhoYDqVWM9h8qJetPeH5ysW5Gzv.6q/JV3Geg7XH1n.4qQR.u');
+

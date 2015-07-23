@@ -1,0 +1,119 @@
+[10-Aug-2014 13:13:00 America/Los_Angeles] Login: by root; id=0
+[10-Aug-2014 13:16:36 America/Los_Angeles] Login: by root; id=0
+[10-Aug-2014 13:22:27 America/Los_Angeles] Evicted(902): invalid cell=: /main/executive.php
+[11-Aug-2014 18:26:00 America/Los_Angeles] Logerr: by JeanS
+[11-Aug-2014 18:26:09 America/Los_Angeles] Logerr: by JeanS
+[11-Aug-2014 18:26:31 America/Los_Angeles] Logerr: by Cadab
+[11-Aug-2014 18:28:32 America/Los_Angeles] Logerr: by Cadab
+[11-Aug-2014 20:00:56 America/Los_Angeles] Login: by root; id=0
+[12-Aug-2014 08:37:20 America/Los_Angeles] Login: by root; id=0
+[12-Aug-2014 09:04:11 America/Los_Angeles] Logout: by id=0: /main/head.php
+[12-Aug-2014 11:04:19 America/Los_Angeles] Login: by JeanS; id=62
+[12-Aug-2014 11:08:00 America/Los_Angeles] Evicted(902): invalid cell=: /main/executive.php
+[12-Aug-2014 11:08:15 America/Los_Angeles] Login: by JeanS; id=62
+[12-Aug-2014 11:16:11 America/Los_Angeles] Login: by root; id=0
+[12-Aug-2014 11:31:29 America/Los_Angeles] Logout: by id=62: /main/head.php
+[13-Aug-2014 14:54:11 America/Los_Angeles] Evicted(125): no permit; not _LEGAL_: /main/executive.php
+[13-Aug-2014 15:42:15 America/Los_Angeles] Login: by root; id=0
+[16-Aug-2014 08:24:26 America/Los_Angeles] Login: by root; id=0
+[16-Aug-2014 08:25:33 America/Los_Angeles] Logout: by id=0: /main/head.php
+[16-Aug-2014 08:25:38 America/Los_Angeles] Login: by root; id=0
+[16-Aug-2014 08:30:00 America/Los_Angeles] Login: by root; id=0
+[16-Aug-2014 08:31:36 America/Los_Angeles] Logout: by id=0: /main/head.php
+[16-Aug-2014 13:44:23 America/Los_Angeles] Login: by root; id=0
+[16-Aug-2014 15:28:25 America/Los_Angeles] Login: by root; id=0
+[17-Aug-2014 13:00:21 America/Los_Angeles] Login: by root; id=0
+[17-Aug-2014 14:55:27 America/Los_Angeles] Login: by root; id=0
+[17-Aug-2014 14:56:53 America/Los_Angeles] Login: by root; id=0
+[17-Aug-2014 16:13:27 America/Los_Angeles] Login: by root; id=0
+[17-Aug-2014 16:48:07 America/Los_Angeles] Login: by root; id=0
+[17-Aug-2014 16:48:11 America/Los_Angeles] Evicted(26): invalid process ID: /main/executive.php
+[17-Aug-2014 16:50:31 America/Los_Angeles] Login: by root; id=0
+[17-Aug-2014 19:13:11 America/Los_Angeles] Login: by root; id=0
+[19-Aug-2014 08:47:36 America/Los_Angeles] Login: by root; id=0
+[19-Aug-2014 14:06:52 America/Los_Angeles] Login: by root; id=0
+[20-Aug-2014 18:01:51 America/Los_Angeles] Login: by root; id=0
+[20-Aug-2014 18:07:41 America/Los_Angeles] Login: by root; id=0
+[21-Aug-2014 08:41:04 America/Los_Angeles] Login: by root; id=0
+[21-Aug-2014 10:09:00 America/Los_Angeles] Login: by root; id=0
+[21-Aug-2014 11:07:07 America/Los_Angeles] Login: by root; id=0
+[21-Aug-2014 11:14:24 America/Los_Angeles] Login: by root; id=0
+[21-Aug-2014 18:59:38 America/Los_Angeles] Login: by root; id=0
+[22-Aug-2014 16:32:11 America/Los_Angeles] Login: by root; id=0
+[22-Aug-2014 18:05:40 America/Los_Angeles] Login: by root; id=0
+[22-Aug-2014 19:19:43 America/Los_Angeles] Login: by root; id=0
+[23-Aug-2014 11:22:00 America/Los_Angeles] Login: by root; id=0
+[24-Aug-2014 11:06:30 America/Los_Angeles] Login: by root; id=0
+[24-Aug-2014 14:27:55 America/Los_Angeles] Login: by root; id=0
+[24-Aug-2014 15:06:00 America/Los_Angeles] Login: by root; id=0
+[24-Aug-2014 15:59:30 America/Los_Angeles] Login: by root; id=0
+[25-Aug-2014 09:08:02 America/Los_Angeles] Logerr: by root
+[25-Aug-2014 09:08:07 America/Los_Angeles] Login: by root; id=0
+[26-Aug-2014 09:07:00 America/Los_Angeles] Login: by root; id=0
+[26-Aug-2014 09:14:35 America/Los_Angeles] Logout: by id=0: /main/head.php
+[26-Aug-2014 10:35:05 America/Los_Angeles] Login: by root; id=0
+[26-Aug-2014 14:45:44 America/Los_Angeles] Login: by root; id=0
+[26-Aug-2014 14:47:01 America/Los_Angeles] Logout: by id=0: /main/head.php
+[26-Aug-2014 16:21:20 America/Los_Angeles] Login: by root; id=0
+[26-Aug-2014 16:21:23 America/Los_Angeles] Logout: by id=0: /main/head.php
+[26-Aug-2014 16:21:35 America/Los_Angeles] Login: by Kalli; id=1
+[26-Aug-2014 16:21:47 America/Los_Angeles] Logout: by id=1: /main/head.php
+[26-Aug-2014 16:21:57 America/Los_Angeles] Logerr: by Agar
+[26-Aug-2014 16:22:08 America/Los_Angeles] Login: by Allen; id=47
+[26-Aug-2014 16:26:17 America/Los_Angeles] Logout: by id=47: /main/head.php
+[28-Aug-2014 16:04:40 America/Los_Angeles] Login: by JeanS; id=62
+[28-Aug-2014 16:04:51 America/Los_Angeles] Logout: by id=62: /main/head.php
+[28-Aug-2014 17:51:40 America/Los_Angeles] Login: by root; id=0
+[28-Aug-2014 17:55:13 America/Los_Angeles] Logout: by id=0: /main/head.php
+[01-Sep-2014 21:52:15 America/Los_Angeles] Logerr: by Cadab
+[01-Sep-2014 21:53:33 America/Los_Angeles] Logerr: by root
+[02-Sep-2014 11:52:35 America/Los_Angeles] Login: by root; id=0
+[02-Sep-2014 13:21:32 America/Los_Angeles] Login: by root; id=0
+[02-Sep-2014 23:02:03 America/Los_Angeles] Login: by root; id=0
+[02-Sep-2014 23:07:18 America/Los_Angeles] Evicted(40): invalid project id : /main/executive.php
+[02-Sep-2014 23:07:31 America/Los_Angeles] Login: by root; id=0
+[02-Sep-2014 23:07:43 America/Los_Angeles] Evicted(125): no permit; not _LEGAL_: /main/executive.php
+[02-Sep-2014 23:07:59 America/Los_Angeles] Login: by root; id=0
+[02-Sep-2014 23:09:48 America/Los_Angeles] Evicted(40): invalid project id : /main/executive.php
+[02-Sep-2014 23:10:01 America/Los_Angeles] Login: by root; id=0
+[02-Sep-2014 23:23:18 America/Los_Angeles] Logout: by id=0: /main/head.php
+[03-Sep-2014 17:29:18 America/Los_Angeles] Login: by root; id=0
+[03-Sep-2014 17:30:05 America/Los_Angeles] Login: by root; id=0
+[04-Sep-2014 08:59:13 America/Los_Angeles] Login: by root; id=0
+[04-Sep-2014 08:59:42 America/Los_Angeles] Logout: by id=0: /main/head.php
+[04-Sep-2014 09:00:16 America/Los_Angeles] Evicted(98): no SESSION state: /main/login.php
+[04-Sep-2014 09:00:29 America/Los_Angeles] Login: by Kalli; id=1
+[04-Sep-2014 09:08:14 America/Los_Angeles] Logout: by id=1: /main/head.php
+[04-Sep-2014 12:54:02 America/Los_Angeles] Login: by root; id=0
+[04-Sep-2014 12:56:28 America/Los_Angeles] Logout: by id=0: /main/head.php
+[04-Sep-2014 19:16:25 America/Los_Angeles] Login: by root; id=0
+[06-Sep-2014 08:49:11 America/Los_Angeles] Login: by root; id=0
+[06-Sep-2014 08:53:56 America/Los_Angeles] Logout: by id=0: /main/head.php
+[06-Sep-2014 09:11:17 America/Los_Angeles] Login: by root; id=0
+[06-Sep-2014 09:11:54 America/Los_Angeles] Logout: by id=0: /main/head.php
+[06-Sep-2014 09:12:09 America/Los_Angeles] Login: by Kalli; id=1
+[06-Sep-2014 09:14:07 America/Los_Angeles] Logout: by id=1: /main/head.php
+[06-Sep-2014 09:14:32 America/Los_Angeles] Login: by root; id=0
+[06-Sep-2014 09:17:32 America/Los_Angeles] Logout: by id=0: /main/head.php
+[06-Sep-2014 09:48:27 America/Los_Angeles] Login: by root; id=0
+[06-Sep-2014 09:55:26 America/Los_Angeles] Logout: by id=0: /main/head.php
+[06-Sep-2014 10:00:58 America/Los_Angeles] Login: by root; id=0
+[06-Sep-2014 10:07:41 America/Los_Angeles] Logout: by id=0: /main/head.php
+[07-Sep-2014 09:36:10 America/Los_Angeles] Login: by root; id=0
+[07-Sep-2014 09:36:39 America/Los_Angeles] Logout: by id=0: /main/head.php
+[07-Sep-2014 13:44:23 America/Los_Angeles] Login: by root; id=0
+[07-Sep-2014 14:00:31 America/Los_Angeles] Logout: by id=0: /main/head.php
+[07-Sep-2014 14:19:23 America/Los_Angeles] Login: by root; id=0
+[07-Sep-2014 14:20:01 America/Los_Angeles] Logout: by id=0: /main/head.php
+[07-Sep-2014 14:33:18 America/Los_Angeles] Login: by root; id=0
+[07-Sep-2014 14:35:51 America/Los_Angeles] Logout: by id=0: /main/head.php
+[07-Sep-2014 14:58:48 America/Los_Angeles] Login: by root; id=0
+[07-Sep-2014 15:09:03 America/Los_Angeles] Logout: by id=0: /main/head.php
+[07-Sep-2014 17:47:21 America/Los_Angeles] Login: by root; id=0
+[07-Sep-2014 18:17:49 America/Los_Angeles] Logout: by id=0: /main/head.php
+[07-Sep-2014 18:20:00 America/Los_Angeles] Login: by root; id=0
+[07-Sep-2014 18:20:09 America/Los_Angeles] Logout: by id=0: /main/head.php
+[07-Sep-2014 18:36:38 America/Los_Angeles] Login: by root; id=0
+[07-Sep-2014 18:39:30 America/Los_Angeles] Logout: by id=0: /main/head.php
+[08-Sep-2014 16:38:41 America/Los_Angeles] Login: by root; id=0
+[10-Sep-2014 18:35:00 America/Los_Angeles] Login: by root; id=0

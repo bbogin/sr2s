@@ -1,0 +1,3 @@
+preferences_id,organization_idref,project_idref,person_idref,theme,menu,date,currency_idref,decimal_char,timestamp
+1,0,5,0,,"EL=Class Counts&TP=Download Invoice Logs",,1,.,"2015-07-07 17:59:21"
+2,1,0,0,,"EL=Classes Edit&TP=Download Invoice Logs",,1,.,"2015-07-07 17:59:21"

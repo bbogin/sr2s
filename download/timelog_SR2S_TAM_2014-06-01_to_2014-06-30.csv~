@@ -1,0 +1,194 @@
+timelog,SR2S,TAM,2014-06-01,2014-06-30,v1.0
+logdate,hours,activity,activity_id,subtask,subtask_desc,task,task_desc,account,account_desc,lastname,firstname,person_id,rate
+2014-06-02,1,"respond to general emails",19872,CM,Communications,2A,"Facilitate District Task Forces",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-02,1,"develop project list for ad hoc committee; phone meeting with TAM.; ad hok meeting;",20568,MG,Management,1A,"Manage and Report Program",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-02,0,"Bike Skills - Del Mar Middle School",20581,MS,"Middle Schools",2C,Education,45,"Del Mar MS",Edgar,Jim,57,29.5
+2014-06-02,0,"Bike Rodeo - Park School Mill Valley",20582,ES,"Elementary Schools",2C,Education,24,"Park ES",Edgar,Jim,57,29.5
+2014-06-02,1.25,"Wrote email to Sinaloa science teacher laying out the possiblities of our programs at her school.",20592,PD,"Program Development",2E,"Organize Teen Clubs",43,"Sinaloa MS",Goodwin,Lou,26,31
+2014-06-02,1.5,"Meeting with Gwen to discuss end of the season. Planning for beginning of next year in regard to middle and high school programs.",20593,PD,"Program Development",2E,"Organize Teen Clubs",*,"Empty account",Goodwin,Lou,26,31
+2014-06-02,2.5,"Interview with students about Marin Transit and High School students' transportation choices.",20603,MT,Meetings,2E,"Organize Teen Clubs",77,"Tamiscal HS",Froh,Gwen,25,43
+2014-06-02,0.5,"Communication with Staff re: events; incentives",20604,CM,Communications,2E,"Organize Teen Clubs",*,"Empty account",Froh,Gwen,25,43
+2014-06-02,0.5,"Communication with Team Leader and teacher regarding organization of Bike Field trip and last wrap-up meeting.",20605,CM,Communications,2E,"Organize Teen Clubs",11,"Kent MS",Froh,Gwen,25,43
+2014-06-02,1,"E-Blast to Team Leaders about Walk and Roll Honor Roll certificates,e-blast about 2014 iWalk registration, set kickoff date for August volunteer luncheon, printed awards for Brookside School, responded to emails and phone calls from parent volunteers and SR2S staff, meeting with Deb Merten, scheduled Polar Bear walk for next week",20617,VM,"Volunteer Management",2D,Encouragement,*,"Empty account",Kelly,Laura,23,43.55
+2014-06-02,1.5,"Phone calls and emails with staff and others.",18595,CM,Communications,2C,Education,*,"Empty account",Sievert,James,37,38.35
+2014-06-02,6.5,"Del Mar MS ""Drive that Bike"" presention for 5 classes and 170 students. Pickup Uhaul.",20626,MS,"Middle Schools",2C,Education,45,"Del Mar MS",Sievert,James,37,38.35
+2014-06-02,3,"scheduling, recruit staff, update calendar for 2015 school year",20632,SC,Scheduling,2C,Education,*,"Empty account",Clark,Peggy,30,45
+2014-06-02,0.25,"team leader meeting prep",20634,VM,"Volunteer Management",2D,Encouragement,*,"Empty account",Clark,Peggy,30,45
+2014-06-02,0.5,"surveys track and call schools still missing",20635,*,"Empty Subtask for task 2F",2F,"Evaluate the Program",*,"Empty account",Clark,Peggy,30,45
+2014-06-03,1,"respond to general emails",19872,CM,Communications,2A,"Facilitate District Task Forces",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-03,2,"develop project list for ad hoc committee; phone meeting with TAM.; ad hok meeting;",20568,MG,Management,1A,"Manage and Report Program",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-03,1.5,"finalize invoice and reports",20569,RP,Reporting,1A,"Manage and Report Program",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-03,5,"Bike Skills - Del Mar Middle School",20581,MS,"Middle Schools",2C,Education,45,"Del Mar MS",Edgar,Jim,57,29.5
+2014-06-03,0,"Bike Rodeo - Park School Mill Valley",20582,ES,"Elementary Schools",2C,Education,24,"Park ES",Edgar,Jim,57,29.5
+2014-06-03,0.5,"Communication with Staff re: events; incentives",20604,CM,Communications,2E,"Organize Teen Clubs",*,"Empty account",Froh,Gwen,25,43
+2014-06-03,1,"Communication with Team Leader and teacher regarding organization of Bike Field trip and last wrap-up meeting.",20605,CM,Communications,2E,"Organize Teen Clubs",11,"Kent MS",Froh,Gwen,25,43
+2014-06-03,1,"Communication with teacher and students to plan for last wrap up meeting.",20606,CM,Communications,2E,"Organize Teen Clubs",75,"Sir Francis Drake HS",Froh,Gwen,25,43
+2014-06-03,3.5,"E-Blast to Team Leaders about Walk and Roll Honor Roll certificates,e-blast about 2014 iWalk registration, set kickoff date for August volunteer luncheon, printed awards for Brookside School, responded to emails and phone calls from parent volunteers and SR2S staff, meeting with Deb Merten, scheduled Polar Bear walk for next week",20617,VM,"Volunteer Management",2D,Encouragement,*,"Empty account",Kelly,Laura,23,43.55
+2014-06-03,0.5,FaceBook,19778,*,"empty sutask for task 1F",1F,"Promote SR2S Program",*,"Empty account",Kelly,Laura,23,43.55
+2014-06-03,0.5,"Collaboration with Gwen on events and incentives",20619,PD,"Program Development",2D,Encouragement,*,"Empty account",Kelly,Laura,23,43.55
+2014-06-03,7,"Del Mar MS ""Outdoor Bike Drills"" for 5 classes and 170 students. Dropoff truck/trailer.",20627,MS,"Middle Schools",2C,Education,45,"Del Mar MS",Sievert,James,37,38.35
+2014-06-03,0.5,"scheduling, recruit staff, update calendar for 2015 school year",20632,SC,Scheduling,2C,Education,*,"Empty account",Clark,Peggy,30,45
+2014-06-03,5,"Del Mar Instructor- Bike Drills",20633,MS,"Middle Schools",2C,Education,45,"Del Mar MS",Clark,Peggy,30,45
+2014-06-03,0.5,"Communications with staff andpublic re: event;",20637,CM,Communications,2C,Education,*,"Empty account",Clark,Peggy,30,45
+2014-06-03,1,"budget review",19400,MG,Management,1A,"Manage and Report Program",*,"Empty account",Baenisch,Kim,3,70
+2014-06-03,0.25,"invoices review, report edits",19200,RP,Reporting,1A,"Manage and Report Program",*,"Empty account",Baenisch,Kim,3,70
+2014-06-04,1,"respond to general emails",19872,CM,Communications,2A,"Facilitate District Task Forces",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-04,2.5,"meeting with Healthy canal project partners; meeting with Katrien and volunteers from Bahia Vista to plan the Walk and Roll Wednesdays for the fall",20570,*,"Empty subtask for task 3",3A,"Promote SchoolPool Marin",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-04,1,"talk with IJ about awarding contract for Novato projects; talk to team leader at Sinaloa about project; respond at length to inquiry about Ignacio road; spoke with parent at Sinaloa about issues there and whether current project will address those issues.  Spoke with Kathy about Tiburon progress multiple times",20571,TP,"Travel Plans",2A,"Facilitate District Task Forces",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-04,0.5,"working with Peggy on Surveys",20572,*,"empty sutask for task 1F",1F,"Promote SR2S Program",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-04,5,"Park School, Bike Rodeo",20578,ES,"Elementary Schools",2C,Education,24,"Park ES",Crawford,Heather,24,31
+2014-06-04,2.5,"Bike Rodeo - Park School Mill Valley",20582,ES,"Elementary Schools",2C,Education,24,"Park ES",Edgar,Jim,57,29.5
+2014-06-04,0.5,"Communication with Staff re: events; incentives",20604,CM,Communications,2E,"Organize Teen Clubs",*,"Empty account",Froh,Gwen,25,43
+2014-06-04,3,"End of year bike Field trip with club students",20607,MT,Meetings,2E,"Organize Teen Clubs",11,"Kent MS",Froh,Gwen,25,43
+2014-06-04,1,"Collaboration with Jeremy on teacher award certificate.",20608,PD,"Program Development",2E,"Organize Teen Clubs",*,"Empty account",Froh,Gwen,25,43
+2014-06-04,2,"MVMS - student council end of year wrap up meeting and return of unused supplies.",20609,MT,Meetings,2E,"Organize Teen Clubs",22,"Mill Valley MS",Froh,Gwen,25,43
+2014-06-04,1.25,"E-Blast to Team Leaders about Walk and Roll Honor Roll certificates,e-blast about 2014 iWalk registration, set kickoff date for August volunteer luncheon, printed awards for Brookside School, responded to emails and phone calls from parent volunteers and SR2S staff, meeting with Deb Merten, scheduled Polar Bear walk for next week",20617,VM,"Volunteer Management",2D,Encouragement,*,"Empty account",Kelly,Laura,23,43.55
+2014-06-04,0.5,FaceBook,19778,*,"empty sutask for task 1F",1F,"Promote SR2S Program",*,"Empty account",Kelly,Laura,23,43.55
+2014-06-04,3.5,"Polar Bear Walk at Lycee Francais in Sausalito",20618,EV,"Special Events",2D,Encouragement,*,"Empty account",Kelly,Laura,23,43.55
+2014-06-04,4.25,"Park ES ""Bike Rodeo"" for 2 classes and 50 students. Pickup and dropoff trailer.",20628,ES,"Elementary Schools",2C,Education,24,"Park ES",Sievert,James,37,38.35
+2014-06-04,0.75,"scheduling, recruit staff, update calendar for 2015 school year",20632,SC,Scheduling,2C,Education,*,"Empty account",Clark,Peggy,30,45
+2014-06-04,0.5,"team leader meeting prep",20634,VM,"Volunteer Management",2D,Encouragement,*,"Empty account",Clark,Peggy,30,45
+2014-06-04,1.5,"surveys track and call schools still missing",20635,*,"Empty Subtask for task 2F",2F,"Evaluate the Program",*,"Empty account",Clark,Peggy,30,45
+2014-06-04,3.5,"Park  Bike Rodeo Instructor",20636,ES,"Elementary Schools",2C,Education,24,"Park ES",Clark,Peggy,30,45
+2014-06-05,1,"respond to general emails",19872,CM,Communications,2A,"Facilitate District Task Forces",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-05,2,"meeting with Healthy canal project partners; meeting with Katrien and volunteers from Bahia Vista to plan the Walk and Roll Wednesdays for the fall",20570,*,"Empty subtask for task 3",3A,"Promote SchoolPool Marin",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-05,1,"talk with IJ about awarding contract for Novato projects; talk to team leader at Sinaloa about project; respond at length to inquiry about Ignacio road; spoke with parent at Sinaloa about issues there and whether current project will address those issues.  Spoke with Kathy about Tiburon progress multiple times",20571,TP,"Travel Plans",2A,"Facilitate District Task Forces",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-05,0.25,"working with Peggy on Surveys",20572,*,"empty sutask for task 1F",1F,"Promote SR2S Program",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-05,0.5,"Communication with Staff re: events; incentives",20604,CM,Communications,2E,"Organize Teen Clubs",*,"Empty account",Froh,Gwen,25,43
+2014-06-05,0.5,"Communication with teacher and students to plan for last wrap up meeting.",20606,CM,Communications,2E,"Organize Teen Clubs",75,"Sir Francis Drake HS",Froh,Gwen,25,43
+2014-06-05,0.25,"Sceduling classes",20610,SC,Scheduling,2C,Education,56,"Bahia Vista ES",Froh,Gwen,25,43
+2014-06-05,2.75,"E-Blast to Team Leaders about Walk and Roll Honor Roll certificates,e-blast about 2014 iWalk registration, set kickoff date for August volunteer luncheon, printed awards for Brookside School, responded to emails and phone calls from parent volunteers and SR2S staff, meeting with Deb Merten, scheduled Polar Bear walk for next week",20617,VM,"Volunteer Management",2D,Encouragement,*,"Empty account",Kelly,Laura,23,43.55
+2014-06-05,0.5,FaceBook,19778,*,"empty sutask for task 1F",1F,"Promote SR2S Program",*,"Empty account",Kelly,Laura,23,43.55
+2014-06-05,1,"Collaboration with Gwen on events and incentives",20619,PD,"Program Development",2D,Encouragement,*,"Empty account",Kelly,Laura,23,43.55
+2014-06-05,0.5,"surveys track and call schools still missing",20635,*,"Empty Subtask for task 2F",2F,"Evaluate the Program",*,"Empty account",Clark,Peggy,30,45
+2014-06-05,0.75,"Communications with staff andpublic re: event;",20637,CM,Communications,2C,Education,*,"Empty account",Clark,Peggy,30,45
+2014-06-05,1,"budget review",19400,MG,Management,1A,"Manage and Report Program",*,"Empty account",Baenisch,Kim,3,70
+2014-06-06,1,"respond to general emails",19872,CM,Communications,2A,"Facilitate District Task Forces",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-06,1,"talk with IJ about awarding contract for Novato projects; talk to team leader at Sinaloa about project; respond at length to inquiry about Ignacio road; spoke with parent at Sinaloa about issues there and whether current project will address those issues.  Spoke with Kathy about Tiburon progress multiple times",20571,TP,"Travel Plans",2A,"Facilitate District Task Forces",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-06,2,"develop issues list for the Canal",20573,TP,"Travel Plans",2A,"Facilitate District Task Forces",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-06,2,"start gathering newsletter articles",20574,*,"empty sutask for task 1F",1F,"Promote SR2S Program",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-06,4,"Bahia Vista, Bike Rodeo",20579,ES,"Elementary Schools",2C,Education,56,"Bahia Vista ES",Crawford,Heather,24,31
+2014-06-06,3,"Bike Rodeo Bahia Vista",20583,ES,"Elementary Schools",2C,Education,56,"Bahia Vista ES",Edgar,Jim,57,29.5
+2014-06-06,3.5,"Bahia Vista Bike Rodeo Instructor",20586,ES,"Elementary Schools",2C,Education,56,"Bahia Vista ES",Periera,Jackie,59,0
+2014-06-06,0.5,"Communication with Staff re: events; incentives",20604,CM,Communications,2E,"Organize Teen Clubs",*,"Empty account",Froh,Gwen,25,43
+2014-06-06,3,"Rodeo at Bahia Vista ES",20611,ES,"Elementary Schools",2C,Education,56,"Bahia Vista ES",Froh,Gwen,25,43
+2014-06-06,2.5,"End of year wrap up meeting with students and teacher at Drake.",20612,MT,Meetings,2E,"Organize Teen Clubs",75,"Sir Francis Drake HS",Froh,Gwen,25,43
+2014-06-06,1,"E-Blast to Team Leaders about Walk and Roll Honor Roll certificates,e-blast about 2014 iWalk registration, set kickoff date for August volunteer luncheon, printed awards for Brookside School, responded to emails and phone calls from parent volunteers and SR2S staff, meeting with Deb Merten, scheduled Polar Bear walk for next week",20617,VM,"Volunteer Management",2D,Encouragement,*,"Empty account",Kelly,Laura,23,43.55
+2014-06-06,0.5,"Collaboration with Gwen on events and incentives",20619,PD,"Program Development",2D,Encouragement,*,"Empty account",Kelly,Laura,23,43.55
+2014-06-06,5,"Bahia Vista ES ""Bike Rodeo"" for 4 classes and 96 stuents.  Pickup and dropoff trailer.",20629,ES,"Elementary Schools",2C,Education,56,"Bahia Vista ES",Sievert,James,37,38.35
+2014-06-06,0.5,"surveys track and call schools still missing",20635,*,"Empty Subtask for task 2F",2F,"Evaluate the Program",*,"Empty account",Clark,Peggy,30,45
+2014-06-06,3.5,"Park  Bike Rodeo Instructor",20636,ES,"Elementary Schools",2C,Education,24,"Park ES",Clark,Peggy,30,45
+2014-06-06,3.5,"Bahia Vista Bike Rodeo Instructor",20586,ES,"Elementary Schools",2C,Education,56,"Bahia Vista ES",Clark,Peggy,30,45
+2014-06-08,0.75,"read and responded to emails regarding map for Jeremy and response to Mike Schulist.",20594,PD,"Program Development",2E,"Organize Teen Clubs",07,"Mill Creek MS",Goodwin,Lou,26,31
+2014-06-09,1,"discuss report card spread sheet with Peggy, work out end of year tasks",20575,*,"Empty Subtask for task 2F",2F,"Evaluate the Program",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-09,1,"generaal emails - set up meetings with Hidden Valley, queries about infrastructure issues, communication with Team Leaders",20576,CM,Communications,2A,"Facilitate District Task Forces",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-09,1,"fix invoice; collect staff time cards",20577,RP,Reporting,1A,"Manage and Report Program",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-09,0.5,"Communication with Staff re: events; incentives",20604,CM,Communications,2E,"Organize Teen Clubs",*,"Empty account",Froh,Gwen,25,43
+2014-06-09,1.5,"Phone calls and emails with staff and others.",18595,CM,Communications,2C,Education,*,"Empty account",Sievert,James,37,38.35
+2014-06-09,2,"scheduling, recruit staff, update calendar for 2015 school year",20632,SC,Scheduling,2C,Education,*,"Empty account",Clark,Peggy,30,45
+2014-06-09,0.5,"Communications with staff andpublic re: event;",20637,CM,Communications,2C,Education,*,"Empty account",Clark,Peggy,30,45
+2014-06-09,0.5,"survey tracking, update spreadsheet, contact schools",20638,*,"Empty Subtask for task 2F",2F,"Evaluate the Program",*,"Empty account",Clark,Peggy,30,45
+2014-06-10,0.5,"Meeting with Davidson Girl Scouts to write plan for backgate policy.",20639,MT,Meetings,2E,"Organize Teen Clubs",58,"Davidson MS",Froh,Gwen,25,43
+2014-06-10,2.5,"staff timecards; track budget; invoice corrections",20643,RP,Reporting,1A,"Manage and Report Program",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-10,1,"responding to general emails from public inqueries  and staff ; Vallecito pathway through Mark School",20644,CM,Communications,2A,"Facilitate District Task Forces",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-10,2.5,"June newsletter; update web site",20645,*,"empty sutask for task 1F",1F,"Promote SR2S Program",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-10,1.5,"Phone calls and emails with staff and others.",18595,CM,Communications,2C,Education,*,"Empty account",Sievert,James,37,38.35
+2014-06-10,1.25,"Contacted by No Limits Day Camp regarding bike rodoe partnership.  Responded to requests regarding documents from Hamilton bike event.",20657,CM,Communications,2C,Education,*,"Empty account",Sievert,James,37,38.35
+2014-06-10,2,"Scheduling; communications with school contacts for 2014/15 school year. Update calendar for 2014/15 classes to schedule",20666,SC,Scheduling,2C,Education,*,"Empty account",Clark,Peggy,30,45
+2014-06-10,1,"communications with staff and public",19465,CM,Communications,2C,Education,*,"Empty account",Clark,Peggy,30,45
+2014-06-10,0.5,"budget review",19400,MG,Management,1A,"Manage and Report Program",*,"Empty account",Baenisch,Kim,3,70
+2014-06-11,2,"Meeting with Davidson Girl Scouts to write plan for backgate policy.",20639,MT,Meetings,2E,"Organize Teen Clubs",58,"Davidson MS",Froh,Gwen,25,43
+2014-06-11,0.5,"staff timecards; track budget; invoice corrections",20643,RP,Reporting,1A,"Manage and Report Program",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-11,1,"responding to general emails from public inqueries  and staff ; Vallecito pathway through Mark School",20644,CM,Communications,2A,"Facilitate District Task Forces",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-11,0.5,"June newsletter; update web site",20645,*,"empty sutask for task 1F",1F,"Promote SR2S Program",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-11,0.75,administration,20656,RP,Reporting,1A,"Manage and Report Program",*,"Empty account",Goodwin,Lou,26,31
+2014-06-11,4,"Polar Bear Walk and Roll Day at Coleman Elementary, year-end meeting with volunteer team",20658,WR,"Walk and Roll Days",2D,Encouragement,*,"Empty account",Kelly,Laura,23,43.55
+2014-06-11,2,"Volunteer thank you notes",20659,VM,"Volunteer Management",2D,Encouragement,*,"Empty account",Kelly,Laura,23,43.55
+2014-06-11,1,"responded to SR2S, MCBC and volunteer emails, phone calls",20660,CM,Communications,2D,Encouragement,*,"Empty account",Kelly,Laura,23,43.55
+2014-06-11,1,"FaceBook, reviewed and edited June e-newsletter for Wendi.",20661,*,"empty sutask for task 1F",1F,"Promote SR2S Program",*,"Empty account",Kelly,Laura,23,43.55
+2014-06-11,2.75,"Scheduling; communications with school contacts for 2014/15 school year. Update calendar for 2014/15 classes to schedule",20666,SC,Scheduling,2C,Education,*,"Empty account",Clark,Peggy,30,45
+2014-06-11,1,"communications with staff and public",19465,CM,Communications,2C,Education,*,"Empty account",Clark,Peggy,30,45
+2014-06-11,3,"Tam Invoice prep and deliver",20668,RP,Reporting,1A,"Manage and Report Program",*,"Empty account",Clark,Peggy,30,45
+2014-06-12,1,"responding to general emails from public inqueries  and staff ; Vallecito pathway through Mark School",20644,CM,Communications,2A,"Facilitate District Task Forces",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-12,2,"June newsletter; update web site",20645,*,"empty sutask for task 1F",1F,"Promote SR2S Program",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-12,1,"Canal issues list",20646,TP,"Travel Plans",2A,"Facilitate District Task Forces",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-12,1.5,"Volunteer thank you notes",20659,VM,"Volunteer Management",2D,Encouragement,*,"Empty account",Kelly,Laura,23,43.55
+2014-06-12,1,"responded to SR2S, MCBC and volunteer emails, phone calls",20660,CM,Communications,2D,Encouragement,*,"Empty account",Kelly,Laura,23,43.55
+2014-06-12,1.5,"FaceBook, reviewed and edited June e-newsletter for Wendi.",20661,*,"empty sutask for task 1F",1F,"Promote SR2S Program",*,"Empty account",Kelly,Laura,23,43.55
+2014-06-12,1.5,"Scheduling; communications with school contacts for 2014/15 school year. Update calendar for 2014/15 classes to schedule",20666,SC,Scheduling,2C,Education,*,"Empty account",Clark,Peggy,30,45
+2014-06-12,2,"Surveys- copy, prep for mailing to National SR2S",20667,*,"Empty Subtask for task 2F",2F,"Evaluate the Program",*,"Empty account",Clark,Peggy,30,45
+2014-06-12,0.75,"communications with staff and public",19465,CM,Communications,2C,Education,*,"Empty account",Clark,Peggy,30,45
+2014-06-13,1,"responding to general emails from public inqueries  and staff ; Vallecito pathway through Mark School",20644,CM,Communications,2A,"Facilitate District Task Forces",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-13,2,"conference call on invoicing.  Prepare fiscal year budget",20647,MG,Management,1A,"Manage and Report Program",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-16,2.5,"develop budget",20648,MG,Management,1A,"Manage and Report Program",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-16,3,"develop powerpoint",20649,*,"empty subtask for task 1B",1B,"Coordinate with TAM programs",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-16,0.5,"phone meeting with Katrien on next year's program",20650,*,"Empty subtask for task 3",3A,"Promote SchoolPool Marin",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-16,1,"responding to general email from staff and public",20651,CM,Communications,2A,"Facilitate District Task Forces",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-16,1,"prepare spread sheet for report cards",20652,*,"Empty Subtask for task 2F",2F,"Evaluate the Program",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-17,0.75,"budget review",19400,MG,Management,1A,"Manage and Report Program",*,"Empty account",Baenisch,Kim,3,70
+2014-06-18,0.5,FaceBook,19778,*,"empty sutask for task 1F",1F,"Promote SR2S Program",*,"Empty account",Kelly,Laura,23,43.55
+2014-06-18,1,"Staff, MCBC and volunteer emails",20662,CM,Communications,2D,Encouragement,*,"Empty account",Kelly,Laura,23,43.55
+2014-06-18,1,"Report cards for elementary schools",20663,*,"Empty Subtask for task 2F",2F,"Evaluate the Program",*,"Empty account",Kelly,Laura,23,43.55
+2014-06-18,1,"Scheduling; communications with school contacts for 2014/15 school year.",20669,SC,Scheduling,2C,Education,*,"Empty account",Clark,Peggy,30,45
+2014-06-18,0.5,"Surveys- copy, prep for mailing to National SR2S, follow-up with missing schools",20670,*,"Empty Subtask for task 2F",2F,"Evaluate the Program",*,"Empty account",Clark,Peggy,30,45
+2014-06-18,0.75,"communications with staff  and public",20671,CM,Communications,2C,Education,*,"Empty account",Clark,Peggy,30,45
+2014-06-18,0.75,"budget review",19400,MG,Management,1A,"Manage and Report Program",*,"Empty account",Baenisch,Kim,3,70
+2014-06-19,0.5,FaceBook,19778,*,"empty sutask for task 1F",1F,"Promote SR2S Program",*,"Empty account",Kelly,Laura,23,43.55
+2014-06-19,1,"Staff, MCBC and volunteer emails",20662,CM,Communications,2D,Encouragement,*,"Empty account",Kelly,Laura,23,43.55
+2014-06-19,1.5,"Report cards for elementary schools",20663,*,"Empty Subtask for task 2F",2F,"Evaluate the Program",*,"Empty account",Kelly,Laura,23,43.55
+2014-06-19,1,"Scheduling; communications with school contacts for 2014/15 school year.",20669,SC,Scheduling,2C,Education,*,"Empty account",Clark,Peggy,30,45
+2014-06-19,0.25,"Surveys- copy, prep for mailing to National SR2S, follow-up with missing schools",20670,*,"Empty Subtask for task 2F",2F,"Evaluate the Program",*,"Empty account",Clark,Peggy,30,45
+2014-06-19,0.75,"communications with staff  and public",20671,CM,Communications,2C,Education,*,"Empty account",Clark,Peggy,30,45
+2014-06-20,1,"Staff, MCBC and volunteer emails",20662,CM,Communications,2D,Encouragement,*,"Empty account",Kelly,Laura,23,43.55
+2014-06-20,1,"Scheduling; communications with school contacts for 2014/15 school year.",20669,SC,Scheduling,2C,Education,*,"Empty account",Clark,Peggy,30,45
+2014-06-20,1.25,"Surveys- copy, prep for mailing to National SR2S, follow-up with missing schools",20670,*,"Empty Subtask for task 2F",2F,"Evaluate the Program",*,"Empty account",Clark,Peggy,30,45
+2014-06-23,0.5,"e-mails and communication with SR2S and staff.",20640,CM,Communications,2E,"Organize Teen Clubs",*,"Empty account",Froh,Gwen,25,43
+2014-06-23,2.5,"catching up on emails from staff, public, other queries",20653,CM,Communications,2A,"Facilitate District Task Forces",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-23,1,"conversation with Stephanie about setting up SchoolPool in Mill Valley; review Katrien report on Canal",20654,*,"Empty subtask for task 3",3A,"Promote SchoolPool Marin",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-23,1,"finalize budget",20655,MG,Management,1A,"Manage and Report Program",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-23,0.5,"budget review",19400,MG,Management,1A,"Manage and Report Program",*,"Empty account",Baenisch,Kim,3,70
+2014-06-24,0.5,"e-mails and communication with SR2S and staff.",20640,CM,Communications,2E,"Organize Teen Clubs",*,"Empty account",Froh,Gwen,25,43
+2014-06-24,0.75,"Teen Program Development; report cards update and solicitation letter for prizes; organization of club for Drake HS",20641,PD,"Program Development",2E,"Organize Teen Clubs",*,"Empty account",Froh,Gwen,25,43
+2014-06-24,2,"catching up on emails from staff, public, other queries",20653,CM,Communications,2A,"Facilitate District Task Forces",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-24,1,"finalize budget",20655,MG,Management,1A,"Manage and Report Program",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-24,1,timecards,20099,RP,Reporting,1A,"Manage and Report Program",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-24,3.5,"Report card tracking, documented to Wendi recommendations to improve the report cards",20664,*,"Empty Subtask for task 2F",2F,"Evaluate the Program",*,"Empty account",Kelly,Laura,23,43.55
+2014-06-24,1,"emails -  SR2S",20665,CM,Communications,2D,Encouragement,*,"Empty account",Kelly,Laura,23,43.55
+2014-06-24,0.5,"budget review",19400,MG,Management,1A,"Manage and Report Program",*,"Empty account",Baenisch,Kim,3,70
+2014-06-25,0.5,"e-mails and communication with SR2S and staff.",20640,CM,Communications,2E,"Organize Teen Clubs",*,"Empty account",Froh,Gwen,25,43
+2014-06-25,1,"Teen Program Development; report cards update and solicitation letter for prizes; organization of club for Drake HS",20641,PD,"Program Development",2E,"Organize Teen Clubs",*,"Empty account",Froh,Gwen,25,43
+2014-06-25,1,"catching up on emails from staff, public, other queries",20653,CM,Communications,2A,"Facilitate District Task Forces",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-25,0.5,"setting up meetings for Kentfield and Tiburon",20672,MT,Meetings,2A,"Facilitate District Task Forces",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-25,1,"finalizing paperwork and filing for end of the year. prepare for retreat",20673,MG,Management,1A,"Manage and Report Program",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-25,1,timecards,20099,RP,Reporting,1A,"Manage and Report Program",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-25,4,"FaceBook and communtiy outreach seminar in San Rafael",20684,MT,Meetings,2D,Encouragement,*,"Empty account",Kelly,Laura,23,43.55
+2014-06-26,0.5,"e-mails and communication with SR2S and staff.",20640,CM,Communications,2E,"Organize Teen Clubs",*,"Empty account",Froh,Gwen,25,43
+2014-06-26,2,"Teen Program Development; report cards update and solicitation letter for prizes; organization of club for Drake HS",20641,PD,"Program Development",2E,"Organize Teen Clubs",*,"Empty account",Froh,Gwen,25,43
+2014-06-26,1,"catching up on emails from staff, public, other queries",20653,CM,Communications,2A,"Facilitate District Task Forces",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-26,0.5,"finalizing paperwork and filing for end of the year. prepare for retreat",20673,MG,Management,1A,"Manage and Report Program",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-26,1,"work with Laura on poster and incentives for Iwalk",20675,EV,"Special Events",2D,Encouragement,*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-26,2.5,"FaceBook post, blog photo and interview - stolen bike returned, typed up notes from seminar, action tems, worked on strategy, proposed advertising budget -Wendi approved",20683,*,"empty sutask for task 1F",1F,"Promote SR2S Program",*,"Empty account",Kelly,Laura,23,43.55
+2014-06-26,4,"Creative planning activities for International Walk and Roll to School Day, poster, button, discussed project list with Wendi, Clif Kid, image research, creative directtion -Jeremy.",20685,WR,"Walk and Roll Days",2D,Encouragement,*,"Empty account",Kelly,Laura,23,43.55
+2014-06-26,0.5,"SR2S emails",20686,CM,Communications,2D,Encouragement,*,"Empty account",Kelly,Laura,23,43.55
+2014-06-27,0.5,"e-mails and communication with SR2S and staff.",20640,CM,Communications,2E,"Organize Teen Clubs",*,"Empty account",Froh,Gwen,25,43
+2014-06-27,2,"Teen Program Development; report cards update and solicitation letter for prizes; organization of club for Drake HS",20641,PD,"Program Development",2E,"Organize Teen Clubs",*,"Empty account",Froh,Gwen,25,43
+2014-06-27,1,"catching up on emails from staff, public, other queries",20653,CM,Communications,2A,"Facilitate District Task Forces",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-27,0.5,"setting up meetings for Kentfield and Tiburon",20672,MT,Meetings,2A,"Facilitate District Task Forces",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-27,0.5,"finalizing paperwork and filing for end of the year. prepare for retreat",20673,MG,Management,1A,"Manage and Report Program",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-27,0.5,timecards,20099,RP,Reporting,1A,"Manage and Report Program",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-27,1,"develop summer project list.  Prep for retreat",20674,PD,"Program Development",2D,Encouragement,*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-27,1,"work with Laura on poster and incentives for Iwalk",20675,EV,"Special Events",2D,Encouragement,*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-27,3,"FaceBook post, blog photo and interview - stolen bike returned, typed up notes from seminar, action tems, worked on strategy, proposed advertising budget -Wendi approved",20683,*,"empty sutask for task 1F",1F,"Promote SR2S Program",*,"Empty account",Kelly,Laura,23,43.55
+2014-06-27,3.5,"Creative planning activities for International Walk and Roll to School Day, poster, button, discussed project list with Wendi, Clif Kid, image research, creative directtion -Jeremy.",20685,WR,"Walk and Roll Days",2D,Encouragement,*,"Empty account",Kelly,Laura,23,43.55
+2014-06-27,0.5,"SR2S emails",20686,CM,Communications,2D,Encouragement,*,"Empty account",Kelly,Laura,23,43.55
+2014-06-30,2,"Development of Teen Program",20642,PD,"Program Development",2E,"Organize Teen Clubs",*,"Empty account",Froh,Gwen,25,43
+2014-06-30,1,"responding to general emails from public and staff",20676,CM,Communications,2D,Encouragement,*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-30,1.5,"staff time cards and prepare invoice",20677,RP,Reporting,1A,"Manage and Report Program",*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-30,1,"conference call on Tiburon Bike Train",20678,MT,Meetings,2D,Encouragement,*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-30,1,"prepare for staff retreat",20679,PD,"Program Development",2D,Encouragement,*,"Empty account",Kallins,Wendi,1,59.5
+2014-06-30,1,"Surveys- record, prep for National, mail",20680,*,"Empty Subtask for task 2F",2F,"Evaluate the Program",*,"Empty account",Clark,Peggy,30,45
+2014-06-30,1.5,communications,18613,CM,Communications,2D,Encouragement,*,"Empty account",Clark,Peggy,30,45
+2014-06-30,0.5,"tracking staff expence forms",20681,RP,Reporting,1A,"Manage and Report Program",*,"Empty account",Clark,Peggy,30,45
+2014-06-30,1.5,"International Walk and Roll to School Day",20687,EV,"Special Events",2D,Encouragement,*,"Empty account",Kelly,Laura,23,43.55
+2014-06-30,0.5,"staff communications - Wendi - police theft idea",20688,CM,Communications,2D,Encouragement,*,"Empty account",Kelly,Laura,23,43.55
+2014-06-30,0,"finalized staff time cards; prepare invoice",20689,RP,Reporting,1A,"Manage and Report Program",*,"Empty account",Kallins,Wendi,1,59.5

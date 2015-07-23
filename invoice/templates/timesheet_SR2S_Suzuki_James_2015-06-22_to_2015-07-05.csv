@@ -1,0 +1,13 @@
+timesheet,SR2S,"Safe Routes to School",Suzuki,James,2015-06-22,2015-07-05,v1.0
+logdate,hours,activity,activity_id,subtask,subtask_desc,task,task_desc,account,account_desc,lastname,firstname,person_id,rate
+project,TAM,"Transportation Authority of Marin contract"
+2015-06-22,6,"Mill Valley MS Drive that Bike Presentation for 7 classes and 130 students.",21005,MS,"Middle Schools",2C,Education,22,"Mill Valley MS",Suzuki,James,37,38.35
+2015-06-22,2,"Staff meeting with Wendi, Peggy, Lou, Laura, Monica, and Gwen.",21006,MT,Meetings,2C,Education,*,"Empty account",Suzuki,James,37,38.35
+2015-06-23,8,"Mill Valley MS Drive that Bike Presentation for 8 classes and 180 students.",21007,MS,"Middle Schools",2C,Education,22,"Mill Valley MS",Suzuki,James,37,38.35
+2015-06-24,8,"Mill Valley MS Drive that Bike Presentation for 2 classes and 35 students. Outdoor Bike Drills for 4 classes and 89 students.",21008,MS,"Middle Schools",2C,Education,22,"Mill Valley MS",Suzuki,James,37,38.35
+project,MCBC,"Non-TAM related SR2S project"
+2015-06-25,8,"Beach time",21013,seed,"initial seed subtask - please change",Vacation,"Vacation days",*,"Empty account",Suzuki,James,37,36
+2015-06-26,8,"Beach time",21013,seed,"initial seed subtask - please change",Vacation,"Vacation days",*,"Empty account",Suzuki,James,37,36
+2015-07-01,2,Timesheets,21014,seed,"initial seed subtask - please change",Reports,"Write reports",*,"Empty account",Suzuki,James,37,36
+project,MTC,"Spare the Air Grants"
+project,<end>

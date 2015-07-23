@@ -1,0 +1,48 @@
+taskreport,SR2S,TAM,2014-06-30,v1.0
+taskname,task_desc,budget,task_inactive_asof,subtaskname,subtask_desc,subtask_inactive_asof,charged
+1A,"Manage and Report Program",25875,,RP,Reporting,,17515.475
+1A,"Manage and Report Program",25875,,MG,Management,,17515.475
+1A,"Manage and Report Program",25875,,GT,"Grant Preparation",,17515.475
+1A,"Manage and Report Program",25875,,SM,"Staff Management",,17515.475
+1B,"Coordinate with TAM programs",2135,,*,"empty subtask for task 1B",,1998.0349999999999
+1C,"Stakeholder Outreach",893,,*,"empty subtask for task 1C",,327.25
+1D,"Integrate Program Regionally",4638,,MTC," Spare the Air grant",,13390.062500000002
+1D,"Integrate Program Regionally",4638,,*,"empty subtask for task 1D",,13390.062500000002
+1E,"Establish Sustainable Funding",0,,*,"empty subtask for task 1E",,33609.91750000001
+1F,"Promote SR2S Program",31659,,*,"empty sutask for task 1F",,31965.567499999976
+2A,"Facilitate District Task Forces",45202,,CM,Communications,,103694.39499960729
+2A,"Facilitate District Task Forces",45202,,TP,"Travel Plans",,103694.39499960729
+2A,"Facilitate District Task Forces",45202,,CM,Communications,,103694.39499960729
+2A,"Facilitate District Task Forces",45202,,MT,Meetings,,103694.39499960729
+2A,"Facilitate District Task Forces",45202,,WA,"Walk Audit",,103694.39499960729
+2B,"Institutionalize the Program",1416,,*,"Institutionalize the Program",,1776
+2C,Education,226734,,CM,Communications,,263185.48500157363
+2C,Education,226734,,HS,"High Schools",,263185.48500157363
+2C,Education,226734,,CD,"Curriculum Development",,263185.48500157363
+2C,Education,226734,,SM,"Staff Management",,263185.48500157363
+2C,Education,226734,,MS,"Middle Schools",,263185.48500157363
+2C,Education,226734,,EM,"Equipment Maintenance",,263185.48500157363
+2C,Education,226734,,MT,Meetings,,263185.48500157363
+2C,Education,226734,,SC,Scheduling,,263185.48500157363
+2C,Education,226734,,ES,"Elementary Schools",,263185.48500157363
+2D,Encouragement,121085,,MT,Meetings,,89717.58500000004
+2D,Encouragement,121085,,CM,Communications,,89717.58500000004
+2D,Encouragement,121085,,SM,"Staff Management",,89717.58500000004
+2D,Encouragement,121085,,PD,"Program Development",,89717.58500000004
+2D,Encouragement,121085,,VM,"Volunteer Management",,89717.58500000004
+2D,Encouragement,121085,,EV,"Special Events",,89717.58500000004
+2D,Encouragement,121085,,WR,"Walk and Roll Days",,89717.58500000004
+2D,Encouragement,121085,,CN,Contests,,89717.58500000004
+2E,"Organize Teen Clubs",79871,,CM,Communications,,271090.8825015742
+2E,"Organize Teen Clubs",79871,,EV,Events,,271090.8825015742
+2E,"Organize Teen Clubs",79871,,MT,Meetings,,271090.8825015742
+2E,"Organize Teen Clubs",79871,,PD,"Program Development",,271090.8825015742
+2E,"Organize Teen Clubs",79871,,SM,"Staff Management",,271090.8825015742
+2E,"Organize Teen Clubs",79871,,CN,Contests,,271090.8825015742
+2F,"Evaluate the Program",15126,,*,"Empty Subtask for task 2F",,86456.22250000002
+3A,"Promote SchoolPool Marin",9222,,*,"Empty subtask for task 3",,116547.42499999999
+Program4,0,0,,*,"empty subtask for 9A",,1056.125
+Program3,0,0,,*,"empty subtask for 9B",,14707.962500000001
+Program2,0,0,,*,"empty subtask for 9C",,21235.225
+Program1,0,0,,*,"empty subtask for 9D",,27105.45
+Program5,0,0,,*,"empty subtask for 9E",,4069.2625

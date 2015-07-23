@@ -1,0 +1,374 @@
+timelog,SR2S,TAM,2010-09-01,2010-09-30,v1.0
+logdate,hours,activity,activity_id,subtask,subtask_desc,task,task_desc,account,account_desc,lastname,firstname,person_id,rate
+2010-09-01,0.75,"coordinating visitors and volunteers for parade",173,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-01,2.00,"getting back to school catch up, new staff logisits",168,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-01,1.00,"extra staff, getting schedules",169,SC,Scheduling,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-01,4.50,"TAM staff timesheet coordination and invoice development",158,*,"empty subtask for task 6A",6A,"Project Management and Oversight",*,"Empty account",Baenisch,Kim,3,43.42
+2010-09-01,1.25,"timesheets / mine and teaching staff",174,TA,"TAM Related Admin.",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-02,1.25,"follow  up with schools and extra staff",171,SC,Scheduling,3B,"Implementation of SR2S Activities",51,"Wade Thomas ES",Grubman,Melanie,7,37.00
+2010-09-02,0.50,"fill out timesheets",130,TA,"TAM Related Admin.",3B,"Implementation of SR2S Activities",*,"Empty account",Agar,Jason,8,35.82
+2010-09-02,3.00,"Inventory materials",18,TA,"TAM Related Admin.",3B,"Implementation of SR2S Activities",*,"Empty account",Agar,Jason,8,35.82
+2010-09-02,2.25,"overviewing curriculum from last year",170,CD,"Curriculum Development",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-02,2.00,"getting back to school catch up, new staff logisits",168,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-02,0.25,"learned how to send maximizer reports, saving files, time sheets",166,TA,"TAM Related Admin.",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-02,1.25,"follow  up with schools and extra staff",171,SC,Scheduling,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-04,2.00,"general communications with team leaders,",354,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-04,1.00,"review time sheets, reporting",351,TA,"TAM Related Admin.",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-04,0.50,"outline of schools joining program",352,TA,"TAM Related Admin.",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-04,0.75,"outline for tasks",353,TA,"TAM Related Admin.",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-04,0.50,"follow  up with schools and extra staff",171,SC,Scheduling,3B,"Implementation of SR2S Activities",49,"Brookside ES",Grubman,Melanie,7,37.00
+2010-09-04,1.00,"Novato Task Force - database update, set up meeting",350,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-04,0.75,"staff oversight - Michael - database, team leader requests",355,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-05,1.00,"permission to distribute flyers from principals",356,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-05,0.25,"Conversation with Brookside rep",358,TM,"SR2S Team",3B,"Implementation of SR2S Activities",48,"Ross School",Kallins,Wendi,1,37.27
+2010-09-05,0.25,"Conversation with Bahia Rep",359,TM,"SR2S Team",3B,"Implementation of SR2S Activities",56,"Bahia Vista ES",Kallins,Wendi,1,37.27
+2010-09-05,0.50,"INBOX/OUTBOX PLANNING",283,SD,"Systems Development",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-05,2.00,"CREATED TL SUPPORT PACKET",282,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-05,2.00,"PHONE -  Kel Harris, Heidi Adler, etc.",281,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-05,1.00,"INVENTORY CHANGES",280,SD,"Systems Development",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-05,0.50,"Novato Task Force - database update, set up meeting",350,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-05,0.25,"review time sheets, reporting",351,TA,"TAM Related Admin.",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-05,1.00,"DELIVER TL PACKETS",285,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-05,1.50,"MEET WITH MELANIE - BIKE ART",284,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-05,1.75,"general communications with team leaders,",354,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-05,0.50,"Conversations with two Reed reps",357,TM,"SR2S Team",3B,"Implementation of SR2S Activities",46,"Reed ES",Kallins,Wendi,1,37.27
+2010-09-06,1.00,"DATABASE COPY / NOTES TO DAN",286,SD,"Systems Development",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-06,1.00,"Respond to info requestes.",131,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Agar,Jason,8,35.82
+2010-09-06,1.00,"acquire supplies for Safety Art",132,CD,"Curriculum Development",3B,"Implementation of SR2S Activities",*,"Empty account",Agar,Jason,8,35.82
+2010-09-06,0.50,"review school wellness policy",365,PT,"Partnership Coordination",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-06,0.50,"review curriculum material",364,CD,"Curriculum Development",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-06,1.00,"staff oversight/ materials prep",363,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-06,0.50,"Iwalk flyer/ distribution",362,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-06,2.00,communications,361,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-06,1.50,"outline of program for 2005-6 year",360,TA,"TAM Related Admin.",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-06,0.50,"Human Powered parade planning oversight",159,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Baenisch,Kim,3,43.42
+2010-09-06,0.25,"talked to Taz about safety art and rodeos",175,TM,"SR2S Team",3B,"Implementation of SR2S Activities",14,"Neil Cummins ES",Grubman,Melanie,7,37.00
+2010-09-06,0.75,"extra staff for rodeos",176,SC,Scheduling,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-06,0.25,"special pedestrian day",177,SC,Scheduling,3B,"Implementation of SR2S Activities",18,"Marin Horizon",Grubman,Melanie,7,37.00
+2010-09-06,2.00,"meeting with michael on scheduling, supplies, etc.",178,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-06,2.00,"meeting with afterschool programs",179,SC,Scheduling,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-06,1.50,"ecovelocity clubs",180,CD,"Curriculum Development",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-06,1.00,"met with Heid about parade",181,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-06,1.00,"Schedule staff for classes",17,SC,Scheduling,3B,"Implementation of SR2S Activities",*,"Empty account",Agar,Jason,8,35.82
+2010-09-06,2.00,"UPDATING PRESS LIST",289,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-06,3.00,"CALLED PRINCIPALS FOR FLYER APPROVE",288,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-06,2.00,"PRINT DIRECTIONS FOR TL DELIVERIES",287,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-07,1.00,"MEETING - MELANIE - TABLING",290,PR,Promotion,3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-07,0.25,"staff technical support; refined timesheet template",123,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Trigg,Bob,4,26.06
+2010-09-07,0.50,"curriciulum for MCC",185,PC,Curriculum,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-07,2.75,"TAM staff timesheet coordination and invoice development",158,*,"empty subtask for task 6A",6A,"Project Management and Oversight",*,"Empty account",Baenisch,Kim,3,43.42
+2010-09-07,1.50,"town council meeting",186,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-07,2.25,"follow up phone calls to schedule classes",184,SC,Scheduling,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-07,1.25,"tabling info to michael",183,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-07,1.50,communications,361,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-07,0.50,"Summary of tasks performed",366,TA,"TAM Related Admin.",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-07,2.00,"entertainment for parade",182,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-07,3.00,"POSTCARD DESIGN - HPP",291,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-07,2.00,"CALLED PRINCIPALS FLYER APPROVAL",292,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-07,0.25,"review school wellness policy",365,PT,"Partnership Coordination",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-07,3.00,"PA&N collabortive meeting",367,PT,"Partnership Coordination",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-07,2.00,"EVENT PROMOTION - UPDATING PRESS LIST",293,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-07,0.50,"review curriculum material",364,CD,"Curriculum Development",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-07,0.75,"Iwalk flyer/ distribution",362,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-08,0.75,"press release  Iwalk",368,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-08,0.50,"ELEMENTARY SAFETY CLASSES",32,SC,Scheduling,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-08,0.50,"Iwalk flyer/ distribution",362,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-08,0.50,"staff technical support; refined timesheet template",123,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Trigg,Bob,4,26.06
+2010-09-08,2.00,"Meeting with TAM",369,*,"empty subtask for task 1A",1A,"Strategy Meetings",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-08,0.50,communications,361,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-08,3.00,"STOP LOOK AND LISTEN - WATCHED MELANIE",294,CT,"Classroom Teaching",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-08,1.50,"ecovelocity clubs",180,CD,"Curriculum Development",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-08,2.25,"human powered parade",187,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-08,2.50,"miller creek meeting",188,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-08,3.25,"prepare presentation for next generation conference",193,CD,"Curriculum Development",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-09,0.25,"TAM staff timesheet coordination and invoice development",158,*,"empty subtask for task 6A",6A,"Project Management and Oversight",*,"Empty account",Baenisch,Kim,3,43.42
+2010-09-09,3.00,"TABLING AT WHOLE FOODS",296,PR,Promotion,3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-09,2.00,"PREPARE TABLING KIT FOR WHOLE FOODS",295,PR,Promotion,3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-09,1.50,"prepare presentation for next generation conference",193,CD,"Curriculum Development",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-09,0.50,"Human Powered parade planning oversight",159,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Baenisch,Kim,3,43.42
+2010-09-09,2.00,"meetings with police and landlord for parade",189,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-09,3.50,"teaching and training 2nd grade class (70 students)",190,CT,"Classroom Teaching",3B,"Implementation of SR2S Activities",51,"Wade Thomas ES",Grubman,Melanie,7,37.00
+2010-09-09,1.75,"getting staff, materials ready for W2SD",191,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-10,0.25,"promo to street performers at special event",192,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-11,2.00,"EVENT PROMOTION - I-WALK - HPP",299,PR,Promotion,3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-11,3.00,"STARTED POSTER DESIGN - HPP",297,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-11,2.00,"VOLUNTEER COORDINATION",298,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-11,1.00,"phone - volunteer coordination",313,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-11,1.00,"INSTALLING SOFTWARE",300,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-12,2.00,"teaching and training helmet safety (28 students)",194,CT,"Classroom Teaching",3B,"Implementation of SR2S Activities",49,"Brookside ES",Grubman,Melanie,7,37.00
+2010-09-12,2.00,"teaching and training helmet safety (30 students)",195,CT,"Classroom Teaching",3B,"Implementation of SR2S Activities",21,"Edna Maguire ES",Grubman,Melanie,7,37.00
+2010-09-12,0.25,"TAM invoice template revisions, edited/completed/printed/compiled TAM August invoice",160,*,"empty subtask for task 6A",6A,"Project Management and Oversight",*,"Empty account",Baenisch,Kim,3,43.42
+2010-09-12,1.00,"communications Novato Task Force, Sun Valley, David Parisi, Manor school, Lagunitas misc emails",373,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-12,3.00,"EDITING PRESS RELEASES",302,PR,Promotion,3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-12,3.00,"Novato Task Force meeting",371,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-12,0.50,"distribution of Iwalk flyers delivery list",372,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-12,1.00,"follow ups on sponsors for parade",197,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-12,2.00,"TALKING TO PRESS",303,PR,Promotion,3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-12,2.00,"responding to assembly and class requests",196,SC,Scheduling,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-12,2.00,"EVENT PROMOTION - I-WALK - HPP",299,PR,Promotion,3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-12,2.50,"TAM reporting, answering questions, responding to David's inquirites, preparing August report.",370,TA,"TAM Related Admin.",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-12,1.00,"EMAILS: TL's, Mary Scarlett, William Wayland",301,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-12,0.50,"following up with TL requesting safety art",198,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-13,1.00,"Meet with Mel, plan Marin Horizons Ped Day, Observe site during morning drop off",139,FT,"Field Training",3B,"Implementation of SR2S Activities",18,"Marin Horizon",Agar,Jason,8,35.82
+2010-09-13,1.00,"Brookside- Helmet Safety - 20 students",138,CT,"Classroom Teaching",3B,"Implementation of SR2S Activities",49,"Brookside ES",Agar,Jason,8,35.82
+2010-09-13,1.00,"Edna Maguire- Helmet Safety - 25 students -",136,CT,"Classroom Teaching",3B,"Implementation of SR2S Activities",21,"Edna Maguire ES",Agar,Jason,8,35.82
+2010-09-13,3.50,"TAM invoice template revisions, edited/completed/printed/compiled TAM August invoice",160,*,"empty subtask for task 6A",6A,"Project Management and Oversight",*,"Empty account",Baenisch,Kim,3,43.42
+2010-09-13,1.00,"Obtain, repair, and move tv cart hour down to MCBC, obtain free TV set for media library use",135,PD,"Program Development",3B,"Implementation of SR2S Activities",*,"Empty account",Agar,Jason,8,35.82
+2010-09-13,1.00,"Research Materials reproduction- teaching videos, Create new Yikes Assembly",134,CD,"Curriculum Development",3B,"Implementation of SR2S Activities",*,"Empty account",Agar,Jason,8,35.82
+2010-09-13,0.50,"Curric Mtg.,",133,SC,Scheduling,3B,"Implementation of SR2S Activities",*,"Empty account",Agar,Jason,8,35.82
+2010-09-13,0.50,"fill out timesheets",130,TA,"TAM Related Admin.",3B,"Implementation of SR2S Activities",*,"Empty account",Agar,Jason,8,35.82
+2010-09-13,0.25,"distribution of Iwalk flyers delivery list",372,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-13,1.50,"communications Novato Task Force, Sun Valley, David Parisi, Manor school, Lagunitas misc emails",373,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-13,0.75,"comments on survey",374,*,"empty subtask for 2A",2A,"Evaluate Existing Program",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-13,1.00,"creation of sample newsletter submission for school newsletters",375,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-13,0.25,"coordinated insurance for Human Powered parade",124,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Trigg,Bob,4,26.06
+2010-09-13,1.00,"wrote letter to local businesses , emails",199,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-13,2.00,"safety art and yikes assembly information",200,SC,Scheduling,3B,"Implementation of SR2S Activities",50,"Manor ES",Grubman,Melanie,7,37.00
+2010-09-13,0.25,"Marin Horizon walk day",201,CD,"Curriculum Development",3B,"Implementation of SR2S Activities",18,"Marin Horizon",Grubman,Melanie,7,37.00
+2010-09-13,0.50,"bike safety assembly brainstorm",202,CD,"Curriculum Development",3B,"Implementation of SR2S Activities",05,"Dixie School",Grubman,Melanie,7,37.00
+2010-09-13,1.00,"meeting about SR2S gear campaign",203,CD,"Curriculum Development",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-13,0.25,"email to Ross school about special classes",204,SC,Scheduling,3B,"Implementation of SR2S Activities",48,"Ross School",Grubman,Melanie,7,37.00
+2010-09-13,1.00,"scheduled 4th grade classes /art with school",205,SC,Scheduling,3B,"Implementation of SR2S Activities",14,"Neil Cummins ES",Grubman,Melanie,7,37.00
+2010-09-13,1.00,"safety art equipment gatheiring /meeting",220,CD,"Curriculum Development",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-13,1.50,"delivery of letters to residents on parade route",223,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-13,0.25,"composition of letter to residents on parade route",224,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-13,0.75,"working out tax forms/ payment issues with trick rider",225,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-13,2.00,"WROTE AND SENT GROUP EMAIL",308,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-13,2.00,"WRITING PARADE BLURB",307,PR,Promotion,3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-13,1.00,"PHONE: Key Feallock, Deborah A., Mary S.",306,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-13,1.00,"CONTACTING PRINCIPALS - FLYER",305,PR,Promotion,3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-13,2.00,"PITCHING STORY - PRESS",304,PR,Promotion,3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-13,2.50,"TAM reporting, answering questions, responding to David's inquirites, preparing August report.",370,TA,"TAM Related Admin.",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-14,0.50,"communications Novato Task Force, Sun Valley, David Parisi, Manor school, Lagunitas misc emails",373,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-14,0.50,"provided paperwork/scheduling to extra teachers",210,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-14,0.50,"returning phone calls, answering emails",221,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-14,0.50,"scheudling special guests for parade",222,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-14,1.00,"special donor letters for parade",207,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-14,0.75,"check in meeting with Wendi",206,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-14,0.25,"coordinated insurance for Human Powered parade",124,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Trigg,Bob,4,26.06
+2010-09-14,2.00,"EMAILS: TL's, Mary Scarlett, William Wayland",301,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-14,2.00,"PHONE: press follow up HPP",309,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-14,1.00,"FINISH HPP POSTER",310,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-14,0.50,"green transportation campaign research",213,CD,"Curriculum Development",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-14,0.50,"participation in next generation's event",214,PT,"Partnership Coordination",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-14,0.50,"strategies on middle and high school",376,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-14,0.50,"time sheet tasks for two days",215,TA,"TAM Related Admin.",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-14,0.50,"Description of parade on multiple listserves",212,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-14,0.50,"checked emails, returned calls",216,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-14,0.50,"downloaded pictures from local education events",211,CD,"Curriculum Development",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-14,1.00,"CIRCULATE HPP FLYERS",311,PR,Promotion,3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-14,1.00,"GET ARTWORK TO PRINTER",312,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-14,1.00,"VOLUNTEER COORDINATION",298,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-14,0.75,"met with teachers at Drake High",209,TM,"SR2S Team",3B,"Implementation of SR2S Activities",76,"Tamalpais HS",Grubman,Melanie,7,37.00
+2010-09-14,1.00,"emntertainment inquiries",208,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-15,0.50,"communications Novato Task Force, Sun Valley, David Parisi, Manor school, Lagunitas misc emails",373,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-15,0.25,"coordinated insurance for Human Powered parade",124,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Trigg,Bob,4,26.06
+2010-09-15,2.00,"stop look and liten plus transportation (20 students)",217,CT,"Classroom Teaching",3B,"Implementation of SR2S Activities",14,"Neil Cummins ES",Grubman,Melanie,7,37.00
+2010-09-15,1.50,"scripting out Yikes 2 assembly with staff",226,CD,"Curriculum Development",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-15,1.25,"training staff on safety art/ school logistics",227,CD,"Curriculum Development",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-15,0.50,"talking to administration about assembly payments",228,TM,"SR2S Team",3B,"Implementation of SR2S Activities",60,"Glenwood ES",Grubman,Melanie,7,37.00
+2010-09-15,0.50,"fill out timesheets",130,TA,"TAM Related Admin.",3B,"Implementation of SR2S Activities",*,"Empty account",Agar,Jason,8,35.82
+2010-09-15,3.00,"Research Materials reproduction- teaching videos, Create new Yikes Assembly",134,CD,"Curriculum Development",3B,"Implementation of SR2S Activities",*,"Empty account",Agar,Jason,8,35.82
+2010-09-15,1.00,"bike safety assembly brainstorm",202,CD,"Curriculum Development",3B,"Implementation of SR2S Activities",05,"Dixie School",Grubman,Melanie,7,37.00
+2010-09-15,6.00,"Neil Cummings-, Stop Look and Listen- 124 students",137,CT,"Classroom Teaching",3B,"Implementation of SR2S Activities",14,"Neil Cummins ES",Agar,Jason,8,35.82
+2010-09-15,1.50,"Meet with Mel, plan Marin Horizons Ped Day, Observe site during morning drop off",139,FT,"Field Training",3B,"Implementation of SR2S Activities",18,"Marin Horizon",Agar,Jason,8,35.82
+2010-09-15,0.25,"safety art and yikes assembly information",200,SC,Scheduling,3B,"Implementation of SR2S Activities",50,"Manor ES",Grubman,Melanie,7,37.00
+2010-09-15,0.50,"checked emails, returned calls",216,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-16,0.50,"returning phone calls, answering emails",221,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-16,0.50,"wrote letter to local businesses , emails",199,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-16,1.25,"safety art and yikes assembly information",200,SC,Scheduling,3B,"Implementation of SR2S Activities",50,"Manor ES",Grubman,Melanie,7,37.00
+2010-09-16,0.25,"time sheet tasks for two days",215,TA,"TAM Related Admin.",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-16,1.00,"checked emails, returned calls",216,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-16,1.50,"walk around the block (30 students)",218,FT,"Field Training",3B,"Implementation of SR2S Activities",51,"Wade Thomas ES",Grubman,Melanie,7,37.00
+2010-09-16,2.00,"jeopardy and training  (30 students)",219,CT,"Classroom Teaching",3B,"Implementation of SR2S Activities",51,"Wade Thomas ES",Grubman,Melanie,7,37.00
+2010-09-16,0.50,"communications Novato Task Force, Sun Valley, David Parisi, Manor school, Lagunitas misc emails",373,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-17,0.50,"communications Novato Task Force, Sun Valley, David Parisi, Manor school, Lagunitas misc emails",373,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-19,1.00,"Human Powered parade planning oversight",159,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Baenisch,Kim,3,43.42
+2010-09-19,2.00,"PITCHING TO PRESS - HPP STORY",316,PR,Promotion,3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-19,2.00,"rehearsed / developed script for yikes assy.",333,CD,"Curriculum Development",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-19,1.50,"9/8 TAM meeting notes review, timesheets and signatures coordination for Parisi Assoc invoice",162,*,"empty subtask for task 6A",6A,"Project Management and Oversight",*,"Empty account",Baenisch,Kim,3,43.42
+2010-09-19,0.50,"Call from parent at St. Anselms",384,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-19,0.50,"refine letter to principals",383,*,"empty subtask for 2E",2E,"Refine Existing Education Program and Materials",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-19,1.00,"misc communications, St. Anselms new team leaders,  Reed on W2SD, Hamilton, Ross, Marin Horizon",382,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-19,2.00,"Marin Horizons- Marin Horizons Ped Day, Observe site with Frances",148,FT,"Field Training",3B,"Implementation of SR2S Activities",18,"Marin Horizon",Agar,Jason,8,35.82
+2010-09-19,1.00,assemblies,232,SC,Scheduling,3B,"Implementation of SR2S Activities",49,"Brookside ES",Grubman,Melanie,7,37.00
+2010-09-19,2.00,"STAFF MEETING",315,TM,"SR2S Team Meetings",4A,"Engineering Expertise",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-19,1.25,classes,233,SC,Scheduling,3B,"Implementation of SR2S Activities",50,"Manor ES",Grubman,Melanie,7,37.00
+2010-09-19,0.75,"dixie special event logistics",234,SC,Scheduling,3B,"Implementation of SR2S Activities",05,"Dixie School",Grubman,Melanie,7,37.00
+2010-09-19,1.00,"EDITING PRESS RELEASES",302,PR,Promotion,3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-19,0.50,"converation with outgoing team leader and prep for principal meeting",381,TM,"SR2S Team",3B,"Implementation of SR2S Activities",21,"Edna Maguire ES",Kallins,Wendi,1,37.27
+2010-09-19,0.50,"work with Jaon on Marin Horizon and new Yikes assembly",380,CD,"Curriculum Development",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-19,0.50,"walk  to school day events, support to team leaders",235,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-19,0.25,"responded to volunteer emails from students",238,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-19,0.50,"outreach to local businesses/ promotion",237,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-19,0.75,"logisitc scheduling with BMX rider for yikes and rodeos",236,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-19,0.50,"Conversation with new volunteer",379,TM,"SR2S Team",3B,"Implementation of SR2S Activities",18,"Marin Horizon",Kallins,Wendi,1,37.27
+2010-09-19,0.50,"Conversation with volunteer on walkabouts",378,TM,"SR2S Team",3B,"Implementation of SR2S Activities",51,"Wade Thomas ES",Kallins,Wendi,1,37.27
+2010-09-19,2.00,"Meeting with Hill assistant principal",377,TM,"SR2S Team",3B,"Implementation of SR2S Activities",31,"Hill MS",Kallins,Wendi,1,37.27
+2010-09-19,1.00,"TALKED WITH DAN / WENDI RE - DATABASE",317,SD,"Systems Development",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-19,2.00,"RESEARCHING GEAR MFR'S",314,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-19,1.00,"School Calender prep/scheduling, respond to info requests, Staff Meeting",140,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Agar,Jason,8,35.82
+2010-09-19,2.75,"training and teaching jeopardy with Kristin (50 students)",229,CT,"Classroom Teaching",3B,"Implementation of SR2S Activities",49,"Brookside ES",Grubman,Melanie,7,37.00
+2010-09-19,1.00,"arranging entertainment sound tech volunteer",230,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-19,0.50,"main entertainment for parade/ contract",231,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-19,0.50,"fill out timesheets",130,TA,"TAM Related Admin.",3B,"Implementation of SR2S Activities",*,"Empty account",Agar,Jason,8,35.82
+2010-09-20,2.00,"School Calender prep/scheduling, respond to info requests, Staff Meeting",140,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Agar,Jason,8,35.82
+2010-09-20,1.00,"prep for Tam presentation, presentation",386,*,"empty subtask for 1B",1B,"Coordinate with TAM and Other TAM Agencies",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-20,2.00,"Press work for W2SD",385,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-20,1.50,"Edna Maguire-Walk around the Block-20 students-",145,CT,"Classroom Teaching",3B,"Implementation of SR2S Activities",21,"Edna Maguire ES",Agar,Jason,8,35.82
+2010-09-20,1.50,"Brokside Upper- Jepoardy- 20 students-",147,CT,"Classroom Teaching",3B,"Implementation of SR2S Activities",49,"Brookside ES",Agar,Jason,8,35.82
+2010-09-20,0.50,"Marin Horizons- Marin Horizons Ped Day, Observe site with Frances",148,FT,"Field Training",3B,"Implementation of SR2S Activities",18,"Marin Horizon",Agar,Jason,8,35.82
+2010-09-20,1.00,"9/8 TAM meeting notes review, timesheets and signatures coordination for Parisi Assoc invoice",162,*,"empty subtask for task 6A",6A,"Project Management and Oversight",*,"Empty account",Baenisch,Kim,3,43.42
+2010-09-20,1.00,"misc communications, St. Anselms new team leaders,  Reed on W2SD, Hamilton, Ross, Marin Horizon",382,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-20,1.50,"STAFF MEETING",56,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-20,0.50,"brainstorm and write yikes 2 script",248,CD,"Curriculum Development",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-20,0.50,"sent out rodoe and walking permission slips",247,FT,"Field Training",3B,"Implementation of SR2S Activities",49,"Brookside ES",Grubman,Melanie,7,37.00
+2010-09-20,0.50,"follow up about assembly details",246,SC,Scheduling,3B,"Implementation of SR2S Activities",61,"Laurel Dell ES",Grubman,Melanie,7,37.00
+2010-09-20,0.50,"promotion/ meeting with town hall for event",245,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-20,1.75,"met with teachers to overview schedules",244,SC,Scheduling,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-20,0.50,"responded to volunteer requests ,emails",243,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-20,0.50,"next generaton conversation about events",242,PT,"Partnership Coordination",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-20,2.25,"walk around the block (60 students)",241,FT,"Field Training",3B,"Implementation of SR2S Activities",21,"Edna Maguire ES",Grubman,Melanie,7,37.00
+2010-09-20,0.75,"time sheets, calender  for report",240,TA,"TAM Related Admin.",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-20,2.00,"VOLUNTEER COORDINATION",298,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-20,0.50,"fill out timesheets",130,TA,"TAM Related Admin.",3B,"Implementation of SR2S Activities",*,"Empty account",Agar,Jason,8,35.82
+2010-09-20,3.00,"Schedule and plan Hill MS Program, Review teaching calender",142,SC,Scheduling,3B,"Implementation of SR2S Activities",*,"Empty account",Agar,Jason,8,35.82
+2010-09-20,0.50,"Research Rodeo Trailer registration, go to DMV and get forms, Deliver forms to City of San Rafael.",143,PD,"Program Development",3B,"Implementation of SR2S Activities",*,"Empty account",Agar,Jason,8,35.82
+2010-09-20,1.50,"Edna Maguire-Jepoardy,-40 students",144,CT,"Classroom Teaching",3B,"Implementation of SR2S Activities",21,"Edna Maguire ES",Agar,Jason,8,35.82
+2010-09-20,2.00,"EMAILS to event partners, team leaders",318,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-20,1.00,"PHONE CALLS TO PRINCIPALS",319,PR,Promotion,3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-20,1.00,"COORDINATION WITH PRINTER - IWALK FLYER",320,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-20,2.00,"MAILING MATERIALS TO TL",321,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-20,1.50,"staff meeting, plan for Wakl to School Day",389,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-20,0.50,"Talk to potential team leader at While Hill",388,TM,"SR2S Team",3B,"Implementation of SR2S Activities",52,"White Hill MS",Kallins,Wendi,1,37.27
+2010-09-20,1.00,"activities chart",387,TA,"TAM Related Admin.",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-21,2.00,"reply emails / phone to team leaders",330,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-21,0.50,"schedules and reminder calls to rodeo staff",252,FT,"Field Training",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-21,1.00,"PREPARED GROUP EMAIL DOCS- TL",325,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-21,0.50,"activities chart",387,TA,"TAM Related Admin.",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-21,1.00,"MEETING WITH MEL - SAFETY ART",322,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-21,1.00,"safety art class talking points, etc.",254,CD,"Curriculum Development",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-21,1.50,"misc communications, St. Anselms new team leaders,  Reed on W2SD, Hamilton, Ross, Marin Horizon",382,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-21,0.50,"Sept and Oct staff tasks and project progress oversight",161,*,"empty subtask for task 6A",6A,"Project Management and Oversight",*,"Empty account",Baenisch,Kim,3,43.42
+2010-09-21,7.00,"Marin Horizons- K-8 Walk around the block- 200 students",149,FT,"Field Training",3B,"Implementation of SR2S Activities",18,"Marin Horizon",Agar,Jason,8,35.82
+2010-09-21,2.00,"EMAILS: planning materials distribution",323,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-21,2.00,"COORDINATING POSTER / FLYER DISTRIBUTION",324,PR,Promotion,3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-21,1.25,"outreach to local businesses/ promotion",237,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-21,2.00,"Meeting with Principal and team leaders at Edna Maguire",390,TM,"SR2S Team",3B,"Implementation of SR2S Activities",21,"Edna Maguire ES",Kallins,Wendi,1,37.27
+2010-09-21,2.00,"VOLUNTEER COORDINATION",298,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-21,1.00,"pick up flyers from printer and deliver to Reed",391,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-21,0.50,"time sheets, calender  for report",240,TA,"TAM Related Admin.",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-21,1.50,"I walk promotion",392,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-21,3.50,"helmet saftey  60 students",249,CT,"Classroom Teaching",3B,"Implementation of SR2S Activities",14,"Neil Cummins ES",Grubman,Melanie,7,37.00
+2010-09-21,1.25,"returning calls to Team leaders about safety art, promotion strategies, and assemblies",250,TM,"SR2S Team",3B,"Implementation of SR2S Activities",05,"Dixie School",Grubman,Melanie,7,37.00
+2010-09-21,0.50,"trained Michael/provided information about how to use safety art and assemblies to support team leaders in promoting walk to school day",251,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-21,0.50,"discuss logistics of scheduling staff w/Mel",393,SC,Scheduling,3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-22,1.00,"scheduled all classes and assembly",255,SC,Scheduling,3B,"Implementation of SR2S Activities",79,"Marin Waldorf",Grubman,Melanie,7,37.00
+2010-09-22,0.75,"created write ups and graphics for website",256,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-22,1.75,"trained Michael on safety art, logistics, looked over materials",253,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-22,0.50,"schedules and reminder calls to rodeo staff",252,FT,"Field Training",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-22,2.25,"walk around the block (60 students)",241,FT,"Field Training",3B,"Implementation of SR2S Activities",21,"Edna Maguire ES",Grubman,Melanie,7,37.00
+2010-09-22,1.00,"VOLUNTEER COORDINATION",298,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-22,0.75,"contacting staff about rodeo dates",239,SC,Scheduling,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-22,2.00,"TIMECARD COMPLETION",326,TA,"TAM Related Admin.",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-22,2.00,"DELIVERING KEYCHAINS / POSTERS",327,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-22,1.00,"TALKING WITH EVENT PARTNER",328,PT,"Partnership Coordination",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-22,2.00,"PHONE CALLS: volunteer coordination",329,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-22,3.00,"pickup dropoff r/t I-walk items - schools",331,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-22,1.00,"sorting / organizing safety art materials",332,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-22,0.25,"9/8 TAM meeting notes review, timesheets and signatures coordination for Parisi Assoc invoice",162,*,"empty subtask for task 6A",6A,"Project Management and Oversight",*,"Empty account",Baenisch,Kim,3,43.42
+2010-09-22,7.00,"Neil Cumming-, Walk around the block - 120 students",146,CT,"Classroom Teaching",3B,"Implementation of SR2S Activities",14,"Neil Cummins ES",Agar,Jason,8,35.82
+2010-09-22,2.00,"Prepare Bike rodeo materials for use",141,FT,"Field Training",3B,"Implementation of SR2S Activities",*,"Empty account",Agar,Jason,8,35.82
+2010-09-22,0.50,"fill out timesheets",130,TA,"TAM Related Admin.",3B,"Implementation of SR2S Activities",*,"Empty account",Agar,Jason,8,35.82
+2010-09-22,0.50,"website updates",125,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Trigg,Bob,4,26.06
+2010-09-22,1.50,"misc communications, St. Anselms new team leaders,  Reed on W2SD, Hamilton, Ross, Marin Horizon",382,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-22,3.75,"prep for Tam presentation, presentation",386,*,"empty subtask for 1B",1B,"Coordinate with TAM and Other TAM Agencies",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-22,1.50,"preparations, promotions and misc work for Iwalk",394,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-22,1.00,"review best practices draft and made comments.",395,*,"empty subtask for 2B",2B,"Research Best Practices of Other SR2S Programs",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-23,0.50,"schedules and reminder calls to rodeo staff",252,FT,"Field Training",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-23,0.50,"overviewed last years club by looking at youth feed back",259,CD,"Curriculum Development",3B,"Implementation of SR2S Activities",22,"Mill Valley MS",Grubman,Melanie,7,37.00
+2010-09-23,0.25,"yikes assembly",258,SC,Scheduling,3B,"Implementation of SR2S Activities",63,"San Rafael HS",Grubman,Melanie,7,37.00
+2010-09-23,2.50,"met with team leader to plan club strategy",257,TM,"SR2S Team",3B,"Implementation of SR2S Activities",22,"Mill Valley MS",Grubman,Melanie,7,37.00
+2010-09-23,0.50,"volunteer recruitment for Human Powered parade poster distribution",126,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Trigg,Bob,4,26.06
+2010-09-23,1.00,"misc communications, St. Anselms new team leaders,  Reed on W2SD, Hamilton, Ross, Marin Horizon",382,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-23,0.25,"time sheets, calender  for report",240,TA,"TAM Related Admin.",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-23,2.00,"main entertainment for parade/ contract",231,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-26,1.00,"Staff direction, resolving rodeo issue, directing admin on tasks, scheduling problems, crisis management",397,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-26,1.00,"Brookside Upper- Create rodeo alternate plan",154,CT,"Classroom Teaching",3B,"Implementation of SR2S Activities",49,"Brookside ES",Agar,Jason,8,35.82
+2010-09-26,0.75,"scheduled two yikes assemblies, safety art",260,SC,Scheduling,3B,"Implementation of SR2S Activities",49,"Brookside ES",Grubman,Melanie,7,37.00
+2010-09-26,2.00,"scheduling all classes  with school and extra teachers",261,SC,Scheduling,3B,"Implementation of SR2S Activities",50,"Manor ES",Grubman,Melanie,7,37.00
+2010-09-26,0.50,"planning safety art with team leader",262,TM,"SR2S Team",3B,"Implementation of SR2S Activities",05,"Dixie School",Grubman,Melanie,7,37.00
+2010-09-26,0.50,"editing walk to school day flyer/adding info",263,TM,"SR2S Team",3B,"Implementation of SR2S Activities",05,"Dixie School",Grubman,Melanie,7,37.00
+2010-09-26,4.75,"rodeo   (350 students)",264,FT,"Field Training",3B,"Implementation of SR2S Activities",49,"Brookside ES",Grubman,Melanie,7,37.00
+2010-09-26,1.00,"walk to schohol day  questions, Reed, Vallicito, promotion",400,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-26,1.00,"filling in timesheet",337,TA,"TAM Related Admin.",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-26,3.00,"piciking up safety art materials",336,SD,"Systems Development",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-26,1.00,"returning rental van -",335,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-26,4.00,"Training/Helping on Bike Rodeo- Brookside",334,FT,"Field Training",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-26,0.50,"talk with Walk Boston re best practices",399,*,"empty subtask for 2A",2A,"Evaluate Existing Program",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-26,1.00,"Human Powered parade volunteer recruitment and site logistics oversight",165,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Baenisch,Kim,3,43.42
+2010-09-26,2.00,"misc communications, street issues - Fairfax, Brookside, Sun Valley, Dixie, Novato task force",398,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-26,1.00,"working with both team leaders to resolve a conflict",396,TM,"SR2S Team",3B,"Implementation of SR2S Activities",21,"Edna Maguire ES",Kallins,Wendi,1,37.27
+2010-09-26,2.25,"Rodeo, Brookside",128,FT,"Field Training",3B,"Implementation of SR2S Activities",49,"Brookside ES",Breeze,Connie,12,23.83
+2010-09-27,4.00,"Marin Horizon reconnaisance w volunteers",403,WK,Walkabout,3B,"Implementation of SR2S Activities",18,"Marin Horizon",Kallins,Wendi,1,37.27
+2010-09-27,2.00,"recruiting help for bike decorating",342,PT,"Partnership Coordination",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-27,1.00,"copy of parade flyer - knikos (hand feed and cut)",339,PR,Promotion,3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-27,1.00,"compiling / assessing TL reports from schools",340,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-27,4.00,"Create Yikes 2 assembly, review and make improvements with staff, revise",150,CD,"Curriculum Development",3B,"Implementation of SR2S Activities",*,"Empty account",Agar,Jason,8,35.82
+2010-09-27,0.50,"program projects status and staff tasks coordination oversight, highschool programs review and coordination",163,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Baenisch,Kim,3,43.42
+2010-09-27,0.50,"misc communications, street issues - Fairfax, Brookside, Sun Valley, Dixie, Novato task force",398,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-27,3.00,"yikes assemblies  ( see jason's sheet)",265,CT,"Classroom Teaching",3B,"Implementation of SR2S Activities",50,"Manor ES",Grubman,Melanie,7,37.00
+2010-09-27,0.50,"introduction conversation with team leader",270,TM,"SR2S Team",3B,"Implementation of SR2S Activities",30,"Hamilton ES",Grubman,Melanie,7,37.00
+2010-09-27,0.75,"following up on class logistics",269,SC,Scheduling,3B,"Implementation of SR2S Activities",14,"Neil Cummins ES",Grubman,Melanie,7,37.00
+2010-09-27,1.00,"prep safety art materials",338,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-27,0.75,"postering for parade",271,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-27,0.25,"website updates, submitted Kaiser staff insurance forms, revised timesheet template",127,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Trigg,Bob,4,26.06
+2010-09-27,1.00,"edited pieces for Marin IJ in your town",341,PR,Promotion,3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-27,1.50,"Walk to School day promotino, press, e-message to team leaders",402,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-27,1.50,"Obtain props for new school assembly promotional program (Yikes 2), transfer equipment and load rodeo trailer for Dixie Rodeo day",151,CD,"Curriculum Development",3B,"Implementation of SR2S Activities",*,"Empty account",Agar,Jason,8,35.82
+2010-09-27,3.00,"Tam High Safety Meeting",401,TM,"SR2S Team",3B,"Implementation of SR2S Activities",78,"St. Patricks",Kallins,Wendi,1,37.27
+2010-09-27,0.25,"Human Powered parade volunteer recruitment and site logistics oversight",165,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Baenisch,Kim,3,43.42
+2010-09-27,3.50,"Hamilton ES - Yikes 1 Assembly - 525 students",152,CT,"Classroom Teaching",3B,"Implementation of SR2S Activities",30,"Hamilton ES",Agar,Jason,8,35.82
+2010-09-28,3.25,"yikes assemblies  ( see jason's sheet)",265,CT,"Classroom Teaching",3B,"Implementation of SR2S Activities",50,"Manor ES",Grubman,Melanie,7,37.00
+2010-09-28,2.00,"Walk to School day promotino, press, e-message to team leaders",402,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-28,3.00,"Glenwood- Yikes 1 assembly-  360 Students",156,CT,"Classroom Teaching",3B,"Implementation of SR2S Activities",60,"Glenwood ES",Agar,Jason,8,35.82
+2010-09-28,1.50,"Manor School - Yikes 1 assembly - 330 students",153,CT,"Classroom Teaching",3B,"Implementation of SR2S Activities",50,"Manor ES",Agar,Jason,8,35.82
+2010-09-28,2.00,"Create Yikes 2 assembly, review and make improvements with staff, revise",150,CD,"Curriculum Development",3B,"Implementation of SR2S Activities",*,"Empty account",Agar,Jason,8,35.82
+2010-09-28,1.00,"timesheets / mine and teaching staff",174,TA,"TAM Related Admin.",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-28,0.50,"talk to parent from Neil Cummins",404,TM,"SR2S Team",3B,"Implementation of SR2S Activities",14,"Neil Cummins ES",Kallins,Wendi,1,37.27
+2010-09-28,0.50,"website updates, submitted Kaiser staff insurance forms, revised timesheet template",127,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Trigg,Bob,4,26.06
+2010-09-28,0.50,"setting up meeting w/ Sun Valley",405,WK,Walkabout,3B,"Implementation of SR2S Activities",64,"Sun Valley ES",Kallins,Wendi,1,37.27
+2010-09-28,2.00,"work program",406,TA,"TAM Related Admin.",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-28,1.00,"scheduling staff for safety art",268,SC,Scheduling,3B,"Implementation of SR2S Activities",14,"Neil Cummins ES",Grubman,Melanie,7,37.00
+2010-09-28,1.00,"prep for safety art, brainstorming ideas with team leader",267,CD,"Curriculum Development",3B,"Implementation of SR2S Activities",14,"Neil Cummins ES",Grubman,Melanie,7,37.00
+2010-09-28,3.50,"safety art training and preparation and clean up (675 students)",266,CT,"Classroom Teaching",3B,"Implementation of SR2S Activities",14,"Neil Cummins ES",Grubman,Melanie,7,37.00
+2010-09-28,1.00,"misc communications, street issues - Fairfax, Brookside, Sun Valley, Dixie, Novato task force",398,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-28,7.00,"safety art - wade thomas school - 5 classes",343,CT,"Classroom Teaching",3B,"Implementation of SR2S Activities",51,"Wade Thomas ES",Feliciano,Michael,2,26.06
+2010-09-28,3.00,"volunteer coordination - problem solving",344,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-28,1.00,"filling out timesheet",345,TA,"TAM Related Admin.",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-28,2.00,"meeting with staff - logistics, safety art",346,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-28,0.75,"reviewed Best Practices report",164,TA,"TAM Related Admin.",3B,"Implementation of SR2S Activities",*,"Empty account",Baenisch,Kim,3,43.42
+2010-09-29,8.00,"safety art - Neil Cummins School - 6 classes",347,CT,"Classroom Teaching",3B,"Implementation of SR2S Activities",14,"Neil Cummins ES",Feliciano,Michael,2,26.06
+2010-09-29,1.00,"Staff direction, resolving rodeo issue, directing admin on tasks, scheduling problems, crisis management",397,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-29,1.00,"fill out timesheets",130,TA,"TAM Related Admin.",3B,"Implementation of SR2S Activities",*,"Empty account",Agar,Jason,8,35.82
+2010-09-29,1.00,"timesheets / mine and teaching staff",174,TA,"TAM Related Admin.",3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-29,1.00,"misc communications, street issues - Fairfax, Brookside, Sun Valley, Dixie, Novato task force",398,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-29,3.00,"Obtain props for new school assembly promotional program (Yikes 2), transfer equipment and load rodeo trailer for Dixie Rodeo day",151,CD,"Curriculum Development",3B,"Implementation of SR2S Activities",*,"Empty account",Agar,Jason,8,35.82
+2010-09-29,4.00,"Neil Cummings- Safety Art",155,CT,"Classroom Teaching",3B,"Implementation of SR2S Activities",14,"Neil Cummins ES",Agar,Jason,8,35.82
+2010-09-29,5.00,"safety art training and preparation and clean up (675 students)",266,CT,"Classroom Teaching",3B,"Implementation of SR2S Activities",14,"Neil Cummins ES",Grubman,Melanie,7,37.00
+2010-09-29,1.00,"Walk to School day promotino, press, e-message to team leaders",402,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-30,2.00,"coordinating vounteers to flyer for HPP",349,PR,Promotion,3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06
+2010-09-30,7.25,"rodeo   (350 students)",264,FT,"Field Training",3B,"Implementation of SR2S Activities",49,"Brookside ES",Grubman,Melanie,7,37.00
+2010-09-30,1.25,"yikes assemblies  ( see jason's sheet)",265,CT,"Classroom Teaching",3B,"Implementation of SR2S Activities",50,"Manor ES",Grubman,Melanie,7,37.00
+2010-09-30,1.50,"Manor walkabout",407,WK,Walkabout,3B,"Implementation of SR2S Activities",50,"Manor ES",Kallins,Wendi,1,37.27
+2010-09-30,0.50,"program projects status and staff tasks coordination oversight, highschool programs review and coordination",163,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Baenisch,Kim,3,43.42
+2010-09-30,0.50,"support team leader during the dixie bike day",273,TM,"SR2S Team",3B,"Implementation of SR2S Activities",05,"Dixie School",Grubman,Melanie,7,37.00
+2010-09-30,1.00,"safety art",272,CT,"Classroom Teaching",3B,"Implementation of SR2S Activities",05,"Dixie School",Grubman,Melanie,7,37.00
+2010-09-30,0.75,"distribution of z-bars",408,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-30,0.75,"meeting with police about parade route",274,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Grubman,Melanie,7,37.00
+2010-09-30,6.50,"Rodeo, Dixie",129,FT,"Field Training",3B,"Implementation of SR2S Activities",05,"Dixie School",Breeze,Connie,12,23.83
+2010-09-30,1.00,"Staff direction, resolving rodeo issue, directing admin on tasks, scheduling problems, crisis management",397,AD,"General Administration",3B,"Implementation of SR2S Activities",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-30,3.25,"Prepare time cards and TAM report",409,*,"empty subtask for task 6A",6A,"Project Management and Oversight",*,"Empty account",Kallins,Wendi,1,37.27
+2010-09-30,4.00,"Dixies School Rodeo day - 360 students",157,FT,"Field Training",3B,"Implementation of SR2S Activities",05,"Dixie School",Agar,Jason,8,35.82
+2010-09-30,0.75,"Human Powered parade volunteer recruitment and site logistics oversight",165,EV,Events,3B,"Implementation of SR2S Activities",*,"Empty account",Baenisch,Kim,3,43.42
+2010-09-30,2.00,"follow-up phone calls to team-leaders",348,TM,"SR2S Team",3B,"Implementation of SR2S Activities",*,"Empty account",Feliciano,Michael,2,26.06

@@ -1,0 +1,34 @@
+[09-Jul-2015 15:52:34 America/Los_Angeles] Login: by root; id=0
+[09-Jul-2015 15:54:26 America/Los_Angeles] Login: by root; id=0
+[09-Jul-2015 19:16:57 America/Los_Angeles] PHP Notice:  Undefined index: person_id in /home/common/BikeStuff/SR2S/SR2S_Timesheets/pages/main/head.php on line 8
+[09-Jul-2015 19:16:57 America/Los_Angeles] Logout: by id=: /main/head.php
+[10-Jul-2015 13:26:15 America/Los_Angeles] Login: by root; id=0
+[11-Jul-2015 13:46:59 America/Los_Angeles] Login: by root; id=0
+[11-Jul-2015 13:47:06 America/Los_Angeles] Logout: by id=0: /main/head.php
+[11-Jul-2015 13:55:23 America/Los_Angeles] Login: by root; id=0
+[11-Jul-2015 13:56:37 America/Los_Angeles] Logout: by id=0: /main/head.php
+[11-Jul-2015 13:56:54 America/Los_Angeles] Login: by root; id=0
+[11-Jul-2015 13:57:18 America/Los_Angeles] Logout: by id=0: /main/head.php
+[11-Jul-2015 15:06:55 America/Los_Angeles] Login: by root; id=0
+[11-Jul-2015 16:23:36 America/Los_Angeles] PHP Notice:  Undefined index: person_id in /home/common/BikeStuff/SR2S/SR2S_Timesheets/pages/main/head.php on line 8
+[11-Jul-2015 16:23:36 America/Los_Angeles] Logout: by id=: /main/head.php
+[16-Jul-2015 08:37:50 America/Los_Angeles] Login: by root; id=0
+[16-Jul-2015 08:38:13 America/Los_Angeles] Logout: by id=0: /main/head.php
+[16-Jul-2015 08:38:23 America/Los_Angeles] Login: by root; id=0
+[16-Jul-2015 08:40:40 America/Los_Angeles] Logout: by id=0: /main/head.php
+[17-Jul-2015 13:53:47 America/Los_Angeles] Login: by root; id=0
+[17-Jul-2015 13:53:56 America/Los_Angeles] Logout: by id=0: /main/head.php
+[17-Jul-2015 13:56:57 America/Los_Angeles] Login: by root; id=0
+[17-Jul-2015 13:57:47 America/Los_Angeles] Logout: by id=0: /main/head.php
+[17-Jul-2015 14:35:28 America/Los_Angeles] Login: by root; id=0
+[17-Jul-2015 14:35:45 America/Los_Angeles] Logout: by id=0: /main/head.php
+[19-Jul-2015 10:01:32 America/Los_Angeles] Login: by root; id=0
+[19-Jul-2015 10:02:15 America/Los_Angeles] Logout: by id=0: /main/head.php
+[19-Jul-2015 10:03:41 America/Los_Angeles] Login: by root; id=0
+[19-Jul-2015 13:59:01 America/Los_Angeles] Evicted(126): no permit; not _LEGAL_: /main/main.php
+[19-Jul-2015 13:59:17 America/Los_Angeles] Login: by root; id=0
+[19-Jul-2015 14:02:05 America/Los_Angeles] Logout: by id=0: /main/head.php
+[21-Jul-2015 15:12:19 America/Los_Angeles] Login: by root; id=0
+[21-Jul-2015 16:24:36 America/Los_Angeles] PHP Parse error:  syntax error, unexpected '}' in /home/common/BikeStuff/SR2S/SR2S_Timesheets/offline/main/timelog.php on line 1204
+[21-Jul-2015 17:17:36 America/Los_Angeles] PHP Notice:  Undefined index: person_id in /home/common/BikeStuff/SR2S/SR2S_Timesheets/pages/main/head.php on line 8
+[21-Jul-2015 17:17:36 America/Los_Angeles] Logout: by id=: /main/head.php

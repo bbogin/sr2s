@@ -1,0 +1,745 @@
+REM  *****  BASIC  *****
+option explicit
+
+'These are the fields we want from the temp timesheet(TS) and the columns we want them in
+const TS_logdate = 0
+const TS_hours = 1
+const TS_activity = 2
+const TS_activity_id = 3
+const TS_subtask = 4
+const TS_subtask_desc = 5
+const TS_task = 6
+const TS_task_desc = 7
+const TS_account = 8
+const TS_account_desc = 9
+const TS_lastname = 10
+const TS_firstname = 11
+const TS_person_id = 12
+const TS_rate = 13
+const TS_week_of = 14 'this field is internally created from the logdate
+const TS_rec_size = 14 'dim of the array containing the above fields
+dim TS_headers() 'filled below in the above order and checked against the imported csv file
+
+'The sheets in this document:
+const timesheet = 0
+const WeekTemplate = 1
+const SummarySheet = 2
+
+'The 'max' columns - used when copying and inserting dummy rows
+const max_columns = 26
+
+type properties
+	rows as integer
+	columns as integer
+	from_date as date
+	to_date as date
+	lastname as string
+	firstname as string
+end type
+dim TS_Props as properties
+
+dim newTimesheet as object 'our new spreadsheet
+
+Sub Create_Timesheet
+	GlobalScope.BasicLibraries.LoadLibrary("Tools")
+
+ 	TS_headers = Array("logdate","hours","activity","activity_id","subtask","subtask_desc", _
+ 					"task","task_desc","account","account_desc","lastname","firstname","person_id","rate")
+
+	dim newFile as string
+	if Make_Doc() = false then
+		if not IsNull(newTimesheet) then
+			newFile = newTimesheet.Location
+			newTimesheet.store()
+			newTimesheet.close(true)
+			Kill(newFile)
+		end if
+		exit Sub
+	End if
+
+	'do summary first while sheet order is undisturbed (make sure we're in the correct order):
+	SortTemp(timesheet, Array(TS_task,TS_subtask,TS_account,TS_activity,TS_logdate))
+	Create_TimesheetSummary(SummarySheet, 1)
+exit sub
+
+	dim week as integer
+	dim tempIdx as integer
+	dim SheetNdx as integer
+	SortTemp(timesheet, Array(TS_week_of,TS_task,TS_subtask,TS_account,TS_activity,TS_logdate))
+	week = 1
+	tempIdx = 1 'start past headers
+	do while tempIdx < TS_Props.rows
+		SheetNdx = weekTemplate + week
+		newTimesheet.sheets.copyByName("Week template", "Week " & week, SheetNdx)
+		tempIdx = Create_TimesheetWeek(SheetNdx, tempIdx)
+		week = week + 1
+	loop
+exit sub
+
+'Done: Clean up the timesheet by removing the Basic code and the 'temp' sheet then save & close it:
+	dim libs as object
+	Dim PropValue(1) as new com.sun.star.beans.PropertyValue
+	PropValue(0).Name = "EventType"
+	PropValue(0).Value = "StarBasic"
+	PropValue(1).Name = "Script"
+	PropValue(1).Value = ""
+	newTimesheet.Events.ReplaceByName("OnLoad", PropValue()) 'remove the event
+	newTimesheet.Sheets.removeByName("Week template")
+	newTimesheet.Sheets.removeByName("timesheet")
+	newTimesheet.store() 'If this store not done, get a runtime error in the removeByName
+	libs = newTimesheet.BasicLibraries.getByName("Standard")
+	if libs.hasByName("modApplication") then
+		libs.removeByName("modApplication")
+	end if
+	if libs.hasByName("modMain") then
+		libs.removeByName("modMain")
+	end if
+	newTimesheet.store()
+	newTimesheet.close(true)
+
+End Sub 'end Create_Timesheet
+
+Function Create_TimesheetWeek(SheetNdx as integer, tempStart as integer) as integer
+	dim WorkSheet as object
+	WorkSheet = newTimesheet.Sheets(SheetNdx)
+	newTimesheet.CurrentController.setActiveSheet(WorkSheet)
+
+	dim tempSheet as object
+	dim tempIdx as integer
+	tempSheet = newTimesheet.Sheets(timesheet)
+	tempIdx = tempStart 'start reading temp here
+
+	Dim DataRow As integer
+	Dim EmptyRow As integer
+	'The template saves a row formatted for data so we can copy it when needed:
+	DataRow = 6
+
+	Dim RowIdx As Integer
+	dim Row as object
+	dim Rec(TS_rec_size)
+	dim LastRec(TS_rec_size)
+	Dim I As Integer
+    RowIdx = 7 'Where to start insert
+
+	'<--report breaks: totals-->
+	Dim Hours_5 As double       'level 5
+	'<--totals
+
+	dim weekstart as date
+	dim lastweekday as date
+	dim weekday as date
+	dim weekend as date
+	weekstart = tempSheet.getCellByPosition(TS_week_of,tempIdx).Value
+	weekend = weekstart + 6
+
+	Worksheet.getCellByPosition(2,1).String = TS_Props.firstname & " " & TS_Props.lastname
+	Worksheet.getCellByPosition(8,1).Value = weekstart
+	Worksheet.getCellByPosition(8,2).Value = weekend
+
+	GoSub NextRecord
+	GoSub NextRecord 'Since tempIdx hasn't changed, we will get LastRec() = Rec()
+	'GoSub TaskHeader		'level 1
+	'GoSub SubtaskHeader	'level 2
+	'GoSub AccountHeader	'level 3
+	GoSub ActivityHeader	'level 4
+	GoSub LogdateHeader	'level 5
+	Do until tempIdx > TS_Props.rows
+
+		If LastRec(TS_task) <> Rec(TS_task) Then
+'if msgbox("Continue?",MB_YESNO) = IDNO then exit sub
+			'Do trailers:
+		    GoSub LogdateTrailer
+			'GoSub ActivityTrailer
+			'GoSub AccountTrailer
+			'GoSub SubtaskTrailer
+			'GoSub TaskTrailer
+			'Do headers:
+			'GoSub TaskHeader
+			'GoSub SubtaskHeader
+			'GoSub AccountHeader
+			GoSub ActivityHeader
+			GoSub LogdateHeader
+		ElseIf LastRec(TS_subtask) <> Rec(TS_subtask) Then
+			'Do trailers:
+		    GoSub LogdateTrailer
+			'GoSub ActivityTrailer
+			'GoSub AccountTrailer
+			'GoSub SubtaskTrailer
+			'Do headers:
+			'GoSub SubtaskHeader
+			'GoSub AccountHeader
+			GoSub ActivityHeader
+			GoSub LogdateHeader
+		ElseIf LastRec(TS_account) <> Rec(TS_account) Then
+			'Do trailers:
+		    GoSub LogdateTrailer
+			'GoSub ActivityTrailer
+			'GoSub AccountTrailer
+			'Do headers:
+			'GoSub AccountHeader
+			GoSub ActivityHeader
+			GoSub LogdateHeader
+		ElseIf LastRec(TS_activity_id) <> Rec(TS_activity_id) Then
+			'Do trailers:
+		    GoSub LogdateTrailer
+			'GoSub ActivityTrailer
+			'Do headers:
+			GoSub ActivityHeader
+			GoSub LogdateHeader
+		ElseIf LastRec(TS_logdate) <> Rec(TS_logdate) Then
+			'Do trailers:
+		    GoSub LogdateTrailer
+			'Do headers:
+			GoSub LogdateHeader
+        End If
+
+        Hours_5 = Hours_5 + CDbl(Rec(TS_hours))
+
+        tempIdx = tempIdx + 1
+		GoSub NextRecord
+		if weekday > weekend then
+			exit do
+		end if
+    Loop
+    GoSub LogdateTrailer
+	'GoSub ActivityTrailer
+    'GoSub AccountTrailer
+	'GoSub SubtaskTrailer
+	'GoSub TaskTrailer
+
+	'Get totals:
+	dim Columns
+	Set Row = Worksheet.Rows(RowIdx)
+	Columns = Array("E", "F", "G", "H", "I", "J", "K", "L")
+	For I = 0 To UBound(Columns)
+		Row.getCellByPosition(I+4,0).Formula = "=SUM(" & Columns(I) & "7:" & Columns(I) & RowIdx & ")"
+	Next
+
+	WorkSheet.Rows.removeByIndex(6, 1)   'Delete these templating rows
+
+	Create_TimesheetWeek = tempIdx
+	exit function
+
+ActivityHeader:
+	InsertRow(SheetNdx, DataRow, RowIdx)
+    Set Row = Worksheet.Rows(RowIdx)
+    RowIdx = RowIdx + 1
+    Row.getCellByPosition(1,0).String = Rec(TS_task)
+    Row.getCellByPosition(2,0).String = Rec(TS_subtask)
+    Row.getCellByPosition(3,0).String = Rec(TS_account)
+    Row.getCellByPosition(12,0).String = Rec(TS_activity)
+	Row.getCellByPosition(11,0).Formula = "=SUM(E" & RowIdx & ":K" & RowIdx & ")"
+	return
+
+LogdateHeader:
+	Hours_5 = 0
+	lastweekday = weekday
+	return
+
+LogdateTrailer:
+    Row.getCellByPosition(4 + lastweekday - weekstart,0).Value = Hours_5
+	return
+
+NextRecord:
+	for I = 0 to TS_Props.columns - 1
+		LastRec(I) = Rec(I)
+		Rec(I) = tempSheet.getCellByPosition(I,tempIdx).String
+	next
+	weekday = CDate(Rec(TS_logdate))
+	Return
+
+End Function ' Create_TimesheetWeek
+
+Sub Create_TimesheetSummary(SheetNdx as integer, tempStart as integer)
+	dim WorkSheet as object
+	WorkSheet = newTimesheet.Sheets(SheetNdx)
+	newTimesheet.CurrentController.setActiveSheet(WorkSheet)
+
+	dim tempSheet as object
+	dim tempIdx as integer
+	tempSheet = newTimesheet.Sheets(timesheet)
+	tempIdx = tempStart 'start reading temp here
+
+	Dim DataRow As integer
+	Dim EmptyRow As integer
+	'The template saves a row formatted for data so we can copy it when needed:
+	DataRow = 6
+
+	Dim RowIdx As Integer
+	dim Row as object
+	dim Rec(TS_rec_size)
+	dim LastRec(TS_rec_size)
+	Dim I As Integer
+    RowIdx = 7 'Where to start insert
+
+	'<--report breaks: totals-->
+	Dim Hours_5 As double       'level 5
+	'<--totals
+
+	dim weekstart as date
+	dim lastweekday as date
+	dim weekday as date
+	dim weekend as date
+
+	GoSub NextRecord
+	GoSub NextRecord 'Since tempIdx hasn't changed, we will get LastRec() = Rec()
+	'GoSub TaskHeader		'level 1
+	'GoSub SubtaskHeader	'level 2
+	'GoSub AccountHeader	'level 3
+	GoSub ActivityHeader	'level 4
+	GoSub LogdateHeader	'level 5
+	Do until tempIdx > TS_Props.rows
+
+		If LastRec(TS_task) <> Rec(TS_task) Then
+'if msgbox("Continue?",MB_YESNO) = IDNO then exit sub
+			'Do trailers:
+		    GoSub LogdateTrailer
+			'GoSub ActivityTrailer
+			'GoSub AccountTrailer
+			'GoSub SubtaskTrailer
+			'GoSub TaskTrailer
+			'Do headers:
+			'GoSub TaskHeader
+			'GoSub SubtaskHeader
+			'GoSub AccountHeader
+			GoSub ActivityHeader
+			GoSub LogdateHeader
+		ElseIf LastRec(TS_subtask) <> Rec(TS_subtask) Then
+			'Do trailers:
+		    GoSub LogdateTrailer
+			'GoSub ActivityTrailer
+			'GoSub AccountTrailer
+			'GoSub SubtaskTrailer
+			'Do headers:
+			'GoSub SubtaskHeader
+			'GoSub AccountHeader
+			GoSub ActivityHeader
+			GoSub LogdateHeader
+		ElseIf LastRec(TS_account) <> Rec(TS_account) Then
+			'Do trailers:
+		    GoSub LogdateTrailer
+			'GoSub ActivityTrailer
+			'GoSub AccountTrailer
+			'Do headers:
+			'GoSub AccountHeader
+			GoSub ActivityHeader
+			GoSub LogdateHeader
+		ElseIf LastRec(TS_activity_id) <> Rec(TS_activity_id) Then
+			'Do trailers:
+		    GoSub LogdateTrailer
+			'GoSub ActivityTrailer
+			'Do headers:
+			GoSub ActivityHeader
+			GoSub LogdateHeader
+		ElseIf LastRec(TS_logdate) <> Rec(TS_logdate) Then
+			'Do trailers:
+		    GoSub LogdateTrailer
+			'Do headers:
+			GoSub LogdateHeader
+        End If
+
+        Hours_5 = Hours_5 + CDbl(Rec(TS_hours))
+
+        tempIdx = tempIdx + 1
+		GoSub NextRecord
+    Loop
+    GoSub LogdateTrailer
+	'GoSub ActivityTrailer
+    'GoSub AccountTrailer
+	'GoSub SubtaskTrailer
+	'GoSub TaskTrailer
+
+	'Get totals:
+	dim Columns
+	Set Row = Worksheet.Rows(RowIdx)
+	Columns = Array("E", "F", "G", "H", "I", "J", "K", "L")
+	For I = 0 To UBound(Columns)
+		Row.getCellByPosition(I+4,0).Formula = "=SUM(" & Columns(I) & "7:" & Columns(I) & RowIdx & ")"
+	Next
+
+	WorkSheet.Rows.removeByIndex(6, 1)   'Delete these templating rows
+
+	exit Sub
+
+ActivityHeader:
+	InsertRow(SheetNdx, DataRow, RowIdx)
+    Set Row = Worksheet.Rows(RowIdx)
+    RowIdx = RowIdx + 1
+    Row.getCellByPosition(1,0).String = Rec(TS_task)
+    Row.getCellByPosition(2,0).String = Rec(TS_subtask)
+    Row.getCellByPosition(3,0).String = Rec(TS_account)
+    Row.getCellByPosition(12,0).String = Rec(TS_activity)
+	Row.getCellByPosition(11,0).Formula = "=SUM(E" & RowIdx & ":K" & RowIdx & ")"
+	weekstart = CDate(Rec(TS_week_of))
+	weekend = weekstart + 6
+	return
+
+LogdateHeader:
+	Hours_5 = 0
+	lastweekday = weekday
+	if weekday > weekend then
+		weekstart = CDate(Rec(TS_week_of))
+		weekend = weekstart + 6
+	end if
+	return
+
+LogdateTrailer:
+    Row.getCellByPosition(4 + lastweekday - weekstart,0).Value = Hours_5
+	return
+
+NextRecord:
+	for I = 0 to TS_Props.columns - 1
+		LastRec(I) = Rec(I)
+		Rec(I) = tempSheet.getCellByPosition(I,tempIdx).String
+	next
+	weekday = CDate(Rec(TS_logdate))
+	Return
+
+End Sub ' Create_TimesheetSummary()
+
+'Public Function APP_Create_Excel_Timesheet( _
+'    ) As Boolean
+'    Dim Spreadsheet As New Excel.Application
+'    Dim Timesheet As Excel.Workbook
+'    Dim Worksheet As Excel.Worksheet
+'    Dim SheetIdx As Integer
+'    Dim WeekStarting As Date
+'    Dim WeekEnding As Date
+'    Dim TotalRow() As Integer   'save for the summary
+'    Dim Columns()
+'    Dim I As Integer
+'    Dim S As String
+'    Dim Row As Excel.Range
+'
+'    SheetIdx = 1
+'    WeekStarting = Starting
+'    'Summary:
+'    Set Worksheet = Timesheet.Sheets(SheetIdx + 1)
+'    Worksheet.Cells(2, 3).Value = PersonName
+'    Worksheet.Cells(2, 9).Value = Format(UTL_Week_FirstDay(Starting, vbMonday), "m/d/yyyy")
+'    Worksheet.Cells(3, 9).Value = Format(UTL_Week_LastDay(Ending, vbMonday), "m/d/yyyy")
+'    Set Row = Worksheet.Rows(7)
+'    Columns = Array("E", "F", "G", "H", "I", "J", "K")
+'    For I = 0 To UBound(Columns)
+'        S = ""
+'        For SheetIdx = 1 To UBound(TotalRow)
+'            S = S & "+'Week " & SheetIdx & "'!" & Columns(I) & TotalRow(SheetIdx)
+'        Next
+'        Row.Cells(1, I + 5).Value = "=SUM(" & Mid(S, 2) & ")"
+'    Next
+'
+'    Spreadsheet.DisplayAlerts = False
+'    Timesheet.Sheets(1).Delete  'delete the template sheet
+'    Spreadsheet.ActiveWorkbook.Save
+'    Spreadsheet.DisplayAlerts = True
+'
+'    SetProgress "Finished Timesheet"
+'    Spreadsheet.Quit
+'
+'End Function ' APP_Create_Excel_Timesheet
+
+Sub Create_InvoiceSummary(SheetNdx as integer)
+	dim WorkSheet as object
+	WorkSheet = newTimesheet.Sheets(SheetNdx)
+	newTimesheet.CurrentController.setActiveSheet(WorkSheet)
+
+	dim TS_Sheet as object
+	dim TS_Idx as integer
+	SortTemp(timelog, Array(TS_task))
+	TS_Sheet = newTimesheet.Sheets(timelog)
+	TS_Idx = 1 'start reading temp here, ie. skip headers
+	dim TR_Sheet as object
+	dim TR_Idx as integer
+	SortTemp(taskreport, Array(TR_task))
+	TR_Sheet = newTimesheet.Sheets(taskreport)
+	TR_Idx = 1 'start reading temp here, ie. skip headers
+
+	Dim DataRow As integer
+	Dim EmptyRow As integer
+	'The template saves an empty row and a row formatted for data so we can copy them when needed:
+	DataRow = 15
+	EmptyRow = 16
+
+	Dim RowIdx As Integer
+	dim TS_Rec(TS_rec_size)
+	dim LastTS_Rec(TS_rec_size)
+	dim TR_Rec(TR_rec_size)
+	dim LastTR_Rec(TR_rec_size)
+	Dim I As Integer
+	Dim L as long
+	Dim S as string
+
+	'<--report breaks: totals-->
+'	Dim Cost_1 As double      'level 1
+    '<--totals
+   
+	Dim Row As object
+    RowIdx = 17 'Where to insert
+
+	dim Months()
+	Months = Array("","January","February","March","April","May","June","July","August","September", _
+				"October","November","December")
+	S = "Period: " & Months(Month(TS_Props.from_date)) & " " & Day(TS_Props.from_date)
+	if Month(TS_Props.from_date) <> Month(TS_Props.to_date) then
+		if Year(TS_Props.from_date) <> Year(TS_Props_to_date) then
+			S = S & ", " & Year(TS_Props.from_date)
+		end if
+		S = S & "-" & Months(Month(TS_Props.to_date))
+	else
+		S = S & "-"
+	end if
+	S = S & " " & Day(TS_Props.to_date) & ", " & Year(TS_Props.to_date)
+    Worksheet.getCellByPosition(0,3).String = S
+    Worksheet.getCellByPosition(0,4).String = "Date: " & Months(Month(Now())) & " " & DAY(Now()) & _
+    										", " & Year(Now())
+
+	GoSub Next_TL
+	GoSub Next_TL 'Since tempIdx hasn't changed, we will get LastRec() = Rec()
+	GoSub Next_TR
+	GoSub Next_TR 'Since tempIdx hasn't changed, we will get LastRec() = Rec()
+	GoSub TaskGroupHeader	'A Task Group is defined by the first character of the task name
+	'GoSub TaskHeader
+	Do
+
+		If Left(LastTR_Rec(TR_task),1) <> Left(TR_Rec(TR_task),1) Then
+'if msgbox("Continue?",MB_YESNO) = IDNO then exit sub
+			'Do trailers:
+			GoSub TaskTrailer
+			'GoSub TaskGroupTrailer
+			'Do headers:
+			GoSub TaskGroupHeader
+			'GoSub TaskHeader
+		ElseIf LastTR_Rec(TR_task) <> TR_Rec(TR_task) Then
+			'Do trailers:
+			GoSub TaskTrailer
+			'Do headers:
+			'GoSub TaskHeader
+		End if
+
+		TR_Idx = TR_Idx + 1
+		GoSub Next_TR
+	Loop Until TR_Idx > TR_Props.rows
+	GoSub TaskTrailer
+	'GoSub TaskGroupTrailer
+
+    'Get totals:
+    Set Row = Worksheet.Rows(RowIdx + 2)
+    Row.getCellByPosition(2,0).Formula = "=SUM(C16:C" & RowIdx - 1 & ")"
+    Row.getCellByPosition(3,0).Formula = "=SUM(D16:D" & RowIdx - 1 & ")"
+    Row.getCellByPosition(4,0).Formula = "=SUM(E16:E" & RowIdx - 1 & ")"
+
+	WorkSheet.Rows.removeByIndex(15, 3)   'Delete these templating rows + plus the extra blank line
+
+	exit Sub
+
+TaskGroupHeader:
+	InsertRow(SheetNdx, EmptyRow, RowIdx)
+    RowIdx = RowIdx + 1
+	return
+
+TaskTrailer:
+	dim Spent as double
+	Spent = 0
+	do while (LastTR_Rec(TR_task) = TS_Rec(TS_task)) and (TS_Idx < TS_Props.rows)
+		Spent = Spent + (CDbl(TS_Rec(TS_hours)) * CDbl(TS_Rec(TS_rate)))
+		TS_Idx = TS_Idx + 1
+		GoSub Next_TL
+	loop
+
+	InsertRow(SheetNdx, DataRow, RowIdx)
+    Set Row = Worksheet.Rows(RowIdx)
+    Row.getCellByPosition(0,0).String = LastTR_Rec(TR_task)
+	Row.getCellByPosition(1,0).String =  LastTR_Rec(TR_task_desc)
+	Row.getCellByPosition(2,0).Value = LastTR_Rec(TR_budget)
+	Row.getCellByPosition(3,0).Value = Spent
+	Row.getCellByPosition(4,0).Value = CDbl(LastTR_Rec(TR_charged)) - Spent
+    RowIdx = RowIdx + 1
+	return
+
+Next_TL:
+	for I = 0 to TS_Props.columns - 1
+		LastTS_Rec(I) = TS_Rec(I)
+		TS_Rec(I) = TS_Sheet.getCellByPosition(I,TS_Idx).String
+	next
+	Return
+
+Next_TR:
+	for I = 0 to TR_Props.columns - 1
+		LastTR_Rec(I) = TR_Rec(I)
+		TR_Rec(I) = TR_Sheet.getCellByPosition(I,TR_Idx).String
+	next
+	Return
+
+End Sub 'Create_InvoiceSummary
+
+Sub SortTemp(SheetNdx as integer, Fields())
+	dim tempSheet as object
+	dim SortFields(UBound(Fields)) as new com.sun.star.table.TableSortField
+	dim SortDesc(2) as new com.sun.star.beans.PropertyValue
+	dim I as integer
+
+	tempSheet = newTimesheet.Sheets(SheetNdx)
+
+	for I = 0 to UBound(Fields)
+		SortFields(I).Field = Fields(I)
+		SortFields(I).IsAscending = true
+	next
+
+	SortDesc(0).Name = "SortFields"
+	SortDesc(0).Value = SortFields
+	SortDesc(1).Name = "ContainsHeader"
+	SortDesc(1).Value = true
+	tempSheet.sort(SortDesc)
+
+End Sub 'SortTemp
+
+Sub InsertRow (SheetNdx as integer, RowToInsert as integer, Where as integer)
+	Dim CellRangeAddress As New com.sun.star.table.CellRangeAddress
+	Dim CellAddress As New com.sun.star.table.CellAddress
+
+	CellRangeAddress.Sheet = SheetNdx
+	CellRangeAddress.StartColumn = 0
+	CellRangeAddress.StartRow = Where
+	CellRangeAddress.EndColumn = max_columns
+	CellRangeAddress.EndRow = Where
+	CellAddress.Sheet = SheetNdx
+	CellAddress.Column = 0
+	CellAddress.Row = Where
+
+	newTimesheet.Sheets(SheetNdx).insertCells(CellRangeAddress, com.sun.star.sheet.CellInsertMode.ROWS)
+	CellRangeAddress.StartRow = RowToInsert
+	CellRangeAddress.EndRow = RowToInsert
+	newTimesheet.Sheets(SheetNdx).copyRange(CellAddress, CellRangeAddress)
+End Sub 'InsertRow
+
+Function Make_Doc() as boolean
+	dim csvIn as string
+	dim newFile as string
+	dim TS_Sheet as object
+	dim TS_version as string
+	dim TR_Sheet as object
+	dim TR_version as string
+	dim format_sav as integer 'the date format to be used for week_of
+
+	Make_Doc = false
+
+'Find the timesheet CSV file:
+	dim FilePicker as object
+	dim list(1) as string
+	dim picked as boolean
+	list(0) = "*.csv"
+	list(1) = "*.*"
+	FilePicker = CreateUnoService("com.sun.star.ui.dialogs.FilePicker")
+	AddFiltersToDialog(list(), FilePicker)
+	FilePicker.setTitle("Select your downloaded TIMESHEET..")
+	FilePicker.SetDisplayDirectory(DirectoryNameoutofPath(ThisComponent.Location, "/")
+	picked = FilePicker.execute()
+	csvIn = FilePicker.Files(0)
+	FilePicker.Dispose()
+	if not picked then
+		msgbox "Goodbye!"
+		exit Function
+	end if
+
+'Copy us to a 'twin' of the CSV file (the new timesheet):
+	newFile = DirectoryNameoutofPath(csvIn, "/") & "/" & GetFileNameWithoutExtension(csvIn,"/") & ".ods"
+	FileCopy(ThisComponent.Location, newFile)
+
+'Open the new timesheet file for editting:
+	dim args(2) as New com.sun.star.beans.PropertyValue
+	args(0).Name = "ReadOnly"
+	args(0).Value = false
+	args(1).Name = "MacroExecutionMode"
+	args(1).Value = 0 'NEVER_EXECUTE
+	args(2).Name = "AsTemplate"
+	args(2).Value = FALSE
+	newTimesheet = OpenDocument(newFile, args())
+	TS_Sheet = newTimesheet.Sheets(timesheet)
+	format_sav = TS_Sheet.getCellByPosition(0,0).NumberFormat
+	TS_version = TS_Sheet.getCellByPosition(0,0).String
+
+'Import (link, actually) the CSV file into the 'temp' sheet:
+	dim FilterName as string
+	dim FilterOption as string
+	FilterName = "Text - txt - csv (StarCalc)"
+	FilterOption = "44,34,76,1," 'comma, double quotes, Unicode (UTF-8), start line 1, (no field formats)
+	TS_Sheet.link(csvIn, "", FilterName, FilterOption, com.sun.star.sheet.SheetLinkMode.NORMAL)
+
+'Verify the timesheet file:
+	if TS_Sheet.getCellByPosition(0,0).String <> "timesheet" then
+		msgbox "Unrecognized timesheet - says '" & TS_Sheet.Rows(0).getCellByPosition(0,0).String & "'"
+		exit function
+	end if
+	TS_Props.lastname = TS_Sheet.getCellByPosition(3,0).String
+	TS_Props.firstname = TS_Sheet.getCellByPosition(4,0).String
+	if not (IsDate(TS_Sheet.getCellByPosition(5,0).String) and IsDate(TS_Sheet.getCellByPosition(6,0).String))  then
+		msgbox "Invalid timesheet dates: '" & TS_Sheet.getCellByPosition(5,0).String & "'/'" & _
+			TS_Sheet.getCellByPosition(6,0).String & "'"
+		exit function
+	end if
+	TS_Props.from_date = CDate(TS_Sheet.getCellByPosition(5,0).String)
+	TS_Props.to_date = CDate(TS_Sheet.getCellByPosition(6,0).String)
+	if TS_Sheet.getCellByPosition(7,0).String <> TS_version then
+		msgbox "Your version (" & TS_version & ") does not match the timesheet download (" & _
+			TS_Sheet.getCellByPosition(7,0).String & ").  Ask the system admin for an upgrade."
+		exit function
+	end if
+	TS_Sheet.Rows.removeByIndex(0, 1) 'get rid of the ID row
+
+	If not Find_Size(timesheet, TS_Props, TS_headers) then
+		exit function
+	end if
+
+'Add the week_of field (starting Mon.) to each row of timesheet & check names:
+	dim ndx as integer
+	dim newDate as date
+	For ndx = 1 to TS_Props.rows 'skip headers
+		if (TS_Props.lastname <> TS_Sheet.getCellByPosition(TS_lastname, ndx).String) _
+		or (TS_Props.firstname <> TS_Sheet.getCellByPosition(TS_firstname, ndx).String) then
+			msgbox "Invalid name (" & TS_Sheet.getCellByPosition(TS_lastname, ndx).String & _
+					", " & TS_Sheet.getCellByPosition(TS_firstname, ndx).String & ") found"
+			exit function
+		end if
+		newDate = CDate(TS_Sheet.getCellByPosition(TS_logdate, ndx).String)
+		newDate = newDate - 1 'week starts on MON but WeekDay() assumes SUN so we compensate
+		newDate = newDate - WeekDay(newDate) + 2
+		TS_Sheet.getCellByPosition(TS_week_of, ndx).Value = newDate
+		TS_Sheet.getCellByPosition(TS_week_of, ndx).NumberFormat = format_sav
+	Next
+	TS_Props.columns = TS_Props.columns + 1 'add the new week_of column
+
+	Make_Doc = true
+
+End Function 'Make_Doc
+
+Function Find_Size(SheetNdx as integer, Props as properties, Headers())
+	'Find the size of the imported stuff & check headers:
+	dim tempSheet as object
+	dim Cell as object
+
+	Find_Size = false
+
+	tempSheet = newTimesheet.Sheets(SheetNdx)
+with Props
+	.rows = 1 'skip the header row
+	do until tempSheet.getCellByPosition(0, .rows).Type = com.sun.star.table.CellContentType.EMPTY
+		.rows = .rows + 1
+	loop
+	.rows = .rows - 1
+	.columns = 0 'start with the first column
+	Cell = tempSheet.getCellByPosition(.columns, 0)
+	do until Cell.Type = com.sun.star.table.CellContentType.EMPTY
+		if Cell.String <> Headers(.columns) then
+			msgbox "Header " & .columns & " is " & Cell.String & " but should be " & Headers(.columns) & _
+					"; aborting"
+			exit function
+		end if
+		.columns = .columns + 1
+		Cell = tempSheet.getCellByPosition(.columns, 0)
+	loop
+end with
+
+	Find_Size = true
+
+End Function 'Find_Size
+

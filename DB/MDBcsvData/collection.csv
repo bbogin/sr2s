@@ -1,0 +1,1254 @@
+>>t01_Department
+"Department_ID","Name","Description","Inactive_AsOf"
+1,"SR2S","Safe Routes to School",
+>>t02_Project
+"Project_ID","Department_IDRef","Name","Description","Inactive_AsOf"
+1,1,"TAM","Transportation Authority of Marin contract",
+2,1,"MCBC","Non-TAM related SR2S project",
+>>t03_Task
+"Task_ID","Project_IDRef","Name","Description","Budget","Inactive_AsOf"
+1,1,"1A","Strategy Meetings",$1490.80,
+2,1,"2D","Develop Plan for Maintaining Activities at Schools",$1222.34,
+3,1,"3A","Project Management and Oversight",$4050.80,
+4,1,"3B","Implementation of SR2S Activities",$161243.54,
+5,1,"6A","Project Management and Oversight",$2532.88,
+6,2,"Program",,,
+7,1,"2A","Evaluate Existing Program",$310.46,
+8,1,"1B","Coordinate with TAM and Other TAM Agencies",$447.24,
+9,1,"2B","Research Best Practices of Other SR2S Programs",$298.16,
+10,1,"2C","Develop Measures of Success",$149.08,
+11,1,"2E","Refine Existing Education Program and Materials",$6336.00,
+12,1,"3C","Ongoing Evaluation and Reporting",$2116.24,
+13,1,"4A","Engineering Expertise",$1490.80,
+14,1,"4B","Develop Safe Routes to School Plans",$506.64,
+15,1,"4C","Develop Grant Applications",$0.00,
+16,1,"5A","Measure A Safe Pathways to School Program",$447.24,
+>>t04_Subtask
+"Subtask_ID","Task_IDRef","Name","Description","Inactive_AsOf"
+1,1,"*","empty subtask for task 1A",
+2,2,"*","empty subtask for task 2D",
+3,2,"SD",,
+4,3,"*","empty subtask for task 3A",
+5,3,"TM",,
+6,4,"*","empty subtask for task 3B",
+7,4,"AD","General Administration",
+8,4,"CN","Contests",
+9,4,"EV","Events",
+10,4,"PR","Promotion",
+11,4,"PT","Partnership Coordination",
+12,4,"SP","SchoolPool",
+13,4,"TA","TAM Related Admin.",
+14,4,"TM","SR2S Team",
+15,5,"*","empty subtask for task 6A",
+16,6,"*","empty subtask for Program",
+17,7,"*","empty subtask for 2A",
+18,8,"*","empty subtask for 1B",
+19,9,"*","empty subtask for 2B",
+20,10,"*","empty subtask for 2C",
+21,11,"*","empty subtask for 2E",
+22,12,"*","empty subtask for 3C",
+23,13,"*","empty subtask for 4A",
+24,14,"*","empty subtask for 4B",
+25,15,"*","empty subtask for 4C",
+26,16,"*","empty subtask for 5A",
+27,4,"SD","Systems Development",
+28,4,"SC","Scheduling",
+29,4,"CD","Curriculum Development",
+30,4,"PD","Program Development",
+31,4,"NW","Newsletter",
+32,4,"CT","Classroom Teaching",
+33,4,"FT","Field Training",
+34,4,"SU","Surveys",
+35,14,"TP","Develop Template",
+36,14,"PL","Develop Plans",
+37,4,"TN","Team/School Communications",
+38,4,"PL","Plans",
+39,4,"PC","Curriculum",
+40,13,"TM","SR2S Team Meetings",
+41,4,"WK","Walkabout",
+>>t91_ProjPropName
+"ProjPropName_ID","Project_IDRef","Name","Description","Inactive_AsOf"
+1,1,"School","School names",
+>>t92_ProjPropEnum
+"ProjPropEnum_ID","ProjPropName_IDRef","Name","Description","Inactive_AsOf"
+1,1,"21","Edna Maguire ES",
+2,1,"42","San Ramon ES",
+3,1,"80","Saint Anselms",
+4,1,"52","White Hill MS",
+5,1,"64","Sun Valley ES",
+6,1,"12","Lagunitas",
+7,1,"51","Wade Thomas ES",
+8,1,"AD","the mechanic?",
+9,1,"46","Reed ES",
+10,1,"14","Neil Cummins ES",
+11,1,"49","Brookside ES",
+12,1,"18","Marin Horizon",
+13,1,"30","Hamilton ES",
+14,1,"50","Manor ES",
+15,1,"60","Glenwood ES",
+16,1,"05","Dixie School",
+17,1,"48","Ross School",
+18,1,"76","Tamalpais HS",
+19,1,"34","Lynwood ES",
+20,1,"61","Laurel Dell ES",
+21,1,"08","Vallecito ES",
+22,1,"79","Marin Waldorf",
+23,1,"22","Mill Valley MS",
+24,1,"63","San Rafael HS",
+25,1,"56","Bahia Vista ES",
+26,1,"31","Hill MS",
+27,1,"78","St. Patricks",
+28,1,"73","Redwood HS",
+29,1,"75","Sir Francis Drake HS",
+30,1,"07","Mill Creek MS",
+31,1,"44","Bel Aire ES",
+32,1,"26","Tam Valley",
+33,1,"39","Rancho ES",
+34,1,"00","Not School Specific",
+35,1,"01","Bolinas-Stinson",
+36,1,"02","Brandeis Hillel",
+37,1,"03","Branson",
+38,1,"04","Cascade Canyon",
+39,1,"06","Mary E. Silveira ES",
+40,1,"09","Dunham Academy",
+41,1,"10","Bacich ES",
+42,1,"11","Kent MS",
+43,1,"13","Hall MS",
+44,1,"15","Marin Academy",
+45,1,"16","Marin Catholic",
+46,1,"17","Marin Country Day",
+47,1,"19","Marin Montessori",
+48,1,"20","Marin Primary & Middle",
+49,1,"23","Old Mill ES",
+50,1,"24","Park ES",
+51,1,"25","Strawberry Point",
+52,1,"27","Montessori de Terra Linda",
+53,1,"28","Mount Tamalpais",
+54,1,"29","Nicasio",
+55,1,"32","Loma Verde ES",
+56,1,"33","Lu Sutton ES",
+57,1,"35","Marin Oaks HS",
+58,1,"36","Novato HS",
+59,1,"37","Olive ES",
+60,1,"38","Pleasant Valley ES",
+61,1,"40","San Jose MS",
+62,1,"41","San Marin HS",
+63,1,"43","Sinaloa MS",
+64,1,"45","Del Mar MS",
+65,1,"47","Ring Mountain",
+66,1,"53","Sain Hillary",
+67,1,"54","Sain Marks's",
+68,1,"55","San Domenico",
+69,1,"57","Coleman ES",
+70,1,"58","Davidson MS",
+71,1,"59","Gallinas School",
+72,1,"62","San Pedro ES",
+73,1,"65","Terra Linda HS",
+74,1,"66","Bayside ES",
+75,1,"67","Martin Luther King Jr. MS",
+76,1,"68","Willow Creek ES",
+77,1,"69","Tomales ES",
+78,1,"70","Tomales HS",
+79,1,"71","West Marin School",
+80,1,"72","St. Isabella",
+81,1,"74","San Andreas HS",
+82,1,"77","Tamiscal HS",
+>>t06_TimeLog
+"TimeLog_ID","Action_IDRef","Person_IDRef","LogDate","Hours"
+1,1,4,2005-7-31 0:00:00,1.00
+2,2,4,2005-8-1 0:00:00,0.25
+3,2,4,2005-8-5 0:00:00,0.50
+4,3,4,2005-8-9 0:00:00,2.50
+5,3,4,2005-8-10 0:00:00,1.00
+6,3,4,2005-8-11 0:00:00,1.25
+7,3,4,2005-8-12 0:00:00,0.50
+8,4,4,2005-8-16 0:00:00,0.25
+9,4,4,2005-8-18 0:00:00,2.00
+10,4,4,2005-8-19 0:00:00,0.50
+11,5,4,2005-8-23 0:00:00,1.25
+12,5,4,2005-8-25 0:00:00,0.50
+13,5,4,2005-8-26 0:00:00,0.75
+14,6,8,2005-8-15 0:00:00,3.50
+15,7,8,2005-8-16 0:00:00,6.00
+16,8,8,2005-8-17 0:00:00,6.75
+17,8,8,2005-8-18 0:00:00,3.75
+18,9,8,2005-8-23 0:00:00,3.00
+19,9,8,2005-8-24 0:00:00,1.00
+20,9,8,2005-8-25 0:00:00,1.50
+21,10,8,2005-8-23 0:00:00,2.00
+22,10,8,2005-8-25 0:00:00,3.00
+23,11,8,2005-8-24 0:00:00,2.00
+24,12,8,2005-8-27 0:00:00,6.00
+25,13,8,2005-8-25 0:00:00,1.50
+26,14,8,2005-8-29 0:00:00,2.00
+27,14,8,2005-8-31 0:00:00,1.00
+28,15,8,2005-8-31 0:00:00,2.00
+29,16,8,2005-8-31 0:00:00,1.00
+30,17,8,2005-8-31 0:00:00,2.00
+31,18,8,2005-8-29 0:00:00,4.00
+32,19,3,2005-7-29 0:00:00,3.75
+33,19,3,2005-7-30 0:00:00,1.00
+34,19,3,2005-7-31 0:00:00,2.00
+35,20,3,2005-8-1 0:00:00,2.00
+36,20,3,2005-8-2 0:00:00,1.00
+37,21,3,2005-8-3 0:00:00,2.50
+38,21,3,2005-8-4 0:00:00,2.50
+39,22,3,2005-8-8 0:00:00,3.00
+40,22,3,2005-8-9 0:00:00,1.00
+41,22,3,2005-8-10 0:00:00,0.75
+42,22,3,2005-8-11 0:00:00,1.00
+43,23,3,2005-8-17 0:00:00,0.25
+44,23,3,2005-8-18 0:00:00,2.25
+45,24,3,2005-8-22 0:00:00,1.75
+46,25,3,2005-8-23 0:00:00,0.75
+47,26,7,2005-8-15 0:00:00,6.00
+48,27,7,2005-8-15 0:00:00,1.75
+49,28,7,2005-8-16 0:00:00,5.75
+50,29,7,2005-8-17 0:00:00,3.00
+51,30,7,2005-8-17 0:00:00,2.50
+52,29,7,2005-8-17 0:00:00,2.00
+53,31,7,2005-8-18 0:00:00,2.50
+54,32,7,2005-8-18 0:00:00,1.00
+55,33,7,2005-8-18 0:00:00,2.25
+56,34,7,2005-8-18 0:00:00,0.50
+57,35,7,2005-8-18 0:00:00,0.50
+58,36,7,2005-8-19 0:00:00,1.25
+59,37,7,2005-8-19 0:00:00,1.00
+60,38,7,2005-8-22 0:00:00,3.00
+61,39,7,2005-8-22 0:00:00,1.50
+62,26,7,2005-8-22 0:00:00,1.50
+63,32,7,2005-8-22 0:00:00,0.50
+64,40,7,2005-8-23 0:00:00,4.00
+65,41,7,2005-8-23 0:00:00,1.00
+66,42,7,2005-8-23 0:00:00,1.50
+67,43,7,2005-8-24 0:00:00,4.00
+68,44,7,2005-8-24 0:00:00,1.00
+69,45,7,2005-8-25 0:00:00,0.50
+70,46,7,2005-8-25 0:00:00,3.50
+71,47,7,2005-8-26 0:00:00,1.00
+72,48,7,2005-8-26 0:00:00,1.00
+73,49,7,2005-8-26 0:00:00,1.50
+74,49,7,2005-8-27 0:00:00,6.50
+75,50,7,2005-8-29 0:00:00,2.00
+76,51,7,2005-8-29 0:00:00,2.00
+77,52,7,2005-8-29 0:00:00,1.50
+78,35,7,2005-8-30 0:00:00,0.50
+79,53,7,2005-8-30 0:00:00,2.00
+80,54,7,2005-8-30 0:00:00,1.00
+81,55,7,2005-8-30 0:00:00,1.00
+82,35,7,2005-8-31 0:00:00,1.50
+83,56,7,2005-8-31 0:00:00,2.50
+84,57,7,2005-8-31 0:00:00,0.50
+85,58,7,2005-8-31 0:00:00,2.50
+86,59,7,2005-8-31 0:00:00,0.75
+87,60,2,2005-8-1 0:00:00,8.00
+88,60,2,2005-8-2 0:00:00,8.00
+89,60,2,2005-8-3 0:00:00,4.00
+90,61,2,2005-8-16 0:00:00,3.50
+91,61,2,2005-8-17 0:00:00,1.00
+92,61,2,2005-8-18 0:00:00,1.00
+93,62,2,2005-8-16 0:00:00,2.00
+94,63,2,2005-8-17 0:00:00,5.00
+95,64,2,2005-8-18 0:00:00,5.00
+96,65,2,2005-8-18 0:00:00,2.50
+97,66,2,2005-8-23 0:00:00,3.00
+98,63,2,2005-8-23 0:00:00,2.00
+99,63,2,2005-8-25 0:00:00,1.00
+100,67,2,2005-8-26 0:00:00,9.00
+101,68,2,2005-8-24 0:00:00,10.00
+102,69,2,2005-8-25 0:00:00,4.00
+103,70,2,2005-8-25 0:00:00,2.00
+104,71,2,2005-8-25 0:00:00,2.00
+105,72,2,2005-8-25 0:00:00,7.00
+106,73,2,2005-8-29 0:00:00,7.00
+107,74,2,2005-8-30 0:00:00,4.00
+108,74,2,2005-8-31 0:00:00,3.00
+109,75,2,2005-8-31 0:00:00,2.00
+110,76,2,2005-8-31 0:00:00,1.00
+111,77,2,2005-8-30 0:00:00,4.00
+112,77,2,2005-8-31 0:00:00,3.00
+113,78,1,2005-7-29 0:00:00,2.00
+114,79,1,2005-7-29 0:00:00,1.00
+115,80,1,2005-7-30 0:00:00,1.00
+116,81,1,2005-7-30 0:00:00,2.00
+117,81,1,2005-7-31 0:00:00,3.00
+118,82,1,2005-7-30 0:00:00,0.50
+119,83,1,2005-8-1 0:00:00,8.00
+120,83,1,2005-8-2 0:00:00,6.00
+121,84,1,2005-8-3 0:00:00,5.00
+122,85,1,2005-8-4 0:00:00,1.00
+123,86,1,2005-8-4 0:00:00,0.50
+124,87,1,2005-8-5 0:00:00,2.00
+125,88,1,2005-8-5 0:00:00,1.00
+126,89,1,2005-8-8 0:00:00,4.00
+127,90,1,2005-8-8 0:00:00,1.00
+128,91,1,2005-8-9 0:00:00,2.00
+129,92,1,2005-8-9 0:00:00,1.00
+130,93,1,2005-8-9 0:00:00,2.00
+131,93,1,2005-8-10 0:00:00,3.00
+132,94,1,2005-8-10 0:00:00,0.50
+133,95,1,2005-8-10 0:00:00,1.00
+134,96,1,2005-8-11 0:00:00,1.00
+135,96,1,2005-8-12 0:00:00,2.00
+136,97,1,2005-8-11 0:00:00,2.00
+137,98,1,2005-8-11 0:00:00,2.00
+138,99,1,2005-8-12 0:00:00,0.50
+139,100,1,2005-8-12 0:00:00,2.00
+140,101,1,2005-8-15 0:00:00,1.00
+141,85,1,2005-8-15 0:00:00,1.00
+142,92,1,2005-8-15 0:00:00,2.00
+143,92,1,2005-8-18 0:00:00,1.00
+144,96,1,2005-8-15 0:00:00,2.00
+145,102,1,2005-8-15 0:00:00,1.00
+146,102,1,2005-8-16 0:00:00,1.00
+147,102,1,2005-8-19 0:00:00,1.00
+148,56,1,2005-8-16 0:00:00,4.00
+149,103,1,2005-8-17 0:00:00,1.00
+150,103,1,2005-8-18 0:00:00,1.00
+151,104,1,2005-8-17 0:00:00,4.00
+152,105,1,2005-8-17 0:00:00,1.00
+153,106,1,2005-8-18 0:00:00,1.00
+154,107,1,2005-8-18 0:00:00,1.00
+155,108,1,2005-8-19 0:00:00,6.00
+156,100,1,2005-8-19 0:00:00,1.00
+157,109,1,2005-8-22 0:00:00,3.50
+158,110,1,2005-8-22 0:00:00,3.00
+159,111,1,2005-8-23 0:00:00,1.00
+160,92,1,2005-8-23 0:00:00,1.50
+161,26,1,2005-8-23 0:00:00,2.00
+162,112,1,2005-8-24 0:00:00,1.00
+163,113,1,2005-8-24 0:00:00,1.00
+164,114,1,2005-8-24 0:00:00,1.00
+165,114,1,2005-8-25 0:00:00,0.50
+166,104,1,2005-8-24 0:00:00,4.00
+167,115,1,2005-8-25 0:00:00,1.00
+168,116,1,2005-8-25 0:00:00,1.50
+169,86,1,2005-8-25 0:00:00,0.50
+170,117,1,2005-8-25 0:00:00,0.50
+171,118,1,2005-8-26 0:00:00,6.00
+172,72,1,2005-8-27 0:00:00,7.00
+173,119,1,2005-8-29 0:00:00,3.00
+174,120,1,2005-8-29 0:00:00,1.00
+175,120,1,2005-8-30 0:00:00,1.00
+176,121,1,2005-8-29 0:00:00,1.00
+177,56,1,2005-8-31 0:00:00,3.00
+178,122,1,2005-8-31 0:00:00,2.00
+179,123,4,2005-9-7 0:00:00,0.25
+180,123,4,2005-9-8 0:00:00,0.50
+181,124,4,2005-9-13 0:00:00,0.25
+182,124,4,2005-9-14 0:00:00,0.25
+183,124,4,2005-9-15 0:00:00,0.25
+184,125,4,2005-9-22 0:00:00,0.50
+185,126,4,2005-9-23 0:00:00,0.50
+186,127,4,2005-9-27 0:00:00,0.25
+187,127,4,2005-9-28 0:00:00,0.50
+188,128,12,2005-9-26 0:00:00,2.25
+189,129,12,2005-9-30 0:00:00,6.50
+190,18,8,2005-9-2 0:00:00,3.00
+191,130,8,2005-9-2 0:00:00,0.50
+192,131,8,2005-9-6 0:00:00,1.00
+193,17,8,2005-9-6 0:00:00,1.00
+194,132,8,2005-9-6 0:00:00,1.00
+195,130,8,2005-9-13 0:00:00,0.50
+196,130,8,2005-9-15 0:00:00,0.50
+197,133,8,2005-9-13 0:00:00,0.50
+198,134,8,2005-9-13 0:00:00,1.00
+199,134,8,2005-9-15 0:00:00,3.00
+200,135,8,2005-9-13 0:00:00,1.00
+201,136,8,2005-9-13 0:00:00,1.00
+202,137,8,2005-9-15 0:00:00,6.00
+203,138,8,2005-9-13 0:00:00,1.00
+204,139,8,2005-9-13 0:00:00,1.00
+205,139,8,2005-9-15 0:00:00,1.50
+206,140,8,2005-9-19 0:00:00,1.00
+207,140,8,2005-9-20 0:00:00,2.00
+208,130,8,2005-9-19 0:00:00,0.50
+209,130,8,2005-9-20 0:00:00,0.50
+210,130,8,2005-9-22 0:00:00,0.50
+211,141,8,2005-9-22 0:00:00,2.00
+212,142,8,2005-9-20 0:00:00,3.00
+213,143,8,2005-9-20 0:00:00,0.50
+214,144,8,2005-9-20 0:00:00,1.50
+215,145,8,2005-9-20 0:00:00,1.50
+216,146,8,2005-9-22 0:00:00,7.00
+217,147,8,2005-9-20 0:00:00,1.50
+218,148,8,2005-9-19 0:00:00,2.00
+219,148,8,2005-9-20 0:00:00,0.50
+220,149,8,2005-9-21 0:00:00,7.00
+221,130,8,2005-9-29 0:00:00,1.00
+222,150,8,2005-9-27 0:00:00,4.00
+223,150,8,2005-9-28 0:00:00,2.00
+224,151,8,2005-9-27 0:00:00,1.50
+225,151,8,2005-9-29 0:00:00,3.00
+226,152,8,2005-9-27 0:00:00,3.50
+227,153,8,2005-9-28 0:00:00,1.50
+228,154,8,2005-9-26 0:00:00,1.00
+229,155,8,2005-9-29 0:00:00,4.00
+230,156,8,2005-9-28 0:00:00,3.00
+231,157,8,2005-9-30 0:00:00,4.00
+232,158,3,2005-9-1 0:00:00,4.50
+233,158,3,2005-9-7 0:00:00,2.75
+234,158,3,2005-9-9 0:00:00,0.25
+235,159,3,2005-9-6 0:00:00,0.50
+236,159,3,2005-9-9 0:00:00,0.50
+237,160,3,2005-9-12 0:00:00,0.25
+238,160,3,2005-9-13 0:00:00,3.50
+239,161,3,2005-9-21 0:00:00,0.50
+240,162,3,2005-9-19 0:00:00,1.50
+241,162,3,2005-9-20 0:00:00,1.00
+242,162,3,2005-9-22 0:00:00,0.25
+243,159,3,2005-9-19 0:00:00,1.00
+244,163,3,2005-9-27 0:00:00,0.50
+245,163,3,2005-9-30 0:00:00,0.50
+246,164,3,2005-9-28 0:00:00,0.75
+247,165,3,2005-9-26 0:00:00,1.00
+248,165,3,2005-9-27 0:00:00,0.25
+249,165,3,2005-9-30 0:00:00,0.75
+250,166,7,2005-8-31 0:00:00,2.00
+251,166,7,2005-9-2 0:00:00,0.25
+252,167,7,2005-8-31 0:00:00,1.50
+253,168,7,2005-8-31 0:00:00,3.00
+254,168,7,2005-9-1 0:00:00,2.00
+255,168,7,2005-9-2 0:00:00,2.00
+256,169,7,2005-9-1 0:00:00,1.00
+257,170,7,2005-9-2 0:00:00,2.25
+258,171,7,2005-9-2 0:00:00,1.25
+259,171,7,2005-9-4 0:00:00,0.50
+260,171,7,2005-9-2 0:00:00,1.25
+261,172,7,2005-8-31 0:00:00,0.25
+262,173,7,2005-9-1 0:00:00,0.75
+263,174,7,2005-8-31 0:00:00,1.25
+264,174,7,2005-9-1 0:00:00,1.25
+265,175,7,2005-9-6 0:00:00,0.25
+266,176,7,2005-9-6 0:00:00,0.75
+267,177,7,2005-9-6 0:00:00,0.25
+268,178,7,2005-9-6 0:00:00,2.00
+269,179,7,2005-9-6 0:00:00,2.00
+270,180,7,2005-9-6 0:00:00,1.50
+271,181,7,2005-9-6 0:00:00,1.00
+272,182,7,2005-9-7 0:00:00,2.00
+273,183,7,2005-9-7 0:00:00,1.25
+274,184,7,2005-9-7 0:00:00,2.25
+275,185,7,2005-9-7 0:00:00,0.50
+276,186,7,2005-9-7 0:00:00,1.50
+277,187,7,2005-9-8 0:00:00,2.25
+278,180,7,2005-9-8 0:00:00,1.50
+279,188,7,2005-9-8 0:00:00,2.50
+280,32,7,2005-9-8 0:00:00,0.50
+281,189,7,2005-9-9 0:00:00,2.00
+282,190,7,2005-9-9 0:00:00,3.50
+283,191,7,2005-9-9 0:00:00,1.75
+284,192,7,2005-9-10 0:00:00,0.25
+285,193,7,2005-9-8 0:00:00,3.25
+286,193,7,2005-9-9 0:00:00,1.50
+287,194,7,2005-9-12 0:00:00,2.00
+288,195,7,2005-9-12 0:00:00,2.00
+289,196,7,2005-9-12 0:00:00,2.00
+290,197,7,2005-9-12 0:00:00,1.00
+291,198,7,2005-9-12 0:00:00,0.50
+292,199,7,2005-9-13 0:00:00,1.00
+293,199,7,2005-9-16 0:00:00,0.50
+294,200,7,2005-9-13 0:00:00,2.00
+295,200,7,2005-9-15 0:00:00,0.25
+296,200,7,2005-9-16 0:00:00,1.25
+297,201,7,2005-9-13 0:00:00,0.25
+298,202,7,2005-9-13 0:00:00,0.50
+299,202,7,2005-9-15 0:00:00,1.00
+300,203,7,2005-9-13 0:00:00,1.00
+301,204,7,2005-9-13 0:00:00,0.25
+302,205,7,2005-9-13 0:00:00,1.00
+303,206,7,2005-9-14 0:00:00,0.75
+304,207,7,2005-9-14 0:00:00,1.00
+305,208,7,2005-9-14 0:00:00,1.00
+306,209,7,2005-9-14 0:00:00,0.75
+307,210,7,2005-9-14 0:00:00,0.50
+308,211,7,2005-9-14 0:00:00,0.50
+309,212,7,2005-9-14 0:00:00,0.50
+310,213,7,2005-9-14 0:00:00,0.50
+311,214,7,2005-9-14 0:00:00,0.50
+312,215,7,2005-9-14 0:00:00,0.50
+313,215,7,2005-9-16 0:00:00,0.25
+314,216,7,2005-9-14 0:00:00,0.50
+315,216,7,2005-9-15 0:00:00,0.50
+316,216,7,2005-9-16 0:00:00,1.00
+317,217,7,2005-9-15 0:00:00,2.00
+318,218,7,2005-9-16 0:00:00,1.50
+319,219,7,2005-9-16 0:00:00,2.00
+320,220,7,2005-9-13 0:00:00,1.00
+321,221,7,2005-9-14 0:00:00,0.50
+322,221,7,2005-9-16 0:00:00,0.50
+323,222,7,2005-9-14 0:00:00,0.50
+324,223,7,2005-9-13 0:00:00,1.50
+325,224,7,2005-9-13 0:00:00,0.25
+326,225,7,2005-9-13 0:00:00,0.75
+327,226,7,2005-9-15 0:00:00,1.50
+328,227,7,2005-9-15 0:00:00,1.25
+329,228,7,2005-9-15 0:00:00,0.50
+330,229,7,2005-9-19 0:00:00,2.75
+331,230,7,2005-9-19 0:00:00,1.00
+332,231,7,2005-9-19 0:00:00,0.50
+333,231,7,2005-9-23 0:00:00,2.00
+334,232,7,2005-9-19 0:00:00,1.00
+335,233,7,2005-9-19 0:00:00,1.25
+336,234,7,2005-9-19 0:00:00,0.75
+337,235,7,2005-9-19 0:00:00,0.50
+338,236,7,2005-9-19 0:00:00,0.75
+339,237,7,2005-9-19 0:00:00,0.50
+340,237,7,2005-9-21 0:00:00,1.25
+341,238,7,2005-9-19 0:00:00,0.25
+342,239,7,2005-9-22 0:00:00,0.75
+343,240,7,2005-9-20 0:00:00,0.75
+344,240,7,2005-9-21 0:00:00,0.50
+345,240,7,2005-9-23 0:00:00,0.25
+346,241,7,2005-9-20 0:00:00,2.25
+347,241,7,2005-9-22 0:00:00,2.25
+348,242,7,2005-9-20 0:00:00,0.50
+349,243,7,2005-9-20 0:00:00,0.50
+350,56,7,2005-9-20 0:00:00,1.50
+351,244,7,2005-9-20 0:00:00,1.75
+352,245,7,2005-9-20 0:00:00,0.50
+353,246,7,2005-9-20 0:00:00,0.50
+354,247,7,2005-9-20 0:00:00,0.50
+355,248,7,2005-9-20 0:00:00,0.50
+356,249,7,2005-9-21 0:00:00,3.50
+357,250,7,2005-9-21 0:00:00,1.25
+358,251,7,2005-9-21 0:00:00,0.50
+359,252,7,2005-9-21 0:00:00,0.50
+360,252,7,2005-9-22 0:00:00,0.50
+361,252,7,2005-9-23 0:00:00,0.50
+362,253,7,2005-9-22 0:00:00,1.75
+363,254,7,2005-9-21 0:00:00,1.00
+364,255,7,2005-9-22 0:00:00,1.00
+365,256,7,2005-9-22 0:00:00,0.75
+366,257,7,2005-9-23 0:00:00,2.50
+367,258,7,2005-9-23 0:00:00,0.25
+368,259,7,2005-9-23 0:00:00,0.50
+369,174,7,2005-9-28 0:00:00,1.00
+370,174,7,2005-9-29 0:00:00,1.00
+371,260,7,2005-9-26 0:00:00,0.75
+372,261,7,2005-9-26 0:00:00,2.00
+373,262,7,2005-9-26 0:00:00,0.50
+374,263,7,2005-9-26 0:00:00,0.50
+375,264,7,2005-9-26 0:00:00,4.75
+376,264,7,2005-9-30 0:00:00,7.25
+377,265,7,2005-9-27 0:00:00,3.00
+378,265,7,2005-9-28 0:00:00,3.25
+379,265,7,2005-9-30 0:00:00,1.25
+380,266,7,2005-9-28 0:00:00,3.50
+381,266,7,2005-9-29 0:00:00,5.00
+382,267,7,2005-9-28 0:00:00,1.00
+383,268,7,2005-9-28 0:00:00,1.00
+384,269,7,2005-9-27 0:00:00,0.75
+385,270,7,2005-9-27 0:00:00,0.50
+386,271,7,2005-9-27 0:00:00,0.75
+387,272,7,2005-9-30 0:00:00,1.00
+388,273,7,2005-9-30 0:00:00,0.50
+389,274,7,2005-9-30 0:00:00,0.75
+390,275,2,2005-8-31 0:00:00,2.00
+391,276,2,2005-8-31 0:00:00,2.00
+392,277,2,2005-8-31 0:00:00,1.00
+393,278,2,2005-8-31 0:00:00,1.50
+394,279,2,2005-8-31 0:00:00,1.50
+395,280,2,2005-9-5 0:00:00,1.00
+396,281,2,2005-9-5 0:00:00,2.00
+397,282,2,2005-9-5 0:00:00,2.00
+398,283,2,2005-9-5 0:00:00,0.50
+399,284,2,2005-9-5 0:00:00,1.50
+400,285,2,2005-9-5 0:00:00,1.00
+401,286,2,2005-9-6 0:00:00,1.00
+402,287,2,2005-9-6 0:00:00,2.00
+403,288,2,2005-9-6 0:00:00,3.00
+404,289,2,2005-9-6 0:00:00,2.00
+405,290,2,2005-9-7 0:00:00,1.00
+406,291,2,2005-9-7 0:00:00,3.00
+407,292,2,2005-9-7 0:00:00,2.00
+408,293,2,2005-9-7 0:00:00,2.00
+409,294,2,2005-9-8 0:00:00,3.00
+410,295,2,2005-9-9 0:00:00,2.00
+411,296,2,2005-9-9 0:00:00,3.00
+412,297,2,2005-9-11 0:00:00,3.00
+413,298,2,2005-9-11 0:00:00,2.00
+414,299,2,2005-9-11 0:00:00,2.00
+415,300,2,2005-9-11 0:00:00,1.00
+416,299,2,2005-9-12 0:00:00,2.00
+417,301,2,2005-9-12 0:00:00,1.00
+418,302,2,2005-9-12 0:00:00,3.00
+419,303,2,2005-9-12 0:00:00,2.00
+420,304,2,2005-9-13 0:00:00,2.00
+421,305,2,2005-9-13 0:00:00,1.00
+422,306,2,2005-9-13 0:00:00,1.00
+423,307,2,2005-9-13 0:00:00,2.00
+424,308,2,2005-9-13 0:00:00,2.00
+425,309,2,2005-9-14 0:00:00,2.00
+426,310,2,2005-9-14 0:00:00,1.00
+427,311,2,2005-9-14 0:00:00,1.00
+428,312,2,2005-9-14 0:00:00,1.00
+429,301,2,2005-9-14 0:00:00,2.00
+430,298,2,2005-9-14 0:00:00,1.00
+431,313,2,2005-9-11 0:00:00,1.00
+432,302,2,2005-9-19 0:00:00,1.00
+433,314,2,2005-9-19 0:00:00,2.00
+434,315,2,2005-9-19 0:00:00,2.00
+435,316,2,2005-9-19 0:00:00,2.00
+436,317,2,2005-9-19 0:00:00,1.00
+437,318,2,2005-9-20 0:00:00,2.00
+438,319,2,2005-9-20 0:00:00,1.00
+439,298,2,2005-9-20 0:00:00,2.00
+440,320,2,2005-9-20 0:00:00,1.00
+441,321,2,2005-9-20 0:00:00,2.00
+442,322,2,2005-9-21 0:00:00,1.00
+443,323,2,2005-9-21 0:00:00,2.00
+444,324,2,2005-9-21 0:00:00,2.00
+445,325,2,2005-9-21 0:00:00,1.00
+446,298,2,2005-9-21 0:00:00,2.00
+447,326,2,2005-9-22 0:00:00,2.00
+448,327,2,2005-9-22 0:00:00,2.00
+449,328,2,2005-9-22 0:00:00,1.00
+450,298,2,2005-9-22 0:00:00,1.00
+451,329,2,2005-9-22 0:00:00,2.00
+452,330,2,2005-9-21 0:00:00,2.00
+453,331,2,2005-9-22 0:00:00,3.00
+454,332,2,2005-9-22 0:00:00,1.00
+455,333,2,2005-9-19 0:00:00,2.00
+456,334,2,2005-9-26 0:00:00,4.00
+457,335,2,2005-9-26 0:00:00,1.00
+458,336,2,2005-9-26 0:00:00,3.00
+459,337,2,2005-9-26 0:00:00,1.00
+460,338,2,2005-9-27 0:00:00,1.00
+461,339,2,2005-9-27 0:00:00,1.00
+462,340,2,2005-9-27 0:00:00,1.00
+463,341,2,2005-9-27 0:00:00,1.00
+464,342,2,2005-9-27 0:00:00,2.00
+465,343,2,2005-9-28 0:00:00,7.00
+466,344,2,2005-9-28 0:00:00,3.00
+467,345,2,2005-9-28 0:00:00,1.00
+468,346,2,2005-9-28 0:00:00,2.00
+469,347,2,2005-9-29 0:00:00,8.00
+470,348,2,2005-9-30 0:00:00,2.00
+471,349,2,2005-9-30 0:00:00,2.00
+472,350,1,2005-9-4 0:00:00,1.00
+473,350,1,2005-9-5 0:00:00,0.50
+474,351,1,2005-9-4 0:00:00,1.00
+475,351,1,2005-9-5 0:00:00,0.25
+476,352,1,2005-9-4 0:00:00,0.50
+477,353,1,2005-9-4 0:00:00,0.75
+478,354,1,2005-9-4 0:00:00,2.00
+479,354,1,2005-9-5 0:00:00,1.75
+480,355,1,2005-9-4 0:00:00,0.75
+481,356,1,2005-9-5 0:00:00,1.00
+482,357,1,2005-9-5 0:00:00,0.50
+483,358,1,2005-9-5 0:00:00,0.25
+484,359,1,2005-9-5 0:00:00,0.25
+485,360,1,2005-9-6 0:00:00,1.50
+486,361,1,2005-9-6 0:00:00,2.00
+487,361,1,2005-9-7 0:00:00,1.50
+488,361,1,2005-9-8 0:00:00,0.50
+489,362,1,2005-9-6 0:00:00,0.50
+490,362,1,2005-9-7 0:00:00,0.75
+491,362,1,2005-9-8 0:00:00,0.50
+492,363,1,2005-9-6 0:00:00,1.00
+493,364,1,2005-9-6 0:00:00,0.50
+494,364,1,2005-9-7 0:00:00,0.50
+495,365,1,2005-9-6 0:00:00,0.50
+496,365,1,2005-9-7 0:00:00,0.25
+497,366,1,2005-9-7 0:00:00,0.50
+498,367,1,2005-9-7 0:00:00,3.00
+499,368,1,2005-9-8 0:00:00,0.75
+500,369,1,2005-9-8 0:00:00,2.00
+501,370,1,2005-9-12 0:00:00,2.50
+502,370,1,2005-9-13 0:00:00,2.50
+503,371,1,2005-9-12 0:00:00,3.00
+504,372,1,2005-9-12 0:00:00,0.50
+505,372,1,2005-9-13 0:00:00,0.25
+506,373,1,2005-9-12 0:00:00,1.00
+507,373,1,2005-9-13 0:00:00,1.50
+508,373,1,2005-9-14 0:00:00,0.50
+509,373,1,2005-9-15 0:00:00,0.50
+510,373,1,2005-9-16 0:00:00,0.50
+511,373,1,2005-9-17 0:00:00,0.50
+512,374,1,2005-9-13 0:00:00,0.75
+513,375,1,2005-9-13 0:00:00,1.00
+514,376,1,2005-9-14 0:00:00,0.50
+515,377,1,2005-9-19 0:00:00,2.00
+516,378,1,2005-9-19 0:00:00,0.50
+517,379,1,2005-9-19 0:00:00,0.50
+518,380,1,2005-9-19 0:00:00,0.50
+519,381,1,2005-9-19 0:00:00,0.50
+520,382,1,2005-9-19 0:00:00,1.00
+521,382,1,2005-9-20 0:00:00,1.00
+522,382,1,2005-9-21 0:00:00,1.50
+523,382,1,2005-9-22 0:00:00,1.50
+524,382,1,2005-9-23 0:00:00,1.00
+525,383,1,2005-9-19 0:00:00,0.50
+526,384,1,2005-9-19 0:00:00,0.50
+527,385,1,2005-9-20 0:00:00,2.00
+528,386,1,2005-9-20 0:00:00,1.00
+529,386,1,2005-9-22 0:00:00,3.75
+530,387,1,2005-9-20 0:00:00,1.00
+531,387,1,2005-9-21 0:00:00,0.50
+532,388,1,2005-9-20 0:00:00,0.50
+533,389,1,2005-9-20 0:00:00,1.50
+534,390,1,2005-9-21 0:00:00,2.00
+535,391,1,2005-9-21 0:00:00,1.00
+536,392,1,2005-9-21 0:00:00,1.50
+537,393,1,2005-9-21 0:00:00,0.50
+538,394,1,2005-9-22 0:00:00,1.50
+539,395,1,2005-9-22 0:00:00,1.00
+540,396,1,2005-9-26 0:00:00,1.00
+541,397,1,2005-9-26 0:00:00,1.00
+542,397,1,2005-9-29 0:00:00,1.00
+543,397,1,2005-9-30 0:00:00,1.00
+544,398,1,2005-9-26 0:00:00,2.00
+545,398,1,2005-9-27 0:00:00,0.50
+546,398,1,2005-9-28 0:00:00,1.00
+547,398,1,2005-9-29 0:00:00,1.00
+548,399,1,2005-9-26 0:00:00,0.50
+549,400,1,2005-9-26 0:00:00,1.00
+550,401,1,2005-9-27 0:00:00,3.00
+551,402,1,2005-9-27 0:00:00,1.50
+552,402,1,2005-9-28 0:00:00,2.00
+553,402,1,2005-9-29 0:00:00,1.00
+554,403,1,2005-9-27 0:00:00,4.00
+555,404,1,2005-9-28 0:00:00,0.50
+556,405,1,2005-9-28 0:00:00,0.50
+557,406,1,2005-9-28 0:00:00,2.00
+558,407,1,2005-9-30 0:00:00,1.50
+559,408,1,2005-9-30 0:00:00,0.75
+560,409,1,2005-9-30 0:00:00,3.25
+>>t05_Action
+"Action_ID","Subtask_IDRef","Name","Description","Inactive_AsOf"
+1,7,"*","Michael Feliciano office/email set-up",
+2,7,"*","Filemaker database transition, and TAM insurance endorsmts coord",
+3,7,"*","Filemaker database transition, Anti-virus program install, website updates",
+4,7,"*","website updates and staff technical support",
+5,7,"*","staff technical support and Filemaker database transition meeting",
+6,7,"*","reponding to inquiries from the last two months from schools, volunteers, and other agencies requiring information.",
+7,14,"*","reponding to inquiries from the last two months from schools, volunteers, and other agencies requiring information.",
+8,13,"*","Inventory office supplies, move materials",
+9,13,"*","Inventory materials,",
+10,11,"*","Set up parks and rec cycling/ maint workshops, set up safety training 9/24",
+11,31,"*","Write article on canal for newsletter",
+12,14,"*","Assist with TL Training",
+13,28,"*","Create New class calender",
+14,7,"*","Survey new staff, set up personal calender, fill out timesheets",
+15,7,"*","Staff Mtg.,",
+16,9,"*","Reschelule Bacich Bike Maint Class",
+17,28,"*","Schedule staff for classes",
+18,13,"*","Inventory materials",
+19,13,"*","Insurance Endorsements pages coordination, new timesheet format and billing codes development",
+20,7,"*","Michael Feliciano orientation and employee forms coordination",
+21,13,"*","timesheet templates revisions, MOA revisions, high school projetcs and Biketoberfest parade planning coordination with staff",
+22,13,"*","TAM mtg re: MOA, August Team Leader room rental coordination, MOA edits per mtg., Insurance Endorsements pages coordination",
+23,13,"*","MOA edits, timesheet template and billing codes refinement",
+24,7,"*","contract review and coordination",
+25,13,"*","revised timesheet template with Wendi",
+26,14,"*","SCHOOL/TEAM COMMUNICATIONS",
+27,9,"*","WALK TO SCHOOL WEEK PREP",
+28,30,"*","REVIEWING YEARS PROJECTS",
+29,27,"*","INVENTORY/DATABASE",
+30,29,"*","CURRICULUM REVIEW",
+31,9,"*","WALK TO SCHOOL WEEK",
+32,28,"*","ELEMENTARY SAFETY CLASSES",
+33,7,"*","NEW TEACHERS LOGISTICS",
+34,11,"*","NEXT GENERATION/YOUTH",
+35,13,"*","TIMESHEETS",
+36,28,"*","WALK TO SCHOOL DAY PREP CLASSES",
+37,27,"*","DATABASE",
+38,30,"*","NEXT GENERATION MEETING",
+39,29,"*","NEW HIGH SCHOOL CLASSES",
+40,29,"*","MATERIALS FOR SAFETY ART CLASS",
+41,9,"*","OUTREACH MATERIALS FOR WALK TO SCHOOL",
+42,9,"*","WALK TO SCHOOL DAY SUPPLIES",
+43,9,"*","PARTNERSHIP MEETING ABOUT PARADE",
+44,30,"*","MCC CURRICULUM RESEARCH",
+45,28,"*","CLASS SCHEDULING",
+46,13,"*","INVENTORY CLEAN UP",
+47,29,"*","CURRICULUM GUIDE EDITS",
+48,9,"*","MATERIALSSUPPLIES",
+49,14,"*","TEAM LEADER MEETING",
+50,29,"*","RESEARCH ON MIDDLE SCHOOL OUTREACH",
+51,28,"*","ELEMENTARY SCHOOL",
+52,9,"*","PARADE LEGALITY DOCUMENTS",
+53,37,"*","TEAM/SCHOOL COMMUNICATIONS",
+54,28,"*","SPECIAL EVENT CLASSES",
+55,29,"*","REVIEW CURRICULUM",
+56,7,"*","STAFF MEETING",
+57,11,"*","NEXT GENERATION",
+58,28,"*","EXTRA TEACHER COORDINATION/CLASSES",
+59,9,"*","PARADE INVITES",
+60,27,"*","Training in program procedures, details on schools, team leaders, elements of the program, while setting up new filing systems.",
+61,14,"*","STAFF MTG, DB MTG, PREP FOR TEAM LEADER TRAINING",
+62,27,"*","DEVELOP STORAGE FACILITY FOR MATERIALS",
+63,7,"*","TEAM LEADER FORMS, W2SD AND TRAINING PREP",
+64,27,"*","developing database framework",
+65,10,"*","Editing Flyers, Etc. For HPP Parade",
+66,14,"*","MEETINGS, Parade Art Development",
+67,14,"*","PREP FOR TL TRAINING",
+68,31,"*","NEWSLETTER EDITING / Writing",
+69,30,"*","Develop letter to solicit Food Donations for Team leader meetings",
+70,14,"*","Phone calls to team leaders for Training Day",
+71,27,"*","Built Spreadsheet for team leader training",
+72,14,"*","Team Leader Training",
+73,38,"*","DEVELOPING BIKE ART DEMOS",
+74,14,"*","followup from team leader meeting",
+75,14,"*","STAFF MTG",
+76,27,"*","DATABASE MTG",
+77,14,"*","Preparing materials for Team leaders",
+78,30,"*","Novato Driver's Safety Campaign",
+79,14,"*","Team leader questions about SchoolPool",
+80,7,"*","Equipment storage meeting",
+81,14,"*","calls/emails to/from principals, Team leaders",
+82,12,"*","Larkspur Superintendent re: SchoolPool",
+83,27,"*","Training Administrative Assistant  in program procedures, details on schools, team leaders, elements of the program, while setting up new filing systems.",
+84,11,"*","Nutrition and Physical Activity meeting",
+85,13,"*","MOA",
+86,14,"*","Novato School Board rep phone call",
+87,27,"*","Database structure outline, filing system",
+88,14,"*","communications with schools/team leaders",
+89,1,"*","TAM meeting",
+90,14,"*","communications with schools",
+91,27,"*","database development",
+92,7,"*","staff oversight",
+93,18,"*","Crossing guards",
+94,1,"*","MOU",
+95,13,"*","billing codes",
+96,12,"*","SchoolPool research",
+97,31,"*","Stranger danger research",
+98,14,"*","Team leader calls",
+99,14,"*","Team Leader agenda",
+100,31,"*","Newsletter articles",
+101,12,"*","SchoolPool conference call MTC",
+102,14,"*","School/Team Leader communication",
+103,14,"*","Prepare for team leader meeting",
+104,31,"*","Newsletter editing and writing",
+105,7,"*","research new principals for schools",
+106,7,"*","conference call on SR2S Caltrans funding",
+107,13,"*","create calendar for David",
+108,12,"*","Create SchoolPool package",
+109,12,"*","SchoolPool Package",
+110,14,"*","Novato Task Force",
+111,27,"*","database meeting",
+112,13,"*","Develop time sheets/ codes",
+113,14,"*","Type Novato minutes, confer with PWD",
+114,30,"*","Novato Drive Safely campaign",
+115,29,"*","review curriculum guide",
+116,10,"*","Iwalk  and parade posters",
+117,14,"*","Reed Team Leader",
+118,14,"*","Prepare for team Leader training",
+119,1,"*","scoping meeting",
+120,7,"*","general administration",
+121,14,"*","School/Team Leader communications",
+122,13,"*","Development of new Timesheet per TAM request",
+123,7,"*","staff technical support; refined timesheet template",
+124,9,"*","coordinated insurance for Human Powered parade",
+125,7,"*","website updates",
+126,9,"*","volunteer recruitment for Human Powered parade poster distribution",
+127,7,"*","website updates, submitted Kaiser staff insurance forms, revised timesheet template",
+128,33,"*","Rodeo, Brookside",
+129,33,"*","Rodeo, Dixie",
+130,13,"*","fill out timesheets",
+131,7,"*","Respond to info requestes.",
+132,29,"*","acquire supplies for Safety Art",
+133,28,"*","Curric Mtg.,",
+134,29,"*","Research Materials reproduction- teaching videos, Create new Yikes Assembly",
+135,30,"*","Obtain, repair, and move tv cart hour down to MCBC, obtain free TV set for media library use",
+136,32,"*","Edna Maguire- Helmet Safety - 25 students -",
+137,32,"*","Neil Cummings-, Stop Look and Listen- 124 students",
+138,32,"*","Brookside- Helmet Safety - 20 students",
+139,33,"*","Meet with Mel, plan Marin Horizons Ped Day, Observe site during morning drop off",
+140,7,"*","School Calender prep/scheduling, respond to info requests, Staff Meeting",
+141,33,"*","Prepare Bike rodeo materials for use",
+142,28,"*","Schedule and plan Hill MS Program, Review teaching calender",
+143,30,"*","Research Rodeo Trailer registration, go to DMV and get forms, Deliver forms to City of San Rafael.",
+144,32,"*","Edna Maguire-Jepoardy,-40 students",
+145,32,"*","Edna Maguire-Walk around the Block-20 students-",
+146,32,"*","Neil Cumming-, Walk around the block - 120 students",
+147,32,"*","Brokside Upper- Jepoardy- 20 students-",
+148,33,"*","Marin Horizons- Marin Horizons Ped Day, Observe site with Frances",
+149,33,"*","Marin Horizons- K-8 Walk around the block- 200 students",
+150,29,"*","Create Yikes 2 assembly, review and make improvements with staff, revise",
+151,29,"*","Obtain props for new school assembly promotional program (Yikes 2), transfer equipment and load rodeo trailer for Dixie Rodeo day",
+152,32,"*","Hamilton ES - Yikes 1 Assembly - 525 students",
+153,32,"*","Manor School - Yikes 1 assembly - 330 students",
+154,32,"*","Brookside Upper- Create rodeo alternate plan",
+155,32,"*","Neil Cummings- Safety Art",
+156,32,"*","Glenwood- Yikes 1 assembly-  360 Students",
+157,33,"*","Dixies School Rodeo day - 360 students",
+158,15,"*","TAM staff timesheet coordination and invoice development",
+159,9,"*","Human Powered parade planning oversight",
+160,15,"*","TAM invoice template revisions, edited/completed/printed/compiled TAM August invoice",
+161,15,"*","Sept and Oct staff tasks and project progress oversight",
+162,15,"*","9/8 TAM meeting notes review, timesheets and signatures coordination for Parisi Assoc invoice",
+163,7,"*","program projects status and staff tasks coordination oversight, highschool programs review and coordination",
+164,13,"*","reviewed Best Practices report",
+165,9,"*","Human Powered parade volunteer recruitment and site logistics oversight",
+166,13,"*","learned how to send maximizer reports, saving files, time sheets",
+167,28,"*","sent out first scheduling email to some principals",
+168,7,"*","getting back to school catch up, new staff logisits",
+169,28,"*","extra staff, getting schedules",
+170,29,"*","overviewing curriculum from last year",
+171,28,"*","follow  up with schools and extra staff",
+172,7,"*","talking to wendi about staff priorities for walk to school week",
+173,9,"*","coordinating visitors and volunteers for parade",
+174,13,"*","timesheets / mine and teaching staff",
+175,14,"*","talked to Taz about safety art and rodeos",
+176,28,"*","extra staff for rodeos",
+177,28,"*","special pedestrian day",
+178,7,"*","meeting with michael on scheduling, supplies, etc.",
+179,28,"*","meeting with afterschool programs",
+180,29,"*","ecovelocity clubs",
+181,9,"*","met with Heid about parade",
+182,9,"*","entertainment for parade",
+183,7,"*","tabling info to michael",
+184,28,"*","follow up phone calls to schedule classes",
+185,39,"*","curriciulum for MCC",
+186,9,"*","town council meeting",
+187,9,"*","human powered parade",
+188,14,"*","miller creek meeting",
+189,9,"*","meetings with police and landlord for parade",
+190,32,"*","teaching and training 2nd grade class (70 students)",
+191,9,"*","getting staff, materials ready for W2SD",
+192,9,"*","promo to street performers at special event",
+193,29,"*","prepare presentation for next generation conference",
+194,32,"*","teaching and training helmet safety (28 students)",
+195,32,"*","teaching and training helmet safety (30 students)",
+196,28,"*","responding to assembly and class requests",
+197,9,"*","follow ups on sponsors for parade",
+198,14,"*","following up with TL requesting safety art",
+199,9,"*","wrote letter to local businesses , emails",
+200,28,"*","safety art and yikes assembly information",
+201,29,"*","Marin Horizon walk day",
+202,29,"*","bike safety assembly brainstorm",
+203,29,"*","meeting about SR2S gear campaign",
+204,28,"*","email to Ross school about special classes",
+205,28,"*","scheduled 4th grade classes /art with school",
+206,7,"*","check in meeting with Wendi",
+207,9,"*","special donor letters for parade",
+208,9,"*","emntertainment inquiries",
+209,14,"*","met with teachers at Drake High",
+210,7,"*","provided paperwork/scheduling to extra teachers",
+211,29,"*","downloaded pictures from local education events",
+212,9,"*","Description of parade on multiple listserves",
+213,29,"*","green transportation campaign research",
+214,11,"*","participation in next generation's event",
+215,13,"*","time sheet tasks for two days",
+216,7,"*","checked emails, returned calls",
+217,32,"*","stop look and liten plus transportation (20 students)",
+218,33,"*","walk around the block (30 students)",
+219,32,"*","jeopardy and training  (30 students)",
+220,29,"*","safety art equipment gatheiring /meeting",
+221,7,"*","returning phone calls, answering emails",
+222,9,"*","scheudling special guests for parade",
+223,9,"*","delivery of letters to residents on parade route",
+224,9,"*","composition of letter to residents on parade route",
+225,7,"*","working out tax forms/ payment issues with trick rider",
+226,29,"*","scripting out Yikes 2 assembly with staff",
+227,29,"*","training staff on safety art/ school logistics",
+228,14,"*","talking to administration about assembly payments",
+229,32,"*","training and teaching jeopardy with Kristin (50 students)",
+230,9,"*","arranging entertainment sound tech volunteer",
+231,9,"*","main entertainment for parade/ contract",
+232,28,"*","assemblies",
+233,28,"*","classes",
+234,28,"*","dixie special event logistics",
+235,14,"*","walk  to school day events, support to team leaders",
+236,7,"*","logisitc scheduling with BMX rider for yikes and rodeos",
+237,9,"*","outreach to local businesses/ promotion",
+238,7,"*","responded to volunteer emails from students",
+239,28,"*","contacting staff about rodeo dates",
+240,13,"*","time sheets, calender  for report",
+241,33,"*","walk around the block (60 students)",
+242,11,"*","next generaton conversation about events",
+243,14,"*","responded to volunteer requests ,emails",
+244,28,"*","met with teachers to overview schedules",
+245,9,"*","promotion/ meeting with town hall for event",
+246,28,"*","follow up about assembly details",
+247,33,"*","sent out rodoe and walking permission slips",
+248,29,"*","brainstorm and write yikes 2 script",
+249,32,"*","helmet saftey  60 students",
+250,14,"*","returning calls to Team leaders about safety art, promotion strategies, and assemblies",
+251,7,"*","trained Michael/provided information about how to use safety art and assemblies to support team leaders in promoting walk to school day",
+252,33,"*","schedules and reminder calls to rodeo staff",
+253,7,"*","trained Michael on safety art, logistics, looked over materials",
+254,29,"*","safety art class talking points, etc.",
+255,28,"*","scheduled all classes and assembly",
+256,9,"*","created write ups and graphics for website",
+257,14,"*","met with team leader to plan club strategy",
+258,28,"*","yikes assembly",
+259,29,"*","overviewed last years club by looking at youth feed back",
+260,28,"*","scheduled two yikes assemblies, safety art",
+261,28,"*","scheduling all classes  with school and extra teachers",
+262,14,"*","planning safety art with team leader",
+263,14,"*","editing walk to school day flyer/adding info",
+264,33,"*","rodeo   (350 students)",
+265,32,"*","yikes assemblies  ( see jason's sheet)",
+266,32,"*","safety art training and preparation and clean up (675 students)",
+267,29,"*","prep for safety art, brainstorming ideas with team leader",
+268,28,"*","scheduling staff for safety art",
+269,28,"*","following up on class logistics",
+270,14,"*","introduction conversation with team leader",
+271,9,"*","postering for parade",
+272,32,"*","safety art",
+273,14,"*","support team leader during the dixie bike day",
+274,9,"*","meeting with police about parade route",
+275,27,"*","REFINING INVENTORY TRACKING PROCESS",
+276,14,"*","PREPARED TL REFERENCE DOCUMENTS -",
+277,14,"*","EMAIL: TL's at Lu Sutton, White Hill, St Anselm",
+278,14,"*","MEETING FOR BIKE-ART",
+279,7,"*","PHONE - Dan - database, Wendi, printer",
+280,27,"*","INVENTORY CHANGES",
+281,7,"*","PHONE -  Kel Harris, Heidi Adler, etc.",
+282,14,"*","CREATED TL SUPPORT PACKET",
+283,27,"*","INBOX/OUTBOX PLANNING",
+284,14,"*","MEET WITH MELANIE - BIKE ART",
+285,14,"*","DELIVER TL PACKETS",
+286,27,"*","DATABASE COPY / NOTES TO DAN",
+287,14,"*","PRINT DIRECTIONS FOR TL DELIVERIES",
+288,14,"*","CALLED PRINCIPALS FOR FLYER APPROVE",
+289,9,"*","UPDATING PRESS LIST",
+290,10,"*","MEETING - MELANIE - TABLING",
+291,9,"*","POSTCARD DESIGN - HPP",
+292,14,"*","CALLED PRINCIPALS FLYER APPROVAL",
+293,9,"*","EVENT PROMOTION - UPDATING PRESS LIST",
+294,32,"*","STOP LOOK AND LISTEN - WATCHED MELANIE",
+295,10,"*","PREPARE TABLING KIT FOR WHOLE FOODS",
+296,10,"*","TABLING AT WHOLE FOODS",
+297,9,"*","STARTED POSTER DESIGN - HPP",
+298,14,"*","VOLUNTEER COORDINATION",
+299,10,"*","EVENT PROMOTION - I-WALK - HPP",
+300,7,"*","INSTALLING SOFTWARE",
+301,7,"*","EMAILS: TL's, Mary Scarlett, William Wayland",
+302,10,"*","EDITING PRESS RELEASES",
+303,10,"*","TALKING TO PRESS",
+304,10,"*","PITCHING STORY - PRESS",
+305,10,"*","CONTACTING PRINCIPALS - FLYER",
+306,7,"*","PHONE: Key Feallock, Deborah A., Mary S.",
+307,10,"*","WRITING PARADE BLURB",
+308,14,"*","WROTE AND SENT GROUP EMAIL",
+309,9,"*","PHONE: press follow up HPP",
+310,9,"*","FINISH HPP POSTER",
+311,10,"*","CIRCULATE HPP FLYERS",
+312,9,"*","GET ARTWORK TO PRINTER",
+313,14,"*","phone - volunteer coordination",
+314,7,"*","RESEARCHING GEAR MFR'S",
+315,40,"*","STAFF MEETING",
+316,10,"*","PITCHING TO PRESS - HPP STORY",
+317,27,"*","TALKED WITH DAN / WENDI RE - DATABASE",
+318,14,"*","EMAILS to event partners, team leaders",
+319,10,"*","PHONE CALLS TO PRINCIPALS",
+320,9,"*","COORDINATION WITH PRINTER - IWALK FLYER",
+321,14,"*","MAILING MATERIALS TO TL",
+322,14,"*","MEETING WITH MEL - SAFETY ART",
+323,7,"*","EMAILS: planning materials distribution",
+324,10,"*","COORDINATING POSTER / FLYER DISTRIBUTION",
+325,14,"*","PREPARED GROUP EMAIL DOCS- TL",
+326,13,"*","TIMECARD COMPLETION",
+327,14,"*","DELIVERING KEYCHAINS / POSTERS",
+328,11,"*","TALKING WITH EVENT PARTNER",
+329,7,"*","PHONE CALLS: volunteer coordination",
+330,14,"*","reply emails / phone to team leaders",
+331,14,"*","pickup dropoff r/t I-walk items - schools",
+332,7,"*","sorting / organizing safety art materials",
+333,29,"*","rehearsed / developed script for yikes assy.",
+334,33,"*","Training/Helping on Bike Rodeo- Brookside",
+335,7,"*","returning rental van -",
+336,27,"*","piciking up safety art materials",
+337,13,"*","filling in timesheet",
+338,14,"*","prep safety art materials",
+339,10,"*","copy of parade flyer - knikos (hand feed and cut)",
+340,7,"*","compiling / assessing TL reports from schools",
+341,10,"*","edited pieces for Marin IJ in your town",
+342,11,"*","recruiting help for bike decorating",
+343,32,"*","safety art - wade thomas school - 5 classes",
+344,14,"*","volunteer coordination - problem solving",
+345,13,"*","filling out timesheet",
+346,14,"*","meeting with staff - logistics, safety art",
+347,32,"*","safety art - Neil Cummins School - 6 classes",
+348,14,"*","follow-up phone calls to team-leaders",
+349,10,"*","coordinating vounteers to flyer for HPP",
+350,14,"*","Novato Task Force - database update, set up meeting",
+351,13,"*","review time sheets, reporting",
+352,13,"*","outline of schools joining program",
+353,13,"*","outline for tasks",
+354,7,"*","general communications with team leaders,",
+355,7,"*","staff oversight - Michael - database, team leader requests",
+356,14,"*","permission to distribute flyers from principals",
+357,14,"*","Conversations with two Reed reps",
+358,14,"*","Conversation with Brookside rep",
+359,14,"*","Conversation with Bahia Rep",
+360,13,"*","outline of program for 2005-6 year",
+361,14,"*","communications",
+362,9,"*","Iwalk flyer/ distribution",
+363,7,"*","staff oversight/ materials prep",
+364,29,"*","review curriculum material",
+365,11,"*","review school wellness policy",
+366,13,"*","Summary of tasks performed",
+367,11,"*","PA&N collabortive meeting",
+368,9,"*","press release  Iwalk",
+369,1,"*","Meeting with TAM",
+370,13,"*","TAM reporting, answering questions, responding to David's inquirites, preparing August report.",
+371,14,"*","Novato Task Force meeting",
+372,14,"*","distribution of Iwalk flyers delivery list",
+373,14,"*","communications Novato Task Force, Sun Valley, David Parisi, Manor school, Lagunitas misc emails",
+374,17,"*","comments on survey",
+375,14,"*","creation of sample newsletter submission for school newsletters",
+376,14,"*","strategies on middle and high school",
+377,14,"*","Meeting with Hill assistant principal",
+378,14,"*","Conversation with volunteer on walkabouts",
+379,14,"*","Conversation with new volunteer",
+380,29,"*","work with Jaon on Marin Horizon and new Yikes assembly",
+381,14,"*","converation with outgoing team leader and prep for principal meeting",
+382,14,"*","misc communications, St. Anselms new team leaders,  Reed on W2SD, Hamilton, Ross, Marin Horizon",
+383,21,"*","refine letter to principals",
+384,14,"*","Call from parent at St. Anselms",
+385,9,"*","Press work for W2SD",
+386,18,"*","prep for Tam presentation, presentation",
+387,13,"*","activities chart",
+388,14,"*","Talk to potential team leader at While Hill",
+389,7,"*","staff meeting, plan for Wakl to School Day",
+390,14,"*","Meeting with Principal and team leaders at Edna Maguire",
+391,9,"*","pick up flyers from printer and deliver to Reed",
+392,9,"*","I walk promotion",
+393,28,"*","discuss logistics of scheduling staff w/Mel",
+394,9,"*","preparations, promotions and misc work for Iwalk",
+395,19,"*","review best practices draft and made comments.",
+396,14,"*","working with both team leaders to resolve a conflict",
+397,7,"*","Staff direction, resolving rodeo issue, directing admin on tasks, scheduling problems, crisis management",
+398,14,"*","misc communications, street issues - Fairfax, Brookside, Sun Valley, Dixie, Novato task force",
+399,17,"*","talk with Walk Boston re best practices",
+400,9,"*","walk to schohol day  questions, Reed, Vallicito, promotion",
+401,14,"*","Tam High Safety Meeting",
+402,9,"*","Walk to School day promotino, press, e-message to team leaders",
+403,41,"*","Marin Horizon reconnaisance w volunteers",
+404,14,"*","talk to parent from Neil Cummins",
+405,41,"*","setting up meeting w/ Sun Valley",
+406,13,"*","work program",
+407,41,"*","Manor walkabout",
+408,14,"*","distribution of z-bars",
+409,15,"*","Prepare time cards and TAM report",
+>>t10_Person
+"Person_ID","FirstName","LastName"
+1,"Wendi","Kallins"
+2,"Michael","Feliciano"
+3,"Kim","Baenisch"
+4,"Bob","Trigg"
+5,"Eric","Anderson"
+6,"JoAnn","Richards"
+7,"Melanie","Grubman"
+8,"Jason","Agar"
+9,"Deb","Hubsmith"
+10,"Casey","Mazzoni"
+11,"Frances Barbour","Hayden"
+12,"Connie","Breeze"
+13,"Kristin","Nute"
+14,"Russell","Young"
+>>t11_Rate
+"Rate_ID","Person_IDRef","Rate","Period","Effective_AsOf"
+1,1,$37.27,"H",1/1/2005 0:00:00
+2,2,$26.06,"H",1/1/2005 0:00:00
+3,3,$43.42,"H",1/1/2005 0:00:00
+4,4,$26.06,"H",1/1/2005 0:00:00
+5,5,$26.06,"H",1/1/2005 0:00:00
+6,6,$26.06,"H",1/1/2005 0:00:00
+7,7,$35.64,"H",1/1/2005 0:00:00
+8,8,$35.82,"H",1/1/2005 0:00:00
+9,9,$43.42,"H",1/1/2005 0:00:00
+10,10,$26.06,"H",1/1/2005 0:00:00
+11,11,$24.86,"H",1/1/2005 0:00:00
+12,12,$23.83,"H",1/1/2005 0:00:00
+13,13,$23.83,"H",1/1/2005 0:00:00
+15,7,$37.00,"H",1/1/2009 0:00:00
+16,7,$39.44,"H",1/1/2011 0:00:00
+>>t07_TimeLogProperty
+"TimeLogProperty_ID","TimeLog_IDRef","ProjPropEnum_IDRef"
+1,114,9
+2,170,9
+3,188,11
+4,189,16
+5,201,1
+6,202,10
+7,203,11
+8,204,12
+9,205,12
+10,214,1
+11,215,1
+12,216,10
+13,217,11
+14,218,12
+15,219,12
+16,220,12
+17,226,13
+18,227,14
+19,228,11
+20,229,10
+21,230,15
+22,231,16
+23,258,11
+24,259,11
+25,258,7
+26,265,10
+27,267,12
+28,282,7
+29,287,11
+30,288,1
+31,294,14
+32,295,14
+33,296,14
+34,297,12
+35,298,16
+36,299,16
+37,301,17
+38,302,10
+39,306,18
+40,317,10
+41,318,7
+42,319,7
+43,329,15
+44,330,11
+45,334,11
+46,335,14
+47,336,16
+48,346,1
+49,347,1
+50,353,20
+51,354,11
+52,356,10
+53,357,16
+54,364,22
+55,366,23
+56,367,24
+57,368,23
+58,371,11
+59,372,14
+60,373,16
+61,374,16
+62,375,11
+63,376,11
+64,377,14
+65,378,14
+66,379,14
+67,380,10
+68,381,10
+69,382,10
+70,383,10
+71,384,10
+72,385,13
+73,387,16
+74,388,16
+75,465,7
+76,469,10
+77,482,9
+78,483,17
+79,484,25
+80,515,26
+81,516,7
+82,517,12
+83,519,1
+84,532,4
+85,534,1
+86,540,1
+87,550,27
+88,554,12
+89,555,10
+90,556,5
+91,558,14

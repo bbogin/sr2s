@@ -1,0 +1,42 @@
+taskreport,SR2S,TAM,2010-09-30,v1.0
+taskname,task_desc,budget,task_inactive_asof,subtaskname,subtask_desc,subtask_inactive_asof,charged
+1A,"Strategy Meetings",1490.80,,*,"empty subtask for task 1A",,359.5250
+2D,"Develop Plan for Maintaining Activities at Schools",1222.34,,*,"empty subtask for task 2D",,0
+2D,"Develop Plan for Maintaining Activities at Schools",1222.34,,SD,*,,0
+3A,"Project Management and Oversight",4050.80,,*,"empty subtask for task 3A",,0
+3A,"Project Management and Oversight",4050.80,,TM,*,,0
+3B,"Implementation of SR2S Activities",161243.54,,*,"empty subtask for task 3B",,30952.6025
+3B,"Implementation of SR2S Activities",161243.54,,AD,"General Administration",,30952.6025
+3B,"Implementation of SR2S Activities",161243.54,,CN,Contests,,30952.6025
+3B,"Implementation of SR2S Activities",161243.54,,EV,Events,,30952.6025
+3B,"Implementation of SR2S Activities",161243.54,,PR,Promotion,,30952.6025
+3B,"Implementation of SR2S Activities",161243.54,,PT,"Partnership Coordination",,30952.6025
+3B,"Implementation of SR2S Activities",161243.54,,SP,SchoolPool,,30952.6025
+3B,"Implementation of SR2S Activities",161243.54,,TA,"TAM Related Admin.",,30952.6025
+3B,"Implementation of SR2S Activities",161243.54,,TM,"SR2S Team",,30952.6025
+6A,"Project Management and Oversight",2532.88,,*,"empty subtask for task 6A",,759.5900
+2A,"Evaluate Existing Program",310.46,,*,"empty subtask for 2A",,50.00
+1B,"Coordinate with TAM and Other TAM Agencies",447.24,,*,"empty subtask for 1B",,376.3500
+2B,"Research Best Practices of Other SR2S Programs",298.16,,*,"empty subtask for 2B",,40.00
+2C,"Develop Measures of Success",149.08,,*,"empty subtask for 2C",,0
+2E,"Refine Existing Education Program and Materials",6336.00,,*,"empty subtask for 2E",,20.00
+3C,"Ongoing Evaluation and Reporting",2116.24,,*,"empty subtask for 3C",,0
+4A,"Engineering Expertise",1490.80,,*,"empty subtask for 4A",,52.1200
+4B,"Develop Safe Routes to School Plans",506.64,,*,"empty subtask for 4B",,0
+4C,"Develop Grant Applications",0.00,,*,"empty subtask for 4C",,0
+5A,"Measure A Safe Pathways to School Program",447.24,,*,"empty subtask for 5A",,0
+3B,"Implementation of SR2S Activities",161243.54,,SD,"Systems Development",,30952.6025
+3B,"Implementation of SR2S Activities",161243.54,,SC,Scheduling,,30952.6025
+3B,"Implementation of SR2S Activities",161243.54,,CD,"Curriculum Development",,30952.6025
+3B,"Implementation of SR2S Activities",161243.54,,PD,"Program Development",,30952.6025
+3B,"Implementation of SR2S Activities",161243.54,,NW,Newsletter,,30952.6025
+3B,"Implementation of SR2S Activities",161243.54,,CT,"Classroom Teaching",,30952.6025
+3B,"Implementation of SR2S Activities",161243.54,,FT,"Field Training",,30952.6025
+3B,"Implementation of SR2S Activities",161243.54,,SU,Surveys,,30952.6025
+4B,"Develop Safe Routes to School Plans",506.64,,TP,"Develop Template",,0
+4B,"Develop Safe Routes to School Plans",506.64,,PL,"Develop Plans",,0
+3B,"Implementation of SR2S Activities",161243.54,,TN,"Team/School Communications",,30952.6025
+3B,"Implementation of SR2S Activities",161243.54,,PL,Plans,,30952.6025
+3B,"Implementation of SR2S Activities",161243.54,,PC,Curriculum,,30952.6025
+4A,"Engineering Expertise",1490.80,,TM,"SR2S Team Meetings",,52.1200
+3B,"Implementation of SR2S Activities",161243.54,,WK,Walkabout,,30952.6025

@@ -1,0 +1,5 @@
+currency_id,name,symbol,decimals
+1,"us dollar",$,2
+2,euro,&euro,2
+3,pound,&pound,2
+4,yen,&yen,2

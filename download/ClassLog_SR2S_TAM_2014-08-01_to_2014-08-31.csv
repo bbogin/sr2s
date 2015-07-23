@@ -1,0 +1,6 @@
+ClassLog,SR2S,TAM,2014-08-01,2014-08-31,v1.0
+eventlog_id,logdate,session_count,attendance,comments,event_id,event,event_desc,account_id,account,account_desc
+1,2014-08-20,2,33,"Two classes at Edna Maguire",1,SL&L,"Stop Look and Listen",10,14,"Neil Cummins ES"
+2,2014-08-23,1,23,"At White Hill MS",5,Rodeo,"Bicycle Rodeo",4,52,"White Hill MS"
+3,2014-08-28,2,33,"Around and around...",7,"Bike drills","Bike drills",41,10,"Bacich ES"
+5,2014-08-31,2,41,"Going on a trip",13,"bike field trips","Bicycle field trips",37,03,Branson

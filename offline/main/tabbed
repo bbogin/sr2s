@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><!--DVID=00014EAA-->
+<HTML>
+<head>
+
+<title>Tabs in HTML with CSS</title>
+<style type="text/css">
+<!--
+#tabs {
+	border-bottom: .5em solid #0033CC;
+	margin: 0;
+	padding: 0;
+}
+#tabs li { 
+	display:inline; 
+	border-top: .1em solid #03c;
+	border-left: .1em solid #03c;
+	border-right: .1em solid #03c;
+}
+#tabs li a {
+	text-decoration: none;
+	padding: 0.25em 1em;
+	color: #000;
+}
+#page1 #tabs li#tab1 a, #page2 #tabs li#tab2 a, #page3 #tabs li#tab3 a, .page4 li#tab4 a {
+	padding: 0.25em 1em;
+	background-color: #03c;
+	color: #fff;
+}
+
+-->
+</style>
+</head>
+
+<body id="page1">
+<ul id="tabs">
+<li id="tab1"><a href="ztab1.htm">Tab 1</a></li>
+<li id="tab2"><a href="ztab2.htm">Tab 2</a></li>
+<li id="tab3"><a href="ztab3.htm">Tab 3</a></li>
+<li id="tab4"><a href="ztab4.htm">Tab 4</a></li>
+</ul>
+<p>The only difference in the HTML code between this page and the other three tabbed pages is that this page has an id on the body tag that names it "page1".</p>
+<p><a href="/od/layout/a/aa042307.htm">Return to the Tabbed Navigation Article</a> </p>
+</body>
+</html>
